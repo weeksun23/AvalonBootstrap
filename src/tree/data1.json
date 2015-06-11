@@ -1,0 +1,11 @@
+[{
+	"text" : "ajax1",
+	"state" : "closed"
+},{
+	"text" : "ajax2",
+	"state" : "closed",
+	"children" : [{
+		"text" : "ajax3",
+		"state" : "closed"
+	}]
+}]

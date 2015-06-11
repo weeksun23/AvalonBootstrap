@@ -1,0 +1,22 @@
+<div class="panel panel-default" ms-repeat='data' ms-class='selected:curIndex === $index' ms-class-1='last:$last'>
+	<div class="panel-heading" ms-click='$clickHeader($index)'>
+		<h4 class="panel-title">
+			<i ms-if='el.iconCls' class="glyphicon" ms-class='{{el.iconCls}}'></i> 
+			{{el.title}}
+			<span class='pull-right glyphicon' ms-class='{{curIndex === $index ? "glyphicon-menu-down" : "glyphicon-menu-right"}}'></span>
+		</h4>
+	</div>
+	<div class="panel-collapse collapse">
+		<div ms-if='el.children' class="list-group">
+			<a ms-repeat-ch='el.children' href="javascript:void(0)" class="list-group-item" ms-class='selected:ch.selected' ms-click='selectItem(ch)'>
+				<i style='visibility:hidden'>空</i>
+				<i ms-if='ch.iconCls' class='glyphicon' ms-class='{{ch.iconCls}}'></i>
+				{{ch.text}}
+				<span class='marrow' ms-visible='ch.selected'></span>
+			</a>
+		</div>
+		<div ms-if='!el.children' class="panel-body">
+			{{el.content | html}}
+		</div>
+	</div>
+</div>

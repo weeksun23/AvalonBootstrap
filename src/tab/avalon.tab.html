@@ -1,0 +1,18 @@
+<ul class='nav nav-tabs'>
+	<li ms-repeat='headerData' ms-class='active : $index === curIndex' ms-click='$clickHeader($index)'>
+		<a href='javascript:void(0)'>
+			<span ms-if='el.iconCls' class="glyphicon" ms-class='{{el.iconCls}}'></span>
+			{{el.title}}
+			<span ms-repeat='el.icons' ms-class='glyphicon glyphicon-{{el.cls}}' ms-click='el.handler($outer.$index,el)' style='cursor:pointer'></span>
+			<span ms-if='el.closeable' class='glyphicon glyphicon-remove' ms-click='$closeTab($event,$index)' style='cursor:pointer'></span>
+		</a>
+	</li>
+</ul>
+<div class='tab-content'>
+	<div class='tab-pane' ms-repeat='contentData' ms-class='active : $index === curIndex'>
+		{{el.html | html}}
+	</div>
+	<div ms-if="!contentData || contentData.length === 0" class='tab-pane active'>
+		<h1 class='text-center'>{{noContentTip}}</h1>
+	</div>
+</div>
