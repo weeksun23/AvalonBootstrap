@@ -2,8 +2,12 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 	function initColumns(columns){
 		for(var j=0,column;column=columns[j++];){
 			var obj = {
+				//column基本属性
+				//字段名
 				field : "",
+				//格式化函数
 				formatter : null,
+				//标题
 				title : ""
 			};
 			for(var i in obj){
@@ -12,8 +16,12 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				}else{
 					if(i === 'formatter'){
 						if(column.formatter === 'datetime'){
-							column.formatter = function(v,r){
+							column.formatter = function(v){
 								return avalon.filters.date(v,"yyyy-MM-dd HH:mm:ss");
+							};
+						}else if(column.formatter === 'date'){
+							column.formatter = function(v){
+								return avalon.filters.date(v,"yyyy-MM-dd");
 							};
 						}
 					}
