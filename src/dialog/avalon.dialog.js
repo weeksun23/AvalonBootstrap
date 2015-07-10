@@ -101,20 +101,24 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 					len === 1 && avalon(modalBackDrop).addClass('in');
 					dealCloseDialog();
 				}
+				vmodel.onClose.call(vmodel);
 			};
 			vm.open = function(isInit){
 				element.style.display = 'block';
 				var $modalBack = avalon(modalBackDrop).removeClass("hide");
+				avalon(document.body).addClass("modal-open");
 				if(avalon.support.transitionend){
 					//强制reflow
 					element.offsetWidth;
 					modalBackDrop.offsetWidth;
-					avalon(element).addClass('in');
+					setTimeout(function(){
+						avalon(element).addClass('in');
+						$modalBack.addClass('in');
+					});
 				}else{
 					vmodel.afterShow.call(vmodel,isInit);
+					$modalBack.addClass('in');
 				}
-				$modalBack.addClass('in');
-				avalon(document.body).addClass("modal-open");
 				//处理重叠窗口
 				var dgs = modalBackDrop.curDialogs;
 				var len = dgs.length;
@@ -133,45 +137,57 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 		title : null,
 		content : null,
 		show : false,
-		afterShow : avalon.noop
+		afterShow : avalon.noop,
+		onClose : avalon.noop
 	};
 	/*
 	avalon.showDialog.xxx : {
 		vmodel : 生成的dialog的vmodel,
-		beforeInit : 对dialog的配置对象进行处理,
-		scanModelName : 扫描dialog的额外vmodel
+		options : dialog的配置对象options
 	}
 	*/
 	avalon.initDialog = function(id,options){
 		var win = document.getElementById(id);
 		if(win){
-			return false;
+			win.parentNode.removeChild(win);
+			win = null;
+			var vmodel = avalon.showDialog[id].vmodel;
+			if(vmodel){
+				var $id = vmodel.$id;
+				delete avalon.vmodels[$id];
+				delete avalon.vmodels["temp" + $id];
+			}
 		}
-		if(!win){
-			win = document.createElement("div");
-			win.id = id;
-			win.style.display = 'none';
-			document.body.appendChild(win);
-		}
-		avalon.showDialog[id] = options;
+		win = document.createElement("div");
+		win.id = id;
+		win.style.display = 'none';
+		win.setAttribute("ms-skip",'');
+		document.body.appendChild(win);
+		avalon.showDialog[id] = {
+			options : options
+		};
 	};
-	avalon.showDialog = function(id){
+	avalon.showDialog = function(id,params){
 		var target = avalon.showDialog[id];
 		if(!target){
 			avalon.error("请先配置avalon.showDialog." + id + "对象");
 		}
 		var win = document.getElementById(id);
 		if(win.getAttribute("avalonctrl")){
+			target.vmodel.$params = params;
 			target.vmodel.open();
 		}else{
 			win.removeAttribute("ms-skip");
-			var options = {};
-			target.beforeInit && target.beforeInit(options);
-			options.show = true;
+			var options = {
+				$params : params,
+				show : true
+			};
+			avalon.mix(options,target.options);
+			var $id = 'dialog' + (+new Date);
 			var vmodel = avalon.define({
+				$id : "temp" + $id,
 				$dialogOptions : options
 			});
-			var $id = 'dialog' + (+new Date);
 			win.setAttribute("ms-widget",['dialog',$id,'$dialogOptions'].join(","));
 			avalon.scan(win,vmodel);
 			target.vmodel = avalon.vmodels[$id];

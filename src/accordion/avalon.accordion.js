@@ -133,7 +133,7 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 			//根据text选取item
 			vm.selectItemByText = function(text){
 				return findItem(function(jj,i){
-					if(jj.text === text){
+					if(jj.title === text){
 						vmodel.curIndex = i;
 						vmodel.selectItem(jj);
 						return true;
@@ -164,7 +164,7 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 		iconCls : panel标题左边的图标,
 		children : 若content为空，则取children为body内容
 			selected : 是否选中
-			text : 显示文字
+			title : 显示文字
 			iconCls : 文字左边图标
 		*/
 		data : []

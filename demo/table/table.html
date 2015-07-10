@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>table</title>
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../../css/base.css" rel="stylesheet">
+</head>
+<body ms-controller='page'>
+<div class="container-fluid">
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='mgt10' ms-widget="table,$table1,$table1Opts"></div>
+		</div>
+	</div>
+</div>
+<script src='../../src/avalon.js'></script>
+<script>
+	require(["avalon.extend","table/avalon.table"],function(){
+		var vmodel = avalon.define({
+			$id : "page",
+			$table1Opts : {
+				title : "test",
+				columns : [
+					{field : "a1",title : "a1"},
+					{field : "a2",title : "a1"},
+					{field : "a3",title : "a1"},
+					{field : "a4",title : "a1"},
+					{field : "a5",title : "a1"},
+					{field : "a6",title : "a1"}
+				],
+				frontPageData : [{
+					a1 : 33
+				},{
+					a1 : 33
+				}]
+			}
+		});
+		avalon.scan();
+	});
+</script>
+</body>
+</html>

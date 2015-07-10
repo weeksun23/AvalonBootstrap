@@ -5,3 +5,4 @@
 .mform .plusminus-down{top: 50%;bottom: 0}
 .mform .disable .plusminus>span{cursor: not-allowed;}
 .mform .disable .plusminus>span:hover{color: inherit;}
+.mform .form-oper button{margin-right:0.5em}

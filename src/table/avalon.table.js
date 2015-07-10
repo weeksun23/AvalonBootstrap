@@ -65,6 +65,14 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			vm.load = function(param){
 				ajaxLoad(1,param || {});
 			};
+			vm.reload = function(){
+				ajaxLoad(vmodel.curPage);
+			};
+			vm.loadFrontPageData = function(data,page){
+				vmodel.frontPageData = data;
+				vmodel.data[vmodel.totalKey] = data.length;
+				loadDataByPage(page || 1);
+			};
 		});
 		function loadDataByPage(page,func){
 			if(!vmodel.url){
@@ -169,7 +177,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		title:标题,field:字段名
 		*/
 		columns : [],
-		frontPageData : null,
+		frontPageData : [],
 		data : {
 			total : 0,
 			rows : []

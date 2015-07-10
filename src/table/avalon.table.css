@@ -9,6 +9,9 @@
 .mtable .table-responsive{margin-bottom:5px;}
 .mtable .table-responsive th{padding: 0;}
 .mtable .table-responsive th>div{padding: 8px;position: relative;}
+.mtable h2{margin:0;padding:20px 0;border:1px solid #ddd;border-top:0}
+.mtable .mtable-tr-hover,
+.mtable .table-striped .mtable-tr-hover{background-color: #eee}
 .mpagination>div>span{display: inline-block;}
 .mpagination .form-control{display: inline-block;width: auto;}
 .mpagination input.form-control{vertical-align: middle;}

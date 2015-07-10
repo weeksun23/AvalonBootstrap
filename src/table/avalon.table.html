@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ms-repeat-item="data[rowsKey]">
+				<tr ms-repeat-item="data[rowsKey]" ms-hover="mtable-tr-hover">
 					<td ms-repeat-el='columns'>
 						<div>{{el.formatter ? el.formatter(item[el.field],item) : item[el.field] | html}}</div>
 					</td>

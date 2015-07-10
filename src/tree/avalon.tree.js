@@ -18,6 +18,13 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree","mmRequest"],func
 		}
 		//是否已加载子节点标志
 		item.chLoaded = item.state === 'open';
+		if(item.children.length){
+			if(item.state !== 'open'){
+				item.state = 'closed';
+			}
+		}else{
+			item.state = null;
+		}
 		for(var j in nodeAttr){
 			if(item[j] === undefined){
 				item[j] = nodeAttr[j];
@@ -37,7 +44,7 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree","mmRequest"],func
 				initNodeAttr(item);
 			}
 			var ch = item.children;
-			if(ch.length > 0 && eachNode(ch,func) === false){
+			if(ch && ch.length > 0 && eachNode(ch,func) === false){
 				return false;
 			}
 		}
@@ -283,6 +290,7 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree","mmRequest"],func
 						setTimeout(function(){
 							document.oncontextmenu = _oncontextmenu;
 						});
+						selectNode(el);
 						vmodel.onContextMenu(e,el);
 					}
 				}
@@ -320,8 +328,12 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree","mmRequest"],func
 			};
 			vm.getNode = function(target){
 				var result = null;
-				findNode(vmodel.treeList,target,function(item){
-					result = item;
+				findNode(vmodel.treeList,target,function(item,i,list){
+					result = {
+						node : item,
+						index : i,
+						list : list
+					};
 				});
 				return result;
 			};
