@@ -67,7 +67,7 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 							this.style.display = 'none';
 							dealCloseDialog();
 						}else{
-							vmodel.afterShow.call(vmodel,isInit);
+							vmodel.afterShow.call(element,vmodel,isInit);
 							isInit = false;
 						}
 					});
@@ -101,7 +101,7 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 					len === 1 && avalon(modalBackDrop).addClass('in');
 					dealCloseDialog();
 				}
-				vmodel.onClose.call(vmodel);
+				vmodel.onClose.call(element,vmodel);
 			};
 			vm.open = function(isInit){
 				element.style.display = 'block';
@@ -116,7 +116,7 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 						$modalBack.addClass('in');
 					});
 				}else{
-					vmodel.afterShow.call(vmodel,isInit);
+					vmodel.afterShow.call(element,vmodel,isInit);
 					$modalBack.addClass('in');
 				}
 				//处理重叠窗口

@@ -1,8 +1,0 @@
-.mform .plusminus{position: relative;}
-.mform .plusminus>span{position: absolute;left: 0;right: 0;cursor: pointer;}
-.mform .plusminus>span:hover{color: #337AB7}
-.mform .plusminus-up{top: 0;bottom: 50%;}
-.mform .plusminus-down{top: 50%;bottom: 0}
-.mform .disable .plusminus>span{cursor: not-allowed;}
-.mform .disable .plusminus>span:hover{color: inherit;}
-.mform .form-oper button{margin-right:0.5em}
