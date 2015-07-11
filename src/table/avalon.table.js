@@ -8,7 +8,12 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				//格式化函数
 				formatter : null,
 				//标题
-				title : ""
+				title : "",
+				//列宽度
+				width : null,
+				//排序
+				sort : null,
+				sortOrder : null
 			};
 			for(var i in obj){
 				if(column[i] === undefined){
@@ -33,12 +38,13 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		var options = data.tableOptions;
 		initFrontPageData(options);
 		initColumns(options.columns);
+		var lastSelect;
 		var vmodel = avalon.define(data.tableId,function(vm){
 			avalon.mix(vm,options);
 			vm.widgetElement = element;
-			vm.$skipArray = ['widgetElement','pageSizeArr','totalKey','rowsKey','loadData','frontPageData','queryParams'];
+			vm.$skipArray = ['widgetElement','pageSizeArr','totalKey','rowsKey','loadData','frontPageData','queryParams','singleSelect'];
 			vm.$init = function(){
-				avalon(element).addClass("panel panel-default panel-table");
+				avalon(element).addClass("panel panel-default mgrid");
 				element.innerHTML = templete;
 				avalon.scan(element, vmodel);
 				if (typeof options.onInit === "function") {
@@ -70,6 +76,32 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				}
 				loadDataByPage(page);
 			};
+			vm.toggleSelect = function(item){
+				if(vmodel.singleSelect){
+					if(item._selected){
+						item._selected = false;
+						lastSelect = null;
+					}else{
+						if(lastSelect){
+							lastSelect._selected = false;
+						}
+						item._selected = true;
+						lastSelect = item;
+					}
+				}else{
+					item._selected = !item._selected;
+				}
+			};
+			vm.sort = function(item){
+				if(item.sort){
+					if(item.sortOrder === 'bottom'){
+						item.sortOrder = 'top';
+					}else{
+						item.sortOrder = 'bottom';
+					}
+				}
+			};
+			/***/
 			vm.load = function(param){
 				ajaxLoad(1,param || {});
 			};
@@ -77,11 +109,33 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				ajaxLoad(vmodel.curPage);
 			};
 			vm.loadFrontPageData = function(data,page){
+				initRowsData(data);
 				vmodel.frontPageData = data;
 				vmodel.data[vmodel.totalKey] = data.length;
 				loadDataByPage(page || 1);
 			};
+			vm.getSelected = function(){
+				//获取所选的第一个行对象
+				return getSelect(true);
+			};
+			vm.getSelections = function(){
+				//获取所选的所有行对象
+				return getSelect(false);
+			};
 		});
+		function getSelect(isFirst){
+			var data = vmodel.data[vmodel.rowsKey];
+			var re = [];
+			for(var i=0,ii;ii=data[i++];){
+				if(ii._selected){
+					if(isFirst){
+						return ii;
+					}
+					re.push(ii);
+				}
+			}
+			return isFirst ? null : re;
+		}
 		function loadDataByPage(page,func){
 			if(!vmodel.url){
 				if(!vmodel.frontPageData){
@@ -115,6 +169,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data){
 				avalon.log(vmodel.url,"返回数据",data);
 				if(data.code === 0){
+					initRowsData(data.result.list);
 					vmodel.data[vmodel.rowsKey] = data.result.list;
 					vmodel.data[vmodel.totalKey] = data.result.totalCount;
 					vmodel.changeCurPage = vmodel.curPage = page;
@@ -132,6 +187,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			if(opts.url) return;
 			var frontPageData = opts.frontPageData;
 			if(!frontPageData) return;
+			initRowsData(frontPageData);
 			var re = [];
 			for(var i=0;i<opts.pageSize;i++){
 				var item = frontPageData[i];
@@ -163,6 +219,19 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				}
 			}
 		}
+		//初始化每一行数据
+		function initRowsData(data){
+			var obj = {
+				_selected : false
+			};
+			for(var i=0,ii;ii=data[i++];){
+				for(var j in obj){
+					if(ii[j] === undefined){
+						ii[j] = obj[j];
+					}
+				}
+			}
+		}
 		return vmodel;
 	};
 	function setEmptyData(opts){
@@ -190,6 +259,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			total : 0,
 			rows : []
 		},
+		singleSelect : true,
 		//pagination options
 		pagination : true,
 		sumPage : 0,

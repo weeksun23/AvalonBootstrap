@@ -1,9 +1,9 @@
-.panel-table.panel{
+.mgrid.panel{
 	border: 0;position: relative;box-shadow:none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow:none;
 }
-.panel-table.panel .panel-heading{border-width:1px 1px 0 1px;border-style: solid;}
+.mgrid.panel .panel-heading{border-width:1px 1px 0 1px;border-style: solid;}
 .mtable.panel-body{padding:0;}
 .mtable .table{margin-bottom:0}
 .mtable .table-responsive{margin-bottom:5px;}
@@ -12,8 +12,16 @@
 .mtable h2{margin:0;padding:20px 0;border:1px solid #ddd;border-top:0}
 .mtable .mtable-tr-hover,
 .mtable .table-striped .mtable-tr-hover{background-color: #eee}
+.mtable .table-striped .mtable-th-hover{background-color: #e2e2e2}
+.mtable .table-striped .mtable-tr-selected{background-color: #FAF5B4}
 .mpagination>div>span{display: inline-block;}
 .mpagination .form-control{display: inline-block;width: auto;}
 .mpagination input.form-control{vertical-align: middle;}
 .mpagination .glyphicon:hover{background-color: #e2e2e2}
 .mpagination .page{width: 80px}
+@media (max-width: 570px) {
+	.mpagination .pull-right{display: none;}
+}
+@media (max-width: 340px) {
+	.mpagination .mpagination-first,.mpagination .mpagination-last{display: none;}
+}

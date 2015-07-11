@@ -6,14 +6,19 @@
 		<table class="table" ms-class='table-striped:striped' ms-class-1='table-bordered:border'>
 			<thead>
 				<tr>
-					<th ms-repeat='columns'>
-						<div>{{el.title}}</div>
+					<th ms-repeat='columns' ms-css-width='el.width' ms-click='sort(el)' ms-hover='mtable-th-hover'>
+						<div>
+							{{el.title}}
+							<span class='pull-right' ms-if='el.sort' ms-visible='el.sortOrder'>
+								<i class='glyphicon' ms-class='glyphicon-triangle-{{el.sortOrder}}'></i>
+							</span>
+						</div>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ms-repeat-item="data[rowsKey]" ms-hover="mtable-tr-hover">
-					<td ms-repeat-el='columns'>
+				<tr ms-repeat-item="data[rowsKey]" ms-hover="mtable-tr-hover" ms-class='mtable-tr-selected:item._selected' ms-click='toggleSelect(item)'>
+					<td ms-repeat-el='columns' ms-css-width='el.width'>
 						<div>{{el.formatter ? el.formatter(item[el.field],item) : item[el.field] | html}}</div>
 					</td>
 				</tr>
@@ -24,7 +29,7 @@
 </div>
 <div ms-if='pagination' class='mpagination clearfix'>
 	<div class='pull-left' onselectstart='return false'>
-		<button class='btn btn-default' ms-class='disabled:curPage <= 1' ms-click='$toPage("first")'>
+		<button class='btn btn-default mpagination-first' ms-class='disabled:curPage <= 1' ms-click='$toPage("first")'>
 			<i class='glyphicon glyphicon-triangle-left'></i>
 		</button>
 		<button class='btn btn-default' ms-class='disabled:curPage <= 1' ms-click='$toPage(-1)'>
@@ -36,7 +41,7 @@
 		<button class='btn btn-default' ms-class='disabled:curPage >= sumPage' ms-click='$toPage(1)'>
 			<i class='glyphicon glyphicon-chevron-right'></i>
 		</button>
-		<button class='btn btn-default' ms-class='disabled:curPage >= sumPage' ms-click='$toPage("last")'>
+		<button class='btn btn-default mpagination-last' ms-class='disabled:curPage >= sumPage' ms-click='$toPage("last")'>
 			<i class='glyphicon glyphicon-triangle-right'></i>
 		</button>
 	</div>

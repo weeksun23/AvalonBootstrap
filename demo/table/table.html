@@ -9,10 +9,12 @@
 <link href="../../css/base.css" rel="stylesheet">
 </head>
 <body ms-controller='page'>
-<div class="container-fluid">
+<div class="container-fluid mgt10">
 	<div class='row'>
 		<div class='col-sm-12'>
-			<div class='mgt10' ms-widget="table,$table1,$table1Opts"></div>
+			<button class='btn btn-default' ms-click='getSelected'>getSelected</button>
+			<button class='btn btn-default' ms-click='getSelections'>getSelections</button>
+			<div ms-widget="table,$table1,$table1Opts"></div>
 		</div>
 	</div>
 </div>
@@ -21,10 +23,17 @@
 	require(["avalon.extend","table/avalon.table"],function(){
 		var vmodel = avalon.define({
 			$id : "page",
+			getSelected : function(){
+				avalon.log(avalon.vmodels.$table1.getSelected());
+			},
+			getSelections : function(){
+				avalon.log(avalon.vmodels.$table1.getSelections());
+			},
 			$table1Opts : {
 				title : "test",
+				singleSelect : true,
 				columns : [
-					{field : "a1",title : "a1"},
+					{field : "a1",title : "a1",sort : true},
 					{field : "a2",title : "a1"},
 					{field : "a3",title : "a1"},
 					{field : "a4",title : "a1"},
