@@ -60,7 +60,6 @@ require(["avalon.extend","tree/avalon.tree"],function(){
 		},
 		view : function(){
 			var ltree = avalon.vmodels.$tree;
-			var rtree = avalon.vmodels.$tree1;
 			var arr = [];
 			avalon.each(ltree.$model.treeList,function(i,v){
 				if(v.checked !== 0){
@@ -83,6 +82,7 @@ require(["avalon.extend","tree/avalon.tree"],function(){
 					});
 				}
 			});
+			var rtree = avalon.vmodels.$tree1;
 			rtree.treeList = copyArr;
 		},
 		doCheck : function(checked){

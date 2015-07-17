@@ -237,7 +237,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 	function setEmptyData(opts){
 		var data = opts.data = {};
 		data[opts.totalKey] = 0;
-		data[opts.rowsKey] = 0;
+		data[opts.rowsKey] = [];
 	}
 	widget.version = 1.0;
 	//url frontPageData

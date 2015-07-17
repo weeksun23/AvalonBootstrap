@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dropdown</title>
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../../css/base.css" rel="stylesheet">
+<style>
+	body{padding: 50px;}
+</style>
+</head>
+<body ms-controller='page'>
+	<div>
+		<button class='btn btn-default' ms-widget='dropdown,$dropdown1,$dropdownOpts'>qwdqw</button>
+	</div>
+	<script src='../../src/avalon.js'></script>
+	<script>
+		require(["dropdown/avalon.dropdown"],function(){
+			var vmodel = avalon.define({
+				$id : "page",
+				$dropdownOpts : {
+					data : [{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					},{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					},{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					},{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					},{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					}]
+				}
+			});
+			avalon.scan();
+		});
+	</script>
+</body>
+</html>

@@ -7,7 +7,8 @@ define(["avalon.extend","text!./avalon.tab.html"],function(avalon,templete){
 			var contentData = options.contentData = [];
 			avalon.each(children,function(i,v){
 				var obj = {
-					title : v.title
+					title : v.title,
+					icons : []
 				};
 				obj.iconCls = v.getAttribute("data-iconCls");
 				obj.closeable = v.getAttribute("data-closeable") !== null;

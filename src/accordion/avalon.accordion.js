@@ -86,7 +86,7 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 		}
 		var vmodel = avalon.define(data.accordionId,function(vm){
 			avalon.mix(vm,options);
-			vm.$skipArray = ['getSelectedItem','getItemByText','selectItem'];
+			vm.$skipArray = [];
 			vm.$init = function(){
 				avalon(element).addClass("panel-group maccordion");
 				element.innerHTML = templete;
