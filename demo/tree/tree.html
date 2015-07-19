@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tree</title>
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../../css/base.css" rel="stylesheet">
+</head>
+<body ms-controller='page'>
+<div class="container-fluid">
+	<div class='row'>
+		<div class='col-sm-5'>
+			<div class="panel panel-default">
+				<div class="panel-heading">已有菜单</div>
+				<div class="panel-body">
+					<ul ms-widget="tree,$tree,$treeOpts"></ul>
+				</div>
+			</div>
+		</div>
+		<div class='col-sm-2 text-center'>
+			<button type='button' class='btn btn-primary mgtb10' ms-click="view">预览</button>
+		</div>
+		<div class='col-sm-5'>
+			<div class="panel panel-default">
+				<div class="panel-heading">已选菜单</div>
+				<div class="panel-body">
+					<ul ms-widget="tree,$tree1,$tree1Opts"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul class="dropdown-menu" id='menu'>
+		<li><a tabindex="-1" href="#" ms-click="doCheck(1)">全选</a></li>
+		<li><a tabindex="-1" href="#" ms-click="doCheck(0)">全不选</a></li>
+	</ul>
+</div>
+<script src='../../src/avalon.js'></script>
+<script src='tree.js'></script>
+</body>
+</html>

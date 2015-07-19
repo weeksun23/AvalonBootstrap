@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>accordion</title>
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../../css/base.css" rel="stylesheet">
+<style>
+	body{padding: 50px;}
+</style>
+</head>
+<body ms-controller='page'>
+	<div ms-widget="accordion,$accordion1,$accordionOpts">
+	</div>
+	<script src='../../src/avalon.js'></script>
+	<script>
+		require(["accordion/avalon.accordion"],function(){
+			var vmodel = avalon.define({
+				$id : "page",
+				$accordionOpts : {
+					data : [{
+						title : "werwer",
+						children : [{
+							title : "dgfwerwer"
+						},{
+							iconCls : ""
+						}]
+					},{
+						title : "werwer",
+						children : [{
+							title : "dgfwerwer",iconCls : "glyphicon-text-height"
+						},{
+							title : "greer434"
+						},{
+							title : "e32e23"
+						},{
+							title : "gwergr3"
+						},{
+							title : "21e2e2e"
+						}]
+					}]
+				}
+			});
+			avalon.scan();
+		});
+	</script>
+</body>
+</html>
