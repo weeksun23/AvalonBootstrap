@@ -12,9 +12,12 @@
 </style>
 </head>
 <body ms-controller='page'>
-	<div>
+	<span style='display:inline-block'>
 		<button class='btn btn-default' ms-widget='dropdown,$dropdown1,$dropdownOpts'>qwdqw</button>
-	</div>
+	</span>
+	<span style='display:inline-block'>
+		<button class='btn btn-default' ms-widget='dropdown,$dropdown2,$dropdown2Opts'>qwdqw</button>
+	</span>
 	<script src='../../src/avalon.js'></script>
 	<script>
 		require(["dropdown/avalon.dropdown"],function(){
@@ -22,11 +25,30 @@
 				$id : "page",
 				$dropdownOpts : {
 					data : [{
+						text : "sadasw",iconCls : "glyphicon-refresh",handler : function(){
+							console.log(arguments);
+						}
+					},{
+						text : "sadasw",iconCls : "glyphicon-refresh"
+					},{
 						text : "sadasw",iconCls : "glyphicon-refresh"
 					},{
 						text : "sadasw",iconCls : "glyphicon-refresh"
 					},{
 						text : "sadasw",iconCls : "glyphicon-refresh"
+					}]
+				},
+				$dropdown2Opts : {
+					data : [{
+						text : "sadasw",iconCls : "glyphicon-refresh",handler : function(){
+							console.log(arguments);
+						}
+					},{
+						text : "-"
+					},{
+						text : "2343r",iconCls : "glyphicon-refresh"
+					},{
+						text : "-"
 					},{
 						text : "sadasw",iconCls : "glyphicon-refresh"
 					},{
