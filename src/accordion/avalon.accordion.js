@@ -11,8 +11,8 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 						title : v.title,
 						content : v.innerHTML
 					};
-					avalon.each(['iconCls'],function(i,key){
-						obj[key] = v.getAttribute("data-" + key);
+					avalon.each(['icon'],function(i,key){
+						obj[key === 'icon' ? "iconCls" : key] = v.getAttribute("data-" + key);
 					});
 					accordionData.push(obj);
 				});

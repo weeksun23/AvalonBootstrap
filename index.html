@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AvalonBootstrap</title>
+<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="css/demo.css" rel="stylesheet">
+</head>
+<body ms-controller='demo'>
+<div class='project-header'>
+	<div class='container'>
+		<h1>AvalonBootstrap</h1>
+		<p class='project-des'>用avalon做一些基于bootstrap的组件</p>
+	</div>
+</div>
+<div class="container">
+	<div class='row'>
+		<div class='col-sm-3'>
+			<div class="list-group">
+				<a href="javascript:void(0)" class="list-group-item" ms-repeat='items' 
+					ms-class='active:curIndex === $index' ms-click='changeIndex($index)'>{{el.text}}</a>
+			</div>
+		</div>
+		<div class='col-sm-9' id='content'>
+			<div ms-repeat='items' class='mitem' ms-class='active:curIndex === $index' ms-data-index='$index'></div>
+		</div>
+	</div>
+</div>
+<div class='project-footer text-center'>
+	power by weeksun23 <a href='https://github.com/weeksun23' target='_blank'>Github</a>
+</div>
+<script src='src/avalon.js'></script>
+<script>
+	(function(){
+		var items = [{
+			text : "accordion"
+		},{
+			text : "dialog"
+		},{
+			text : "dropdown"
+		},{
+			text : "popover"
+		},{
+			text : "tab"
+		},{
+			text : "table"
+		},{
+			text : "tooltip"
+		},{
+			text : "tree"
+		}];
+		avalon.each(items,function(i,j){
+			j.$init = false;
+		});
+		var bodyVm = avalon.define({
+			$id : "demo",
+			curIndex : -1,
+			items : items,
+			changeIndex : function(i){
+				var target = bodyVm.items[i];
+				if(!target.$init){
+					target.$init = true;
+					var content = document.getElementById("content");
+					var targetNode;
+					avalon.each(content.childNodes,function(j,node){
+						if(node.nodeType === 1 && +node.getAttribute("data-index") === i){
+							targetNode = node;
+							return false;
+						}
+					});
+					avalon.require(["../demo/" + target.text + "/" + target.text],function(init){
+						init(targetNode);
+					});
+				}
+				bodyVm.curIndex = i;
+			}
+		});
+		avalon.scan();
+		bodyVm.changeIndex(0);
+	})();
+</script>
+</body>
+</html>

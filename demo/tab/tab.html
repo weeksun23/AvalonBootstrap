@@ -1,35 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>tab</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
-<style>
-	body{padding: 50px;}
-</style>
-</head>
-<body ms-controller='page'>
-	<div ms-widget="tab,$tab1,$tabOpts">
-		<div title='dddd'>qwe</div>
-		<div title='wewe'></div>
-		<div title='htth'></div>
-		<div title='qwe2'></div>
-		<div title='cfda'></div>
-	</div>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(["tab/avalon.tab"],function(){
-			var vmodel = avalon.define({
-				$id : "page",
-				tabOpts : {
-					border : true
-				}
-			});
-			avalon.scan();
-		});
-	</script>
-</body>
-</html>
+<h1>tab</h1>
+<h2>示例</h2>
+<div ms-widget="tab,$tab1,$tabOpts">
+	<div title='dddd'>qwe</div>
+	<div title='wewe'>f23fr23234</div>
+	<div title='htth'>23r23r23r</div>
+	<div title='qwe2'>34gt34g34</div>
+	<div title='cfda'>34t34r43r</div>
+</div>
