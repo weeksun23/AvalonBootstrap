@@ -50,9 +50,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				if (typeof options.onInit === "function") {
 					options.onInit.call(element, vmodel, options, vmodels);
 				}
-				if(vmodel.url){
-					loadDataByPage(1);
-				}
+				loadDataByPage(1);
 			};
 			vm.$toThePage = function(e){
 				if(e.keyCode === 13){
@@ -188,14 +186,8 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			var frontPageData = opts.frontPageData;
 			if(!frontPageData) return;
 			initRowsData(frontPageData);
-			var re = [];
-			for(var i=0;i<opts.pageSize;i++){
-				var item = frontPageData[i];
-				if(!item) break;
-				re.push(item);
-			}
 			opts.data[opts.totalKey] = frontPageData.length;
-			opts.data[opts.rowsKey] = re;
+			opts.data[opts.rowsKey] = [];
 		}
 		//更新分页信息
 		function updatePagination(){
