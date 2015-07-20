@@ -24,7 +24,9 @@
 			</div>
 		</div>
 		<div class='col-sm-9' id='content'>
-			<div ms-repeat='items' class='mitem' ms-class='active:curIndex === $index' ms-data-index='$index'></div>
+			<div ms-repeat='items' class='mitem' ms-class='active:curIndex === $index' ms-data-index='$index'>
+				<h2 ms-if='el.loading' class='text-center'>加载{{el.text}}中...</h2>
+			</div>
 		</div>
 	</div>
 </div>
@@ -53,6 +55,7 @@
 		}];
 		avalon.each(items,function(i,j){
 			j.$init = false;
+			j.loading = false;
 		});
 		var bodyVm = avalon.define({
 			$id : "demo",
@@ -70,13 +73,36 @@
 							return false;
 						}
 					});
+					target.loading = true;
 					avalon.require(["../demo/" + target.text + "/" + target.text],function(init){
+						target.loading = false;
 						init(targetNode);
 					});
 				}
 				bodyVm.curIndex = i;
 			}
 		});
+		avalon.bindingHandlers.code = function(data){
+			var html = data.element.innerHTML;
+			data.element.innerHTML = '';
+			var arr = html.split("\n");
+			var first = arr[0];
+			var re = first.match(/^\s*/);
+			for(var i=0,ii=arr.length;i<ii;i++){
+				arr[i] = arr[i].replace(re[0],"");
+			}
+			if(/^\s*$/.test(arr[ii - 1])){
+				arr.pop();
+			}
+			data.element.appendChild(document.createTextNode(arr.join("\n")));
+		};
+		avalon.bindingHandlers.parentwin = function(data,vmodel){
+			var options = avalon.bindingHandlers.parentwin[data.value];
+			options.content = data.element.innerHTML;
+			parent.avalon.initDialog(data.value,options);
+			data.element.parentNode.removeChild(data.element);
+			data.element = null;
+		};
 		avalon.scan();
 		bodyVm.changeIndex(0);
 	})();

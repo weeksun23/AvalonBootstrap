@@ -4,14 +4,15 @@
 	<li>
 		<p><strong>通过HTML初始化</strong></p>
 		<p>HTML代码:</p>
-		<pre ms-skip>
-&lt;div ms-widget="accordion,$,$opts1"&gt;
-	&lt;div title='geeff' data-icon='glyphicon-text-height'&gt;berberretrt&lt;/div&gt;
-	&lt;div title='234g43g'&gt;berberretrt&lt;/div&gt;
-	&lt;div title='34r34r'&gt;34534t&lt;/div&gt;
-	&lt;div title='erg34'&gt;qwr23re23&lt;/div&gt;
-	&lt;div title='f23r'&gt;34r34&lt;/div&gt;
-&lt;/div&gt;</pre>
+		<pre ms-code>
+			<div ms-widget="accordion,$,$opts1">
+				<div title='geeff' data-icon='glyphicon-text-height'>berberretrt</div>
+				<div title='234g43g'>berberretrt</div>
+				<div title='34r34r'>34534t</div>
+				<div title='erg34'>qwr23re23</div>
+				<div title='f23r'>34r34</div>
+			</div>
+		</pre>
 		<p>初始化后:</p>
 		<div ms-widget="accordion,$,$opts1">
 			<div title='geeff' data-icon='glyphicon-text-height'>berberretrt</div>
@@ -24,16 +25,16 @@
 	<li>
 		<p><strong>通过data属性初始化</strong></p>
 		<p>配置代码:</p>
-		<pre ms-skip>
-$accordionOpts : {
-	data : [{
-		title : "34t34tetr",
-		content : "wef33r43344e"
-	},{
-		title : "thrttrt",
-		content : "wef33r43344e"
-	}]
-}
+		<pre ms-code>
+			$accordionOpts : {
+				data : [{
+					title : "34t34tetr",
+					content : "wef33r43344e"
+				},{
+					title : "thrttrt",
+					content : "wef33r43344e"
+				}]
+			}
 		</pre>
 		<p>初始化后:</p>
 		<div ms-widget="accordion,$,$accordionOpts"></div>
@@ -41,34 +42,34 @@ $accordionOpts : {
 	<li>
 		<p><strong>支持子菜单</strong></p>
 		<p>配置代码:</p>
-		<pre ms-skip>
-$accordion1Opts : {
-	data : [{
-		title : "34t34tetr",
-		children : [{
-			title : "dffgs",
-			iconCls : "glyphicon-music"
-		},{
-			title : "dffgs",
-			iconCls : "glyphicon-remove"
-		},{
-			title : "dffgs",
-			iconCls : "glyphicon-music"
-		}]
-	},{
-		title : "thrttrt",
-		children : [{
-			title : "dffgs",
-			iconCls : "glyphicon-music"
-		},{
-			title : "dffgs",
-			iconCls : "glyphicon-remove"
-		},{
-			title : "dffgs",
-			iconCls : "glyphicon-music"
-		}]
-	}]
-}
+		<pre ms-code>
+			$accordion1Opts : {
+				data : [{
+					title : "34t34tetr",
+					children : [{
+						title : "dffgs",
+						iconCls : "glyphicon-music"
+					},{
+						title : "dffgs",
+						iconCls : "glyphicon-remove"
+					},{
+						title : "dffgs",
+						iconCls : "glyphicon-music"
+					}]
+				},{
+					title : "thrttrt",
+					children : [{
+						title : "dffgs",
+						iconCls : "glyphicon-music"
+					},{
+						title : "dffgs",
+						iconCls : "glyphicon-remove"
+					},{
+						title : "dffgs",
+						iconCls : "glyphicon-music"
+					}]
+				}]
+			}
 		</pre>
 		<p>初始化后:</p>
 		<div ms-widget="accordion,$,$accordion1Opts"></div>
