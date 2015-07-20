@@ -88,20 +88,15 @@
 			var arr = html.split("\n");
 			var first = arr[0];
 			var re = first.match(/^\s*/);
+			var reg = new RegExp("^" + re[0]);
 			for(var i=0,ii=arr.length;i<ii;i++){
-				arr[i] = arr[i].replace(re[0],"");
+				arr[i] = arr[i].replace(reg,"");
 			}
 			if(/^\s*$/.test(arr[ii - 1])){
 				arr.pop();
 			}
 			data.element.appendChild(document.createTextNode(arr.join("\n")));
-		};
-		avalon.bindingHandlers.parentwin = function(data,vmodel){
-			var options = avalon.bindingHandlers.parentwin[data.value];
-			options.content = data.element.innerHTML;
-			parent.avalon.initDialog(data.value,options);
-			data.element.parentNode.removeChild(data.element);
-			data.element = null;
+			data.element.removeAttribute("ms-code");
 		};
 		avalon.scan();
 		bodyVm.changeIndex(0);
