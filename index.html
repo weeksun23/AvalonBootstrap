@@ -83,11 +83,11 @@
 			}
 		});
 		avalon.bindingHandlers.code = function(data){
-			var html = data.element.innerHTML;
-			data.element.innerHTML = '';
+			var el = data.element;
+			var html = el.innerHTML;
+			el.innerHTML = '';
 			var arr = html.split("\n");
-			var first = arr[0];
-			var re = first.match(/^\s*/);
+			var re = arr[0].match(/^\s*/);
 			var reg = new RegExp("^" + re[0]);
 			for(var i=0,ii=arr.length;i<ii;i++){
 				arr[i] = arr[i].replace(reg,"");
@@ -95,8 +95,8 @@
 			if(/^\s*$/.test(arr[ii - 1])){
 				arr.pop();
 			}
-			data.element.appendChild(document.createTextNode(arr.join("\n")));
-			data.element.removeAttribute("ms-code");
+			el.appendChild(document.createTextNode(arr.join("\n")));
+			el.removeAttribute("ms-code");
 		};
 		avalon.scan();
 		bodyVm.changeIndex(0);
