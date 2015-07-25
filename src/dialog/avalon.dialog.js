@@ -138,7 +138,9 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 		content : null,
 		show : false,
 		afterShow : avalon.noop,
-		onClose : avalon.noop
+		onClose : avalon.noop,
+		paddingBottom : "",
+		btnAlign : ""
 	};
 	/*
 	avalon.showDialog.xxx : {

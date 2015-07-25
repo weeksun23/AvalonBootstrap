@@ -1,0 +1,64 @@
+<div class='form'>
+	<div class="form-group form-group-lg">
+		<div class='row'>
+			<div class='col-sm-4' ms-visible='format.indexOf("yyyy") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='year'>
+						<option ms-repeat='yearData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>年</label>
+				</div>
+			</div>
+			<div class='col-sm-4' ms-visible='format.indexOf("MM") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='month'>
+						<option ms-repeat='monthData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>月</label>
+				</div>
+			</div>
+			<div class='col-sm-4' ms-visible='format.indexOf("dd") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='day'>
+						<option ms-repeat='dayData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>日</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='form' ms-visible='/(hh|mm|ss)/.test(format)'>
+	<div class="form-group form-group-lg">
+		<div class='row'>
+			<div class='col-sm-4' ms-visible='format.indexOf("hh") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='hour'>
+						<option ms-repeat='hourData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>时</label>
+				</div>
+			</div>
+			<div class='col-sm-4' ms-visible='format.indexOf("mm") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='minute'>
+						<option ms-repeat='minuteData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>分</label>
+				</div>
+			</div>
+			<div class='col-sm-4' ms-visible='format.indexOf("ss") !== -1'>
+				<div class='input-group'>
+					<select class='form-control' ms-duplex='second'>
+						<option ms-repeat='secondData'>{{el}}</option>
+					</select>
+					<label class='input-group-addon'>秒</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+SPLIT
+<input type='text' readonly class='form-control' ms-click='show' ms-duplex='value'>
+<div class='input-group-addon' ms-visible='showClearBtn' ms-click='clear'><i class='glyphicon glyphicon-remove'></i></div>
+<div class='input-group-addon' ms-visible='showDateBtn' ms-click='show'><i class='glyphicon glyphicon-calendar'></i></div>

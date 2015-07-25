@@ -110,7 +110,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				initRowsData(data);
 				vmodel.frontPageData = data;
 				vmodel.data[vmodel.totalKey] = data.length;
-				loadDataByPage(page || 1);
+				dealFrontPageData(page || 1);
 			};
 			vm.getSelected = function(){
 				//获取所选的第一个行对象
@@ -134,27 +134,30 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			}
 			return isFirst ? null : re;
 		}
+		function dealFrontPageData(page,func){
+			if(!vmodel.frontPageData){
+				avalon.error("若不定义url，则请将数据源赋值给frontPageData属性");
+			}
+			vmodel.curPage = vmodel.changeCurPage = page;
+			updatePagination();
+			var start = (page - 1) * vmodel.pageSize;
+			var total = vmodel.data[vmodel.totalKey];
+			if(start >= total){
+				start = (vmodel.sumPage - 1) * vmodel.pageSize;
+			}
+			var end = start + vmodel.pageSize;
+			var re = [];
+			for(;start < end;start++){
+				var item = vmodel.frontPageData[start];
+				if(!item) break;
+				re.push(item);
+			}
+			vmodel.data[vmodel.rowsKey] = re;
+			func && func();
+		}
 		function loadDataByPage(page,func){
 			if(!vmodel.url){
-				if(!vmodel.frontPageData){
-					avalon.error("若不定义url，则请将数据源赋值给frontPageData属性");
-				}
-				vmodel.curPage = vmodel.changeCurPage = page;
-				updatePagination();
-				var start = (page - 1) * vmodel.pageSize;
-				var total = vmodel.data[vmodel.totalKey];
-				if(start >= total){
-					start = (vmodel.sumPage - 1) * vmodel.pageSize;
-				}
-				var end = start + vmodel.pageSize;
-				var re = [];
-				for(;start < end;start++){
-					var item = vmodel.frontPageData[start];
-					if(!item) break;
-					re.push(item);
-				}
-				vmodel.data[vmodel.rowsKey] = re;
-				func && func();
+				dealFrontPageData(page,func);
 			}else{
 				ajaxLoad(page);
 			}
@@ -166,16 +169,15 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			},obj);
 			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data){
 				avalon.log(vmodel.url,"返回数据",data);
-				if(data.code === 0){
-					initRowsData(data.result.list);
-					vmodel.data[vmodel.rowsKey] = data.result.list;
-					vmodel.data[vmodel.totalKey] = data.result.totalCount;
-					vmodel.changeCurPage = vmodel.curPage = page;
-					updatePagination();
+				if(avalon.type(data) === 'array'){
+					//前台分页
+					vmodel.loadFrontPageData(data);
 				}else{
-					vmodel.data[vmodel.rowsKey] = [];
-					vmodel.data[vmodel.totalKey] = 0;
-					vmodel.changeCurPage = vmodel.curPage = 1;
+					//后台分页
+					initRowsData(data[vmodel.rowsKey]);
+					vmodel.data[vmodel.rowsKey] = data[vmodel.rowsKey];
+					vmodel.data[vmodel.totalKey] = data[vmodel.totalKey];
+					vmodel.changeCurPage = vmodel.curPage = page;
 					updatePagination();
 				}
 			},vmodel.widgetElement);
@@ -260,6 +262,8 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		start : 0,
 		end : 0,
 		pageSize : 10,
-		pageSizeArr : [10,20,30,40]
+		pageSizeArr : [10,20,30,40],
+		nowrap : false,
+		showColumnTitle : true
 	};
 });

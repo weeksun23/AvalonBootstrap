@@ -1,4 +1,4 @@
-define(["mmRequest"],function (avalon) {
+define(["mmRequest","css!./base.css"],function (avalon) {
 	"use strict";
 	/*dom*/
 	//获取所有子元素，非文本节点

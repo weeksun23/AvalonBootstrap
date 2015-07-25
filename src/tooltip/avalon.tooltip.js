@@ -58,7 +58,7 @@ define(["avalon.extend"],function(avalon){
 			var $tip = avalon(tip);
 			$tip.addClass("in");
 			var $target = avalon(this);
-			var offset = $target.offset();
+			var offset = vmodel.container === document.body ? $target.offset() : $target.position();
 			switch(vmodel.position){
 				case "top":
 					var top = offset.top - $tip.outerHeight();

@@ -2,7 +2,7 @@
 	<h3 class="panel-title">{{title}}</h3>
 </div>
 <div class="panel-body mtable">
-	<div class='table-responsive'>
+	<div class='table-responsive' ms-class='mtable-nowrap:nowrap'>
 		<table class="table" ms-class='table-striped:striped' ms-class-1='table-bordered:border'>
 			<thead>
 				<tr>
@@ -18,14 +18,14 @@
 			</thead>
 			<tbody>
 				<tr ms-repeat-item="data[rowsKey]" ms-hover="mtable-tr-hover" ms-class='mtable-tr-selected:item._selected' ms-click='toggleSelect(item)'>
-					<td ms-repeat-el='columns' ms-css-width='el.width'>
+					<td ms-repeat-el='columns' ms-css-width='el.width' ms-attr-title='{{showColumnTitle ? el.title : ""}}'>
 						<div>{{el.formatter ? el.formatter(item[el.field],item) : item[el.field] | html}}</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<h2 ms-visible='!data || data[totalKey] === 0 || data[rowsKey].length === 0' class="text-muted text-center">暂无数据</h2>
 	</div>
+	<h2 ms-visible='!data || data[totalKey] === 0 || data[rowsKey].length === 0' class="text-muted text-center">暂无数据</h2>
 </div>
 <div ms-if='pagination' class='mpagination clearfix'>
 	<div class='pull-left' onselectstart='return false'>
