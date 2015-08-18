@@ -1,0 +1,32 @@
+<select class='form-control' ms-duplex='format'>
+	<option value='yyyy-MM-dd'>按日</option>
+	<option value='yyyy-MM'>按月</option>
+	<option value='yyyy'>按年</option>
+</select>
+<div class='input-group myear' ms-visible='format.indexOf("yyyy") !== -1'>
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="button" ms-click='downYear'><i class='glyphicon glyphicon-triangle-bottom'></i></button>
+	</span>
+	<input class='form-control' type='text' readonly ms-duplex="year">
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="button" ms-click='upYear'><i class='glyphicon glyphicon-triangle-top'></i></button>
+	</span>
+</div>
+<div class='input-group' ms-visible='format.indexOf("MM") !== -1'>
+	<select class='form-control' ms-duplex="month">
+		<option ms-repeat='monthData' ms-attr-value='el'>{{el}}</option>
+	</select>
+	<label class='input-group-addon'>月</label>
+</div>
+<div class='input-group' ms-visible='format.indexOf("dd") !== -1'>
+	<select class='form-control' ms-duplex="day">
+		<option ms-repeat='dayData' ms-attr-value='el'>{{el}}</option>
+	</select>
+	<label class='input-group-addon'>日</label>
+</div>
+<!--
+<select class='form-control' ms-visible='format.indexOf("yyyy") !== -1'>
+	<option ms-repeat='yearData'>{{el}}</option>
+</select> -->
+
+

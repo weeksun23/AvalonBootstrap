@@ -1,5 +1,6 @@
 .mgrid.panel{
-	border: 0;position: relative;box-shadow:none;
+	border: 0;position: relative;
+	box-shadow:none;margin-bottom: 0;
 	-moz-box-shadow: none;
 	-webkit-box-shadow:none;
 }

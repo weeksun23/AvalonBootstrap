@@ -146,7 +146,7 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
 	avalon.showDialog.xxx : {
 		vmodel : 生成的dialog的vmodel,
 		options : dialog的配置对象options
-	}
+	} 
 	*/
 	avalon.initDialog = function(id,options){
 		var win = document.getElementById(id);

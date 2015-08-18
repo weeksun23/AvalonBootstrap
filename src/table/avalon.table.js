@@ -42,7 +42,8 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		var vmodel = avalon.define(data.tableId,function(vm){
 			avalon.mix(vm,options);
 			vm.widgetElement = element;
-			vm.$skipArray = ['widgetElement','pageSizeArr','totalKey','rowsKey','loadData','frontPageData','queryParams','singleSelect'];
+			vm.$skipArray = ['widgetElement','pageSizeArr','totalKey','rowsKey','loadData','frontPageData','queryParams',
+				'singleSelect','loadFilter',"pageNoKey","pageSizeKey"];
 			vm.$init = function(){
 				avalon(element).addClass("panel panel-default mgrid");
 				element.innerHTML = templete;
@@ -56,12 +57,12 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				if(e.keyCode === 13){
 					loadDataByPage(vmodel.changeCurPage || 1);
 				}
-			}
+			};
 			vm.$remove = function(){
 				element.innerHTML = element.textContent = ""
 			};
 			vm.$changePageSize = function(){
-				loadDataByPage(vmodel.curPage);
+				loadDataByPage(1);//vmodel.curPage
 			};
 			vm.$toPage = function(p){
 				if(this.disabled) return;
@@ -163,10 +164,10 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			}
 		}
 		function ajaxLoad(page,obj){
-			avalon.mix(vmodel.queryParams,{
-				pageNo : page,
-				pageSize : vmodel.pageSize
-			},obj);
+			var param = {};
+			param[vmodel.pageNoKey] = page;
+			param[vmodel.pageSizeKey] = vmodel.pageSize;
+			avalon.mix(vmodel.queryParams,param,obj);
 			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data){
 				avalon.log(vmodel.url,"返回数据",data);
 				if(avalon.type(data) === 'array'){
@@ -174,6 +175,9 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 					vmodel.loadFrontPageData(data);
 				}else{
 					//后台分页
+					if(vmodel.loadFilter){
+						data = vmodel.loadFilter(data,vmodel.rowsKey,vmodel.totalKey);
+					}
 					initRowsData(data[vmodel.rowsKey]);
 					vmodel.data[vmodel.rowsKey] = data[vmodel.rowsKey];
 					vmodel.data[vmodel.totalKey] = data[vmodel.totalKey];
@@ -264,6 +268,9 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		pageSize : 10,
 		pageSizeArr : [10,20,30,40],
 		nowrap : false,
-		showColumnTitle : true
+		showColumnTitle : true,
+		loadFilter : null,
+		pageNoKey : "pageNo",
+		pageSizeKey : "pageSize"
 	};
 });

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>autocomplete</title>
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="../../css/base.css" rel="stylesheet">
+<style>
+	body{padding: 10px;}
+</style>
+</head>
+<body ms-controller='page'>
+	<form class="form-inline">
+		<div class="form-group">
+			<div class="input-group">
+			  	<span class="input-group-addon">关键字</span>
+			  	<input type="text" class="form-control" placeholder="请输入关键字" ms-widget="autocomplete,$,$autocompleteOpts">
+			</div>
+		</div>
+	</form>
+	<script src='../../src/avalon.js'></script>
+	<script>
+		require(["autocomplete/avalon.autocomplete"],function(){
+			var vmodel = avalon.define({
+				$id : "page",
+				$autocompleteOpts : {
+					source : [{text : "grrdf",value : "grrdf"},{text : "gr45rdf",value : "gr45rdf"},{text : "mjy5",value : "mjy5"},
+					,{text : "werr3r",value : "werr3r"},{text : "34tre",value : "34tre"},
+					,{text : "trj65",value : "trj65"},{text : "wer3",value : "wer3"}]
+				}
+			});
+			avalon.scan();
+		});
+	</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ define(["mmRequest","css!./base.css"],function (avalon) {
 		});
 		return children;
 	};
-	/**/
+	/*loading*/
 	avalon.fn.loading = function(isloading){
 		var el = this[0];
 		var loadingNum = +el.getAttribute("data-loading-num") || 0;
@@ -97,22 +97,12 @@ define(["mmRequest","css!./base.css"],function (avalon) {
 				},
 				data : param,
 				error : function(result){
-					if(callback){
-						callback.call($area,result);
-					}else{
-						//Base.alert("网络异常,请重试");
-					}
+					callback && callback.call($area,result);
 					avalon.log(arguments);
 					$area && $area.loading(false);
 				},
 				success : function(result){
-					if(callback){
-						if(!result){
-//							Base.alert("返回数据异常,请重试");
-						}else{
-							callback.call($area,result);
-						}
-					}
+					callback && callback.call($area,result);
 				}
 			},defaultSetting,setting);
 			avalon.ajax(setting);

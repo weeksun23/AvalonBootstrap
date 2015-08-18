@@ -1,0 +1,4 @@
+.input-group.myear>input.form-control{width: 60px;}
+@media (max-width: 769px) {
+	.input-group.myear>input.form-control{width: 100%;}
+}
