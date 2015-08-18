@@ -64,7 +64,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 				loadDataByPage(vmodel.curPage);
 			};
 			vm.$toPage = function(p){
-				if(avalon(this).hasClass("disabled")) return;
+				if(this.disabled) return;
 				if(typeof p == 'number'){
 					var page = vmodel.curPage + p;
 				}else if(p == 'first'){
