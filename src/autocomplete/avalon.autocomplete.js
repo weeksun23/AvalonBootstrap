@@ -1,4 +1,4 @@
-define(["avalon.extend"],function(avalon){
+define(["avalon"],function(avalon){
 	var ul;
 	function setResult(data,value,m){
 		var reg = new RegExp(value,"g");
@@ -12,11 +12,11 @@ define(["avalon.extend"],function(avalon){
 		var options = data.autocompleteOptions;
 		var vmodel = avalon.define(data.autocompleteId,function(vm){
 			avalon.mix(vm,options);
-			vm.$skipArray = ["valueKey","textKey","source","data"];
+			vm.$skipArray = ["valueKey","textKey","source","data",'selectItem'];
 			vm.$init = function(){
 				if(!ul){
 					ul = document.createElement("ul");
-					ul.className = "dropdown-menu";
+					ul.className = "dropdown-menu autocomplete-dropdown";
 					ul.innerHTML = 
 						"<li ms-visible='!data || data.length === 0'><a href='javascript:void(0)'>{{mes}}</a></li>" +
 						"<li ms-repeat='data' ms-css-background-color='{{$index === curSelect ? \"#f5f5f5\" : \"\"}}'>" +
@@ -27,7 +27,10 @@ define(["avalon.extend"],function(avalon){
 						$id : "autocompleteList",
 						$curVmodel : null,
 						chooseItem : function(el){
-							m.$curVmodel.value = el[m.$curVmodel.valueKey];
+							var vm = m.$curVmodel;
+							vm.selectItem = el;
+							vm.value = el[vm.valueKey];
+							vm.onSelect(vm,el);
 						},
 						mes : "",
 						data : [],
@@ -36,6 +39,7 @@ define(["avalon.extend"],function(avalon){
 					});
 					avalon.scan(ul,m);
 				}
+				var hideEventHandle;
 				avalon.bind(element,"focus",function(){
 					var $this = avalon(this);
 					var offset = $this.offset();
@@ -45,11 +49,15 @@ define(["avalon.extend"],function(avalon){
 					var m = avalon.vmodels.autocompleteList;
 					m.$curVmodel = vmodel;
 					m.textKey = vmodel.textKey;
-				});
-				avalon.bind(element,"blur",function(){
-					setTimeout(function(){
+					if(hideEventHandle){
+						avalon.unbind(document.body,"click",hideEventHandle);
+					} 
+					hideEventHandle = avalon.bind(document.body,"click",function(e){
+						if(e.target === element) return false;
 						ul.style.display = 'none';
-					},100);
+						avalon.unbind(document.body,"click",hideEventHandle);
+						hideEventHandle = null;
+					});
 				});
 				var t;
 				avalon.bind(element,"keyup",function(e){
@@ -59,7 +67,7 @@ define(["avalon.extend"],function(avalon){
 					}
 					if(this.value === ''){
 						//搜索关键字为空 则不操作
-						clearTimeout(t);
+						t && clearTimeout(t);
 						t = null;
 						ul.style.display = 'none';
 						return;
@@ -92,28 +100,32 @@ define(["avalon.extend"],function(avalon){
 							}
 							setResult(data,value,m);
 						}
-					},300);
+					},200);
 					ul.style.display = "block";
 				});
 				avalon.bind(element,"keydown",function(e){
 					var keyCode = e.keyCode;
 					var m = avalon.vmodels.autocompleteList;
 					if(keyCode >= 9 && keyCode <= 47){
-						if(keyCode === 40){
-							if(m.curSelect === m.data.length - 1){
-								m.curSelect = 0;
-							}else{
-								m.curSelect++;
+						var len = m.data.length;
+						if(/^(13|40|38)$/.test(keyCode) && ul.style.display !== 'none' && len > 0){
+							e.preventDefault();
+							if(keyCode === 40){
+								if(m.curSelect === len - 1){
+									m.curSelect = 0;
+								}else{
+									m.curSelect++;
+								}
+							}else if(keyCode === 38){
+								if(m.curSelect === -1 || m.curSelect === 0){
+									m.curSelect = len - 1;
+								}else{
+									m.curSelect--;
+								}
+							}else if(keyCode === 13){
+								m.chooseItem(m.data[m.curSelect]);
+								ul.style.display = 'none';
 							}
-						}else if(keyCode === 38){
-							if(m.curSelect === -1 || m.curSelect === 0){
-								m.curSelect = m.data.length - 1;
-							}else{
-								m.curSelect--;
-							}
-						}else if(keyCode === 13){
-							m.chooseItem(m.data[m.curSelect]);
-							ul.style.display = 'none';
 						}
 					}else{
 						m.curSelect = -1;
@@ -130,6 +142,8 @@ define(["avalon.extend"],function(avalon){
 		valueKey : "value",
 		textKey : "text",
 		source : null,
-		data : []
+		data : [],
+		selectItem : null,
+		onSelect : avalon.noop
 	};
 });

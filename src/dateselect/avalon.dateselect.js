@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.dateselect.html","css!./avalon.dateselect.css"],function(avalon,tpl){
+define(["avalon","text!./avalon.dateselect.html","css!./avalon.dateselect.css"],function(avalon,tpl){
 	function getScope(min,max){
 		var re = [];
 		for(var i=min;i<=max;i++){
@@ -90,6 +90,7 @@ define(["avalon.extend","text!./avalon.dateselect.html","css!./avalon.dateselect
 	widget.getDaysInMonth = getDaysInMonth;
 	widget.paddingZero = paddingZero;
 	widget.defaults = {
-		format : "yyyy-MM-dd"
+		format : "yyyy-MM-dd",
+		showDateType : true
 	};
 });

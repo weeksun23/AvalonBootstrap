@@ -1,5 +1,5 @@
 //mmAnimate util
-define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.css"],function(avalon,templete){
+define(["avalon","text!./avalon.accordion.html","css!./avalon.accordion.css"],function(avalon,templete){
 	var widget = avalon.ui.accordion = function(element, data, vmodels){
 		var options = data.accordionOptions;
 		var children = avalon(element).children();

@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],function(avalon,templete){
+define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(avalon,templete){
 	function initColumns(columns){
 		for(var j=0,column;column=columns[j++];){
 			var obj = {
@@ -89,6 +89,9 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 					}
 				}else{
 					item._selected = !item._selected;
+					if(item._selected){
+						vmodel.onSelect.call(vmodel,item);
+					}
 				}
 			};
 			vm.sort = function(item){
@@ -168,8 +171,15 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 			param[vmodel.pageNoKey] = page;
 			param[vmodel.pageSizeKey] = vmodel.pageSize;
 			avalon.mix(vmodel.queryParams,param,obj);
-			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data){
-				avalon.log(vmodel.url,"返回数据",data);
+			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data,errorInfo){
+				if(!data){
+					//错误 
+					setEmptyData(vmodel);
+					vmodel.changeCurPage = vmodel.curPage = 1;
+					updatePagination();
+					vmodel.onLoadError(errorInfo);
+					return;
+				}
 				if(avalon.type(data) === 'array'){
 					//前台分页
 					vmodel.loadFrontPageData(data);
@@ -183,6 +193,7 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 					vmodel.data[vmodel.totalKey] = data[vmodel.totalKey];
 					vmodel.changeCurPage = vmodel.curPage = page;
 					updatePagination();
+					vmodel.onLoadSuccess(data);
 				}
 			},vmodel.widgetElement);
 		}
@@ -271,6 +282,9 @@ define(["avalon.extend","text!./avalon.table.html","css!./avalon.table.css"],fun
 		showColumnTitle : true,
 		loadFilter : null,
 		pageNoKey : "pageNo",
-		pageSizeKey : "pageSize"
+		pageSizeKey : "pageSize",
+		onLoadSuccess : avalon.noop,
+		onLoadError : avalon.noop,
+		onSelect : avalon.noop
 	};
 });

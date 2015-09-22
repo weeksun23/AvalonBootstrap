@@ -1,4 +1,4 @@
-define(["avalon.extend"],function(avalon){
+define(["avalon"],function(avalon){
 	var lastDropdown;
 	var widget = avalon.ui.dropdown = function(element, data, vmodels){
 		var options = data.dropdownOptions;

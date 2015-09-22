@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.tab.html"],function(avalon,templete){
+define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
 	var widget = avalon.ui.tab = function(element, data, vmodels){
 		var options = data.tabOptions;
 		var children = avalon(element).children();

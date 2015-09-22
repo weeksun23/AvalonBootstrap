@@ -1,4 +1,4 @@
-define(["avalon.extend","tooltip/avalon.tooltip"],function(avalon){
+define(["avalon","tooltip/avalon.tooltip"],function(avalon){
 	var widget = avalon.ui.popover = function(element, data, vmodels){
 		var vmodel = avalon.ui.tooltip(element,{
 			tooltipId : data.popoverId,

@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,templete){
+define(["avalon","text!./avalon.dialog.html"],function(avalon,templete){
 	function initButtons(buttons){
 		avalon.each(buttons,function(i,el){
 			var obj = {

@@ -1,4 +1,4 @@
-define(["mmRequest","css!./base.css"],function (avalon) {
+define(["./mmRequest","css!./base.css"],function (avalon) {
 	"use strict";
 	/*dom*/
 	//获取所有子元素，非文本节点
@@ -90,6 +90,7 @@ define(["mmRequest","css!./base.css"],function (avalon) {
 				$area = avalon($area || document.body);
 			}
 			$area && $area.loading(true);
+			avalon.log("发送参数",url,param);
 			setting = avalon.mix({
 				url : url,
 				complete : function(){
@@ -97,11 +98,12 @@ define(["mmRequest","css!./base.css"],function (avalon) {
 				},
 				data : param,
 				error : function(result){
-					callback && callback.call($area,result);
-					avalon.log(arguments);
+					callback && callback.call($area,null,result);
+					avalon.log('接收错误',url,arguments);
 					$area && $area.loading(false);
 				},
 				success : function(result){
+					avalon.log("接收数据",url,result);
 					callback && callback.call($area,result);
 				}
 			},defaultSetting,setting);

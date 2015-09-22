@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],function(avalon,tpl){
+define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],function(avalon,tpl){
 	function getScope(min,max){
 		var re = [];
 		for(var i=min;i<=max;i++){

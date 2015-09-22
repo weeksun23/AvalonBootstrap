@@ -1,4 +1,4 @@
-define(["avalon.extend"],function(avalon){
+define(["avalon"],function(avalon){
 	var widget = avalon.ui.tooltip = function(element, data, vmodels){
 		var options = data.tooltipOptions;
 		var tip;
