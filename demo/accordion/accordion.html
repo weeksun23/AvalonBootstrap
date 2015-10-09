@@ -10,14 +10,26 @@
 <style>
 	body{padding: 50px;}
 </style>
+<script src='../../src/avalon.js'></script>
+<script>
+	avalon.library("ab");
+</script>
 </head>
 <body ms-controller='page'>
-	<div ms-widget="accordion,$accordion1,$accordionOpts">
-	</div>
-	<script src='../../src/avalon.js'></script>
+	<ab:accordion config='$accordionOpts'></ab:accordion>
+	<div ms-foo-a-3-a='aaa'></div>
 	<script>
 		require(["accordion/avalon.accordion"],function(){
+			avalon.directive("foo", {
+                init: function (binding) {
+                    avalon.log(binding);
+                },
+                update: function (value, oldValue) {
+                	avalon.log(value,oldValue);
+                }
+            });
 			var vmodel = avalon.define({
+				aaa : 1,
 				$id : "page",
 				$accordionOpts : {
 					data : [{
@@ -25,6 +37,7 @@
 						children : [{
 							title : "dgfwerwer"
 						},{
+							title : "dgfwerwer",
 							iconCls : ""
 						}]
 					},{

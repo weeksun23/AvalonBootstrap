@@ -1,5 +1,22 @@
 define(["avalon"],function(avalon){
 	var ul;
+
+	avalon.component("ab:autocomplete",{
+		value : "",
+		valueKey : "value",
+		textKey : "text",
+		source : null,
+		data : [],
+		selectItem : null,
+		onSelect : avalon.noop,
+		$init : function(){
+			
+		},
+		$ready: function(vm, el){
+			
+		}
+	});
+
 	function setResult(data,value,m){
 		var reg = new RegExp(value,"g");
 		for(var i=0,ii;ii=data[i++];){

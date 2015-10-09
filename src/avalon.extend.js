@@ -1,6 +1,12 @@
 define(["./mmRequest","css!./base.css"],function (avalon) {
 	"use strict";
-	/*dom*/
+	avalon. libraries.ms.$init = function(vm){
+	    for(var i in vm){
+	        if(vm.hasOwnProperty(i) && typeof vm[i] === "function"){
+	             vm[i] = vm[i].bind(vm);
+	       }
+	   }
+	};
 	//获取所有子元素，非文本节点
 	avalon.fn.children = function(){
 		var children = [];
