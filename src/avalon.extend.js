@@ -1,5 +1,6 @@
 define(["./mmRequest","css!./base.css"],function (avalon) {
 	"use strict";
+	//ie
 	avalon. libraries.ms.$init = function(vm){
 	    for(var i in vm){
 	        if(vm.hasOwnProperty(i) && typeof vm[i] === "function"){

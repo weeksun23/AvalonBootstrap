@@ -16,21 +16,24 @@
 		<div class="form-group">
 			<div class="input-group">
 			  	<span class="input-group-addon">关键字</span>
-			  	<input type="text" class="form-control" placeholder="请输入关键字" ms-widget="autocomplete,$,$autocompleteOpts">
+			  	<ab:autocomplete config='$autocompleteopts' identifier='test'></ab:autocomplete>
 			</div>
 		</div>
 	</form>
 	<script src='../../src/avalon.js'></script>
 	<script>
-		require(["autocomplete/avalon.autocomplete"],function(){
+		require(['avalon.extend',"autocomplete/avalon.autocomplete"],function(){
 			var vmodel = avalon.define({
 				$id : "page",
-				$autocompleteOpts : {
-					source : function(value,cb){
+				$autocompleteopts : {
+					placeholder : "请输入搜索关键字",
+					inputValueKey : null,
+					source : [3434,2323,5444,3434,232323]
+					/*source : function(value,cb){
 						avalon.ajaxGet("data.json",{},function(data){
 							cb(data);
 						},null);
-					}
+					}*/
 				}
 			});
 			avalon.scan();

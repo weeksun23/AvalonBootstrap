@@ -1,32 +1,39 @@
 //mmAnimate util
 define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.css"],function(avalon,template){
-	avalon.effect("accordion-collapse", {
-        beforeEnter: function (el) {
-        	el.style.display = 'block';
-            var $el = avalon(el);
-            var inner = $el.children()[0];
-			var h = avalon(inner).outerHeight(true);
-			$el.addClass("collapsing");
-			el.offsetWidth;
-			$el.height(h);
-        },
-        afterEnter : function(el){
-        	var $el = avalon(el);
-        	$el.removeClass("collapsing");
-        	$el.css("height",'auto');
-        },
-        beforeLeave: function (el) {
-        	var $el = avalon(el);
-            var inner = $el.children()[0];
-			var h = avalon(inner).outerHeight(true);
-			$el.height(h).addClass("collapsing");
-			el.offsetWidth;
-			$el.height(0);
-        },
-        afterLeave : function (el){
-        	avalon(el).removeClass("collapsing");
-        }
-    });
+	if(avalon.support.transitionend){
+		avalon.effect("accordion-collapse", {
+	        beforeEnter: function (el) {
+	        	if(!avalon.support.transitionend) return;
+	    		el.style.display = 'block';
+	            var $el = avalon(el);
+	            var inner = $el.children()[0];
+				var h = avalon(inner).outerHeight(true);
+				$el.height(0);
+				$el.addClass("collapsing");
+				el.offsetWidth;
+				$el.height(h);
+	        },
+	        afterEnter : function(el){
+	        	if(!avalon.support.transitionend) return;
+	        	var $el = avalon(el);
+	        	$el.removeClass("collapsing");
+	        	$el.css("height",'auto');
+	        },
+	        beforeLeave: function (el) {
+	        	if(!avalon.support.transitionend) return;
+	        	var $el = avalon(el);
+	            var inner = $el.children()[0];
+				var h = avalon(inner).outerHeight(true);
+				$el.height(h).addClass("collapsing");
+				el.offsetWidth;
+				$el.height(0);
+	        },
+	        afterLeave : function (el){
+	        	if(!avalon.support.transitionend) return;
+	        	avalon(el).removeClass("collapsing");
+	        }
+	    });
+	}
 	function findItem(vm,func){
 		for(var i=0,ii;ii=vm.data[i++];){
 			for(var j=0,jj;jj=ii.children[j++];){
@@ -39,6 +46,7 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 	}
 	avalon.component("ab:accordion",{
 		$template: template,
+		$replace : true,
 		//属性
 		data : [/*{
 			title : panel标题,
@@ -152,59 +160,10 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 				vm.data[oldVal]._show = false;
 				vm.data[newVal]._show = true;
 			});
-			/*avalon.support.transitionend && avalon.each(el.getElementsByTagName("div"),function(i,div){
-				if(avalon(div).hasClass("panel-collapse")){
-					avalon.bind(div,avalon.support.transitionend,function(){
-						var $this = avalon(this);
-						if(this._state === "slideDown"){
-							this.style.height = 'auto';
-						}else{
-							$this.removeClass("in");
-						}
-						$this.removeClass("collapsing");
-					});
-				}
-			});
-			vm.onInit.call(el, vm);*/
 		},
 		$dispose : function(vm, el){
 			//在这里移除事件与清空节点内部
 			el.innerHTML = ""
 		}
 	});
-	/*
-	var widget = avalon.ui.accordion = function(element, data, vmodels){
-		
-		var vmodel = avalon.define(data.accordionId,function(vm){
-			avalon.mix(vm,options);
-			vm.$skipArray = [];
-			vm.$init = function(){
-				avalon(element).addClass("panel-group maccordion");
-				element.innerHTML = templete;
-				avalon.scan(element, vmodel);
-				
-			};
-			vm.$remove = function(){
-				element.innerHTML = element.textContent = "";
-			};
-		});
-		
-		return vmodel;
-	};
-	widget.version = 1.0;
-	widget.defaults = {
-		curIndex : -1,
-		onInit : avalon.noop,
-		onSelectItem : avalon.noop,
-		data : []
-	};*/
-	/*
-	title : panel标题,
-	content : panel body html,
-	iconCls : panel标题左边的图标,
-	children : 若content为空，则取children为body内容
-		selected : 是否选中
-		title : 显示文字
-		iconCls : 文字左边图标
-	*/
 });
