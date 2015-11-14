@@ -3,7 +3,6 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 	if(avalon.support.transitionend){
 		avalon.effect("accordion-collapse", {
 	        beforeEnter: function (el) {
-	        	if(!avalon.support.transitionend) return;
 	    		el.style.display = 'block';
 	            var $el = avalon(el);
 	            var inner = $el.children()[0];
@@ -14,13 +13,11 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 				$el.height(h);
 	        },
 	        afterEnter : function(el){
-	        	if(!avalon.support.transitionend) return;
 	        	var $el = avalon(el);
 	        	$el.removeClass("collapsing");
 	        	$el.css("height",'auto');
 	        },
 	        beforeLeave: function (el) {
-	        	if(!avalon.support.transitionend) return;
 	        	var $el = avalon(el);
 	            var inner = $el.children()[0];
 				var h = avalon(inner).outerHeight(true);
@@ -29,7 +26,6 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 				$el.height(0);
 	        },
 	        afterLeave : function (el){
-	        	if(!avalon.support.transitionend) return;
 	        	avalon(el).removeClass("collapsing");
 	        }
 	    });
@@ -160,10 +156,6 @@ define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.c
 				vm.data[oldVal]._show = false;
 				vm.data[newVal]._show = true;
 			});
-		},
-		$dispose : function(vm, el){
-			//在这里移除事件与清空节点内部
-			el.innerHTML = ""
 		}
 	});
 });

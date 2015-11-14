@@ -8,26 +8,37 @@ define(["avalon"],function(avalon){
 				ul = document.createElement("ul");
 				ul.className = "dropdown-menu autocomplete-dropdown";
 				ul.innerHTML = 
-					"<li ms-visible='!data || data.length === 0'><a href='javascript:void(0)'>{{mes}}</a></li>" +
+					"<li ms-visible='!data || data.length === 0'><a href='javascript:void(0)' ms-click='hideUl'>{{mes}}</a></li>" +
 					"<li ms-repeat='data' ms-css-background-color='{{$index === curSelect ? \"#f5f5f5\" : \"\"}}'>" +
-						"<a href='javascript:void(0)' ms-click='chooseItem(el)'>{{getText(el[textKey]) | html}}</a>" +
+						"<a href='javascript:void(0)' ms-click='chooseItem(el)'>{{getText(el) | html}}</a>" +
 					"</li>";
 				document.body.appendChild(ul);
 				var m = avalon.define({
 					$id : "autocompleteList",
 					$curVmodel : null,
+					hideUl : function(){
+						if(m.mes !== m.$curVmodel.loadingText){
+							ul.style.display = 'none';
+						}
+					},
 					chooseItem : function(el){
 						var vm = m.$curVmodel;
 						vm.selectItem = el;
-						vm.value = el[vm.inputValueKey || vm.textKey];
+						vm.value = vm.inputValueKey ?  el[vm.inputValueKey] : el;
 						vm.onSelect(vm,el);
+						ul.style.display = 'none';
 					},
 					mes : "",
 					data : [],
 					textKey : "text",
 					curSelect : -1,
 					value : '',
-					getText : function(text){
+					getText : function(el){
+						if(typeof el == 'object'){
+							var text = el[m.textKey];
+						}else{
+							text = el + '';
+						}
 						var reg = new RegExp(m.value,"g");
 						return text.replace(reg,"<strong>" + m.value + "</strong>");
 					}
@@ -49,6 +60,7 @@ define(["avalon"],function(avalon){
 				}
 				hideEventHandle = avalon.bind(document.body,"click",function(e){
 					if(e.target === element) return false;
+					if(avalon.mUtil.isSubNode(e.target,"autocomplete-dropdown")) return;
 					ul.style.display = 'none';
 					avalon.unbind(document.body,"click",hideEventHandle);
 					hideEventHandle = null;
@@ -69,7 +81,7 @@ define(["avalon"],function(avalon){
 				}
 				var m = avalon.vmodels.autocompleteList;
 				m.data = [];
-				m.mes = "加载中...";
+				m.mes = m.$curVmodel.loadingText;
 				if(t){
 					clearTimeout(t);
 					t = null;
@@ -148,11 +160,13 @@ define(["avalon"],function(avalon){
 		data : [],
 		//所选的项的具体数据
 		selectItem : null,
+		loadingText : "加载中...",
+		nonDataText : "暂无数据",
 		onSelect : avalon.noop,
 		placeholder : ""
 	});
 	function setResult(data,value,m){
-		if(!m.$curVmodel.inputValueKey){
+		/*if(!m.$curVmodel.inputValueKey){
 			var arr = [];
 			for(var i=0,ii;ii=data[i++];){
 				var obj = {};
@@ -160,9 +174,9 @@ define(["avalon"],function(avalon){
 				arr.push(obj);
 			}
 			data = arr;
-		}
+		}*/
 		m.value = value;
 		m.data = data;
-		m.mes = "暂无数据";
+		m.mes = m.$curVmodel.nonDataText;
 	}
 });

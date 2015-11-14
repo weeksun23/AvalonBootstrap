@@ -1,13 +1,34 @@
 define(["./mmRequest","css!./base.css"],function (avalon) {
 	"use strict";
-	//ie
-	avalon. libraries.ms.$init = function(vm){
-	    for(var i in vm){
-	        if(vm.hasOwnProperty(i) && typeof vm[i] === "function"){
-	             vm[i] = vm[i].bind(vm);
-	       }
-	   }
-	};
+	/*
+	avalon.component("ab:table",{
+		$template: template,
+		$replace : true,
+		$construct : function(opts,vmOpts,elemOpts){
+
+		},
+		$ready : function(){
+			
+		},
+		$skipArray : [],
+		//属性
+		//方法
+		//事件
+	});
+	*/
+	avalon.library("ab", {
+		//ie
+	    $init: function(vm){
+	    	for(var i in vm){
+		        if(vm.hasOwnProperty(i) && typeof vm[i] === "function"){
+		             vm[i] = vm[i].bind(vm);
+		       }
+		   }
+	    },
+	    $childReady: function(){},
+	    $ready: function(){},
+	    $dispose: function(){}
+	});
 	//获取所有子元素，非文本节点
 	avalon.fn.children = function(){
 		var children = [];

@@ -1,16 +1,18 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header" ms-if='title'>
-            <button type="button" class="close" ms-click='close'><span>&times;</span></button>
-            <h4 class="modal-title">{{title | html}}</h4>
-        </div>
-        <div class="modal-body" ms-css-padding-bottom='paddingBottom'>
-            {{content | html}}
-        </div>
-        <div class="modal-footer" ms-if='buttons && buttons.length > 0' ms-css-text-align='btnAlign'>
-            <button ms-repeat='buttons' type="button" class="btn" ms-class='btn-{{el.theme}}' ms-click='$clickBtn(el)'>
-                <i ms-if='el.iconCls' class='glyphicon ' ms-class='{{el.iconCls}}'></i> {{el.text}}
-            </button>
+<div class='modal fade' ms-effect='dialog-effect' ms-visible='isOpen' ms-click='close'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" ms-if='title'>
+                <button type="button" class="close" ms-click='close'><span>&times;</span></button>
+                <h4 class="modal-title">{{title | html}}</h4>
+            </div>
+            <div class="modal-body" ms-css-padding-bottom='paddingBottom'>
+                {{content | html}}
+            </div>
+            <div class="modal-footer" ms-if='buttons && buttons.length > 0' ms-css-text-align='btnAlign'>
+                <button ms-repeat='buttons' type="button" class="btn" ms-class='btn-{{el.theme}}' ms-click='$clickBtn(el)'>
+                    <i ms-if='el.iconCls' class='glyphicon ' ms-class='{{el.iconCls}}'></i> {{el.text}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

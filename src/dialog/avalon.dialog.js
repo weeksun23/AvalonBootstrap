@@ -1,4 +1,25 @@
-define(["avalon","text!./avalon.dialog.html"],function(avalon,templete){
+define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,template){
+	if(avalon.support.transitionend){
+		avalon.effect("dialog-effect",{
+			beforeEnter : function(el){
+				el.style.display = 'block';
+				el.offsetWidth;
+				avalon(el).addClass('in');
+			},
+			afterEnter : function(el){
+				var vmodel = el._vmodel;
+				if(vmodel){
+					vmodel.onOpen.call(el,vmodel);
+					if(!vmodel.hasInit){
+						vmodel.hasInit = true;
+					}
+				}
+			},
+			beforeLeave : function(el){
+				avalon(el).removeClass('in');
+			}
+		});
+	}
 	function initButtons(buttons){
 		avalon.each(buttons,function(i,el){
 			var obj = {
@@ -16,7 +37,7 @@ define(["avalon","text!./avalon.dialog.html"],function(avalon,templete){
 		});
 	}
 	function dealCloseDialog(){
-		var dgs = modalBackDrop.curDialogs;
+		var dgs = modalBackDropVM.$curDialogs;
 		dgs.pop();
 		var len = dgs.length;
 		if(len > 0){
@@ -25,102 +46,53 @@ define(["avalon","text!./avalon.dialog.html"],function(avalon,templete){
 			avalon(document.body).removeClass("modal-open");
 		}
 	}
-	var modalBackDrop;
-	var widget = avalon.ui.dialog = function(element, data, vmodels){
-		if(!modalBackDrop){
-			modalBackDrop = document.createElement("div");
-			modalBackDrop.className = "modal-backdrop fade hide";
-			document.body.appendChild(modalBackDrop);
-			if(avalon.support.transitionend){
-				modalBackDrop.addEventListener(avalon.support.transitionend,function(e){
-					e.stopPropagation();
-					if(e.target !== this) return;
-					if(!avalon(this).hasClass("in")){
-						avalon(this).addClass("hide");
-					}
+	var modalBackDropVM;
+	avalon.component("ab:dialog",{
+		$template: template,
+		$replace : true,
+		$ready: function(vmodel, element){
+			element._vmodel = vmodel;
+			if(!modalBackDropVM){
+				modalBackDropVM = avalon.define({
+					$id : "modalBackDrop",
+					$curDialogs : [],
+					isOpen : false
 				});
+				var modalBackDrop = document.createElement("div");
+				modalBackDrop.className = "modal-backdrop fade";
+				modalBackDrop.setAttribute("ms-effect","dialog-effect");
+				modalBackDrop.setAttribute("ms-visible","isOpen");
+				document.body.appendChild(modalBackDrop);
+				avalon.scan(modalBackDrop,modalBackDropVM);
 			}
-			modalBackDrop.curDialogs = [];
-		}
-		var options = data.dialogOptions;
-		initButtons(options.buttons);
-		if(!options.content){
-			options.content = element.innerHTML;
-		}
-		if(!options.title){
-			options.title = element.title || '';
-		}
-		var vmodel = avalon.define(data.dialogId,function(vm){
-			avalon.mix(vm,options);
-			vm.widgetElement = element;
-			vm.$skipArray = ['widgetElement','close','open','show'];
-			vm.$init = function(){
-				avalon(element).addClass("modal fade");
-				element.innerHTML = templete;
-				avalon.scan(element, vmodel);
-				if(avalon.support.transitionend){
-					var isInit = true;
-					element.addEventListener(avalon.support.transitionend,function(e){
-						e.stopPropagation();
-						if(e.target !== this) return;
-						if(!avalon(this).hasClass("in")){
-							this.style.display = 'none';
-							dealCloseDialog();
-						}else{
-							vmodel.afterShow.call(element,vmodel,isInit);
-							isInit = false;
-						}
-					});
-				}
-				avalon.bind(element,"click",function(e){
-					if(e.target === this){
-						vmodel.close();
-					}
-				});
-				if(vmodel.show){
-					vmodel.open(true);
-				}
-			};
-			vm.$remove = function(){
-				element.innerHTML = element.textContent = "";
-			};
-			vm.$clickBtn = function(el){
+			vmodel.$clickBtn = function(el){
 				if(el.close){
 					vmodel.close();
 				}else{
 					el.handler && el.handler.call(this,vmodel);
 				}
 			};
-			vm.close = function(){
-				var len = modalBackDrop.curDialogs.length;
-				if(avalon.support.transitionend){
-					avalon(element).removeClass("in");
-					len === 1 && avalon(modalBackDrop).removeClass('in');
-				}else{
-					element.style.display = 'none';
-					len === 1 && avalon(modalBackDrop).addClass('in');
-					dealCloseDialog();
+			vmodel.close = function(e){
+				if(e && e.target !== this){
+					return;
 				}
+				var len = modalBackDropVM.$curDialogs.length;
+				vmodel.isOpen = false;
+				if(len === 1){
+					modalBackDropVM.isOpen = false;
+				}
+				dealCloseDialog();
 				vmodel.onClose.call(element,vmodel);
 			};
-			vm.open = function(isInit){
-				element.style.display = 'block';
-				var $modalBack = avalon(modalBackDrop).removeClass("hide");
+			vmodel.open = function(isInit){
 				avalon(document.body).addClass("modal-open");
-				if(avalon.support.transitionend){
-					//强制reflow
-					element.offsetWidth;
-					modalBackDrop.offsetWidth;
-					setTimeout(function(){
-						avalon(element).addClass('in');
-						$modalBack.addClass('in');
-					});
-				}else{
-					vmodel.afterShow.call(element,vmodel,isInit);
-					$modalBack.addClass('in');
+				vmodel.isOpen = true;
+				modalBackDropVM.isOpen = true;
+				if(!avalon.support.transitionend){
+					vmodel.onOpen.call(element,vmodel);
 				}
 				//处理重叠窗口
-				var dgs = modalBackDrop.curDialogs;
+				var dgs = modalBackDropVM.$curDialogs;
 				var len = dgs.length;
 				if(len > 0){
 					var last = dgs[len - 1];
@@ -128,20 +100,38 @@ define(["avalon","text!./avalon.dialog.html"],function(avalon,templete){
 				}
 				dgs.push(element);
 			};
-		});
-		return vmodel;
-	};
-	widget.version = 1.0;
-	widget.defaults = {
+			if(vmodel.show){
+				vmodel.open(true);
+			}
+		},
+		$construct : function(opts,vmOpts,elemOpts){
+			initButtons(vmOpts.buttons);
+			if(!vmOpts.content){
+				vmOpts.content = this.innerHTML;
+			}
+			if(!vmOpts.title){
+				vmOpts.title = this.title || '';
+			}
+			return avalon.mix(opts,vmOpts,elemOpts);
+		},
+		$skipArray : ['widgetElement','close','open','show','hasInit'],
+		//属性
+		hasInit : false,
 		buttons : [],
 		title : null,
 		content : null,
 		show : false,
-		afterShow : avalon.noop,
-		onClose : avalon.noop,
+		isOpen : false,
 		paddingBottom : "",
-		btnAlign : ""
-	};
+		btnAlign : "",
+		//方法
+		$clickBtn : avalon.noop,
+		close : avalon.noop,
+		open : avalon.noop,
+		//事件
+		onOpen : avalon.noop,
+		onClose : avalon.noop
+	});
 	/*
 	avalon.showDialog.xxx : {
 		vmodel : 生成的dialog的vmodel,
