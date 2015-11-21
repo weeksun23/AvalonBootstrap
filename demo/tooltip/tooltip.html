@@ -12,10 +12,18 @@
 </style>
 </head>
 <body ms-controller='page'>
-	<span ms-widget="tooltip" data-tooltip-content='testtesttest' data-tooltip-position='bottom'>hover me</span>
+	<div ms-controller='test'>
+		<span ms-tooltip data-options='content:"tooltip"'>tooltip</span>
+		<span ms-tooltip data-options="content:'wegfgreg',position:'bottom',type:'popover',title:'gergergerg'">popover</span>
+	</div>
+	<button ms-click='change'>change</button>
+	<button ms-click='remove'>remove</button>
 	<script src='../../src/avalon.js'></script>
 	<script>
 		require(["tooltip/avalon.tooltip"],function(){
+			avalon.define({
+				$id : "test"
+			});
 			var vmodel = avalon.define({
 				$id : "page"
 			});

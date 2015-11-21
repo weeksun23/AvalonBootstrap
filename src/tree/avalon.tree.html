@@ -4,8 +4,7 @@
 		ms-class-2="glyphicon-menu-down:el.state === 'open' || !el.state" 
 		ms-class-3="tree-hidden:!el.state"></i><i 
 		data-type='toggleCheck' ms-if='checkbox' class='glyphicon glyphicon-ok-circle tree-checkbox' ms-class="tree-checkbox{{el.checked}}"></i><span 
-		data-type='nodeContent' ms-class='tree-node-content' ms-class-1='tree-node-select:el.selected' 
-		ms-on-mousedown="$mousedown($event,el)" ms-on-mouseup='$mouseup($event,el)'><i 
+		data-type='nodeContent' ms-class='tree-node-content' ms-class-1='tree-node-select:el.selected' ms-contextmenu='onContextMenu'><i 
 			ms-if='icon && el.iconCls !== false' 
 			class='glyphicon'
 			ms-class="{{el.iconCls}}:el.iconCls && (!el.state || el.state === 'closed' || (el.state === 'open' && !el.openIconCls))" 
@@ -13,7 +12,7 @@
 			ms-class-2="glyphicon-folder-close:!el.loading && !el.iconCls && el.state==='closed'" 
 			ms-class-3="glyphicon-folder-open:!el.loading && !el.iconCls && el.state==='open'" 
 			ms-class-4="glyphicon-th-list:(!el.state && !el.iconCls) || el.iconCls === 'glyphicon-th-list'" 
-			ms-class-5="glyphicon-refresh:el.loading"></i><span class='tree-title'>MS_OPTIONS_FORMATTER</span>
+			ms-class-5="glyphicon-refresh:el.loading"></i><span class='tree-title'>{{formatter | html}}</span>
 	</span>
 	<ul ms-if='el.chLoaded && el.children && el.children.length' ms-visible='el.state==="open"' 
 		ms-include-src='"TREE_TPL"'></ul>

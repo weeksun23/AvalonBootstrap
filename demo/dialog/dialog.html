@@ -9,7 +9,7 @@
 <link href="../../css/base.css" rel="stylesheet">
 </head>
 <body ms-controller='page'>
-	<div class="container-fluid mgt10">
+	<div class="container-fluid mgt10" ms-contextmenu='contextmenu'>
 		<div class='row'>
 			<div class='col-sm-12'>
 				<button class='btn btn-default' ms-click='show'>show</button>
@@ -29,6 +29,9 @@
 				$id : "page",
 				show : function(){
 					avalon.vmodels.$dialog1.open();
+				},
+				contextmenu : function(){
+					console.log(22233);
 				},
 				$dialog1Opts : {
 					title : "dialog1",

@@ -1,4 +1,4 @@
-define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,template){
+define(["avalon.extend","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,template){
 	var nodeAttr = {
 		//id : null,
 		iconCls : "",
@@ -236,69 +236,30 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 			}
 		}
 	}
-	var _oncontextmenu;
-	var widget = avalon.ui.tree = function(element, data, vmodels){
-		var options = data.treeOptions;
-		template = template.replace("MS_OPTIONS_FORMATTER",options.formatter);
-		if(!avalon.templateCache["TREE_TPL"]){
-			avalon.templateCache["TREE_TPL"] = template.replace("MS_OPTIONS_NODELIST","el.children");
+	function selectNode(el,vmodel){
+		var curSelEl = selectNode.curSelEl;
+		if(vmodel.onBeforeSelect(el) === false){
+			return;
 		}
-		var curSelEl = null;
-		//选择节点
-		function selectNode(el){
-			if(vmodel.onBeforeSelect(el) === false || el === curSelEl){
-				return;
-			}
-			if(curSelEl){
-				curSelEl.selected = false;
-			}
-			el.selected = true;
-			vmodel.onSelect(curSelEl = el);
+		if(curSelEl){
+			curSelEl.selected = false;
 		}
-		eachNode(options.treeList);
-		var vmodel = avalon.define(data.treeId,function(vm){
-			avalon.mix(vm, options);
-			vm.$skipArray = ["cascadeCheck","formatter",'queryParams'];
-			vm.$init = function(){
-				var $el = avalon(element);
-				$el.addClass('tree');
-				$el.attr("ms-click","$rootClick");
-				$el.attr("ms-dblclick","$rootDbClick");
-				element.innerHTML = template.replace("MS_OPTIONS_NODELIST","treeList");
-				if(vmodel.treeList){
-					avalon.scan(element, vmodel);
-				}else{
-					ajaxLoad(null,vmodel,function(){
-						avalon.scan(element, vmodel);
-					});
-				}
-			};
-			vm.$mousedown = function(e,el){
-				if(vmodel.onContextMenu){
-					if(e.button === 2){
-						_oncontextmenu = document.oncontextmenu;
-						document.oncontextmenu = function(){
-							_oncontextmenu && _oncontextmenu.apply(this,arguments);
-							return false;
-						};
-					}
-				}
-			};
-			vm.$mouseup = function(e,el){
-				if(vmodel.onContextMenu){
-					if(e.button === 2){
-						setTimeout(function(){
-							document.oncontextmenu = _oncontextmenu;
-						});
-						selectNode(el);
-						vmodel.onContextMenu(e,el);
-					}
-				}
-			};
-			vm.$remove = function(){
-				element.innerHTML = element.textContent = "";
-			};
-			vm.$rootClick = function(e){
+		if(curSelEl === el) return;
+		el.selected = true;
+		vmodel.onSelect(selectNode.curSelEl = el);
+	}
+	avalon.templateCache["TREE_TPL"] = template.replace("MS_OPTIONS_NODELIST","el.children");
+	avalon.component("ab:tree",{
+		$template: "<ul class='tree' ms-click='$rootClick' ms-dblclick='$rootDbClick'>" +
+				template.replace("MS_OPTIONS_NODELIST","treeList") +
+			"</ul>",
+		$replace : true,
+		$construct : function(opts,vmOpts,elemOpts){
+			eachNode(vmOpts.treeList);
+			return avalon.mix(opts,vmOpts,elemOpts);
+		},
+		$ready : function(vmodel,element){
+			vmodel.$rootClick = function(e){
 				var target = e.target;
 				switch(target.getAttribute("data-type")){
 					case "toggleOpenExpand":
@@ -309,24 +270,24 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 					break;
 					default : 
 						findNodeContent(target,function(el){
-							selectNode(el);
+							selectNode(el,vmodel);
 						});
 				}
 			};
-			vm.$rootDbClick = function(e){
+			vmodel.$rootDbClick = function(e){
 				findNodeContent(e.target,function(el){
 					vmodel.onDbClick(el,e);
 				});	
 			};
 			/****************************方法****************************/
-			vm.toggleCheck = function(el,checked){
+			vmodel.toggleCheck = function(el,checked){
 				toggleCheck(vmodel,el,checked);
 			};
-			vm.loadData = function(data){
+			vmodel.loadData = function(data){
 				eachNode(data);
 				vmodel.treeList = data;
 			};
-			vm.getNode = function(target){
+			vmodel.getNode = function(target){
 				var result = null;
 				findNode(vmodel.treeList,target,function(item,i,list){
 					result = {
@@ -337,7 +298,7 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 				});
 				return result;
 			};
-			vm.reload = function(target){
+			vmodel.reload = function(target){
 				if(!vmodel.url) return;
 				if(target !== null && target !== undefined){
 					findNode(vmodel.treeList,target,function(item){
@@ -347,13 +308,13 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 					ajaxLoad(null,vmodel);
 				}
 			};
-			vm.getParents = function(target){
+			vmodel.getParents = function(target){
 				var pArr = [];
 				getParents(vmodel.treeList,target,pArr);
 				return pArr;
 			};
 			//展开或收缩
-			vm.toggleState = function(state,el){
+			vmodel.toggleState = function(state,el){
 				if(el){
 					toggleElState(vmodel,el,state);
 				}else{
@@ -363,7 +324,7 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 				}
 			};
 			//展开到指定节点
-			vm.expandTo = function(target){
+			vmodel.expandTo = function(target){
 				var pArr = [];
 				getParents(vmodel.treeList,target,pArr);
 				avalon.each(pArr,function(i,el){
@@ -371,20 +332,20 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 				});
 			};
 			//获取当前选中的节点
-			vm.getSelected = function(){
-				return curSelEl;
+			vmodel.getSelected = function(){
+				return selectNode.curSelEl;
 			};
 			/*
 			移除指定节点
 			target : 节点id或节点监控对象
 			*/
-			vm.removeNode = function(target){
+			vmodel.removeNode = function(target){
 				findNode(vmodel.treeList,target,function(item,i,list){
 					if(item.loading) return;
 					var pArr = [];
 					getParents(vmodel.treeList,item,pArr);
-					if(item === curSelEl){
-						curSelEl = null;
+					if(item === selectNode.curSelEl){
+						selectNode.curSelEl = null;
 					}
 					list.removeAt(i);
 					eachParentsUncheck(pArr);
@@ -395,7 +356,7 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 			data : 节点数据数组
 			parent : 若不指定则默认添加到根节点，若为string或number则是节点id，若为object则是节点的监控对象
 			*/
-			vm.appendNodes = function(data,parent){
+			vmodel.appendNodes = function(data,parent){
 				var target,el;
 				if(parent){
 					if(typeof parent == 'object'){
@@ -421,12 +382,9 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 					}
 				}
 			};
-		});
-		return vmodel;
-	};
-	widget.eachNode = eachNode;
-	widget.defaults = {
-		/****************************属性****************************/
+		},
+		$skipArray : ["cascadeCheck",'queryParams'],
+		//属性
 		//树数据
 		treeList : [],
 		//节点是否带图标
@@ -442,8 +400,32 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 		url : null,
 		method : 'GET',
 		queryParams : {},
-		//loader : null
-		/****************************事件****************************/
+		//方法
+		$rootClick : avalon.noop,
+		$rootDbClick : avalon.noop,
+		toggleCheck : avalon.noop,
+		loadData : avalon.noop,
+		getNode : avalon.noop,
+		reload : avalon.noop,
+		getParents : avalon.noop,
+		//展开或收缩
+		toggleState : avalon.noop,
+		//展开到指定节点
+		expandTo : avalon.noop,
+		//获取当前选中的节点
+		getSelected : avalon.noop,
+		/*
+		移除指定节点
+		target : 节点id或节点监控对象
+		*/
+		removeNode : avalon.noop,
+		/*
+		增加节点
+		data : 节点数据数组
+		parent : 若不指定则默认添加到根节点，若为string或number则是节点id，若为object则是节点的监控对象
+		*/
+		appendNodes : avalon.noop,
+		//事件
 		onContextMenu : null,
 		onBeforeSelect : avalon.noop,
 		onSelect : avalon.noop,
@@ -457,6 +439,5 @@ define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,
 		onLoadError : avalon.noop,
 		onLoadComplete : avalon.noop,
 		onDbClick : avalon.noop
-	};
-	widget.version = 1.0;
+	});
 });

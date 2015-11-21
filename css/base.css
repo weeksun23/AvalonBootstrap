@@ -1,5 +1,5 @@
 [ms-controller],[ms-important]{visibility: hidden!important;}
-/*.h100{height: 100%;}
+.h100{height: 100%;}
 .w100{width: 100%}
 .posr{position: relative;}
 .mgt10{margin-top: 10px;}
@@ -10,4 +10,4 @@
 .padl0{padding-left: 0!important}
 .cpointer{cursor:pointer}
 .fz1{font-size:1.5em}
-.notallowed{cursor: not-allowed !important;}*/
+.notallowed{cursor: not-allowed !important;}

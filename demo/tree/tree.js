@@ -55,7 +55,7 @@ require(["avalon.extend","tree/avalon.tree"],function(){
 				});
 			}
 		},
-		tree1Opts : {
+		$rightTreeOpts : {
 			treeList : []
 		},
 		view : function(){
@@ -82,7 +82,7 @@ require(["avalon.extend","tree/avalon.tree"],function(){
 					});
 				}
 			});
-			var rtree = avalon.vmodels.$tree1;
+			var rtree = avalon.vmodels.$rightTree;
 			rtree.treeList = copyArr;
 		},
 		doCheck : function(checked){

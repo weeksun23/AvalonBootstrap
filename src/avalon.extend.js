@@ -29,6 +29,36 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 	    $ready: function(){},
 	    $dispose: function(){}
 	});
+	(function(){
+		var _oncontextmenu;
+		avalon.directive("contextmenu",{
+			init : function(binding){
+				binding.binded = false;
+			},
+			update : function(contextmenu){
+				if(this.binded || !contextmenu) return;
+				this.binded = true;
+				var el = this.element;
+				avalon.bind(el,"mousedown",function(e){
+					if(e.button === 2){
+						_oncontextmenu = document.oncontextmenu;
+						document.oncontextmenu = function(){
+							_oncontextmenu && _oncontextmenu.apply(this,arguments);
+							return false;
+						};
+					}
+				});
+				avalon.bind(el,"mouseup",function(e){
+					if(e.button === 2){
+						setTimeout(function(){
+							document.oncontextmenu = _oncontextmenu;
+						});
+						contextmenu.call(this,e);
+					}
+				});
+			}
+		});
+	})();
 	//获取所有子元素，非文本节点
 	avalon.fn.children = function(){
 		var children = [];
@@ -76,6 +106,32 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 	    //el.insertBefore(fragment, el.firstChild);
 	    nodes = null;
 	    fragment = null;
+	};
+	avalon.directive.getSetting = function(binding,Defaults){
+		var expr = binding.expr;
+		if(expr){
+			var vms = binding.vmodels;
+			for(var i=0,ii;ii=vms[i++];){
+				if(ii[expr]){
+					var targetVm = ii;
+					var options = ii[expr];
+					break;
+				}
+			}
+		}
+		var element = binding.element;
+		var defaults = avalon.mix({},Defaults);
+		//提取定义在dom上的属性
+		var elemOptsStr = element.getAttribute("data-options");
+		var elemOpts = elemOptsStr ? new Function("return {" + elemOptsStr + "}")() : {};
+		//合并
+		options = avalon.mix(defaults,elemOpts,options);
+		//vm必须定义$id
+		options.$id = +new Date;
+		return {
+			targetVm : targetVm,
+			options : options
+		};
 	};
 	avalon.support = {
 		transitionend : (function(){
