@@ -1,64 +1,124 @@
 <div class='form'>
-	<div class="form-group form-group-lg">
+	<div class="form-group">
 		<div class='row'>
 			<div class='col-sm-4' ms-visible='format.indexOf("yyyy") !== -1'>
 				<div class='input-group'>
-					<select class='form-control' ms-duplex='year'>
-						<option ms-repeat='yearData'>{{el}}</option>
-					</select>
-					<label class='input-group-addon'>年</label>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("year",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
+				    <input type='text' class='form-control' ms-duplex='year' readonly>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("year",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		年
+				    	</button>
+				    </span>
 				</div>
 			</div>
 			<div class='col-sm-4' ms-visible='format.indexOf("MM") !== -1'>
 				<div class='input-group'>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("month",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
 					<select class='form-control' ms-duplex='month'>
-						<option ms-repeat='monthData'>{{el}}</option>
+						<option ms-repeat='monthData' ms-attr-value='el'>{{el}}</option>
 					</select>
-					<label class='input-group-addon'>月</label>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("month",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		月
+				    	</button>
+				    </span>
 				</div>
 			</div>
 			<div class='col-sm-4' ms-visible='format.indexOf("dd") !== -1'>
 				<div class='input-group'>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("day",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
 					<select class='form-control' ms-duplex='day'>
-						<option ms-repeat='dayData'>{{el}}</option>
+						<option ms-repeat='dayData' ms-attr-value='el'>{{el}}</option>
 					</select>
-					<label class='input-group-addon'>日</label>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("day",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		日
+				    	</button>
+				    </span>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <div class='form' ms-visible='/(hh|mm|ss)/.test(format)'>
-	<div class="form-group form-group-lg">
+	<div class="form-group">
 		<div class='row'>
 			<div class='col-sm-4' ms-visible='format.indexOf("hh") !== -1'>
 				<div class='input-group'>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("hour",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
 					<select class='form-control' ms-duplex='hour'>
-						<option ms-repeat='hourData'>{{el}}</option>
+						<option ms-repeat='hourData' ms-attr-value='el'>{{el}}</option>
 					</select>
-					<label class='input-group-addon'>时</label>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("hour",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		时
+				    	</button>
+				    </span>
 				</div>
 			</div>
 			<div class='col-sm-4' ms-visible='format.indexOf("mm") !== -1'>
 				<div class='input-group'>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("minute",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
 					<select class='form-control' ms-duplex='minute'>
-						<option ms-repeat='minuteData'>{{el}}</option>
+						<option ms-repeat='minuteData' ms-attr-value='el'>{{el}}</option>
 					</select>
-					<label class='input-group-addon'>分</label>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("minute",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		分
+				    	</button>
+				    </span>
 				</div>
 			</div>
 			<div class='col-sm-4' ms-visible='format.indexOf("ss") !== -1'>
 				<div class='input-group'>
+					<span class="input-group-btn">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("second",1)'>
+				    		<i class='glyphicon glyphicon-triangle-top'></i>
+				    	</button>
+				    </span>
 					<select class='form-control' ms-duplex='second'>
-						<option ms-repeat='secondData'>{{el}}</option>
+						<option ms-repeat='secondData' ms-attr-value='el'>{{el}}</option>
 					</select>
-					<label class='input-group-addon'>秒</label>
+					<span class="input-group-btn ">
+				    	<button class="btn btn-default" type="button" ms-click='dealUpDown("second",-1)'>
+				    		<i class='glyphicon glyphicon-triangle-bottom'></i>
+				    		秒
+				    	</button>
+				    </span>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 SPLIT
-<input type='text' readonly class='form-control' ms-click='show' ms-duplex='value'>
-<div class='input-group-addon' ms-visible='showClearBtn' ms-click='clear'><i class='glyphicon glyphicon-remove'></i></div>
-<div class='input-group-addon' ms-visible='showDateBtn' ms-click='show'><i class='glyphicon glyphicon-calendar'></i></div>
+<div class='input-group'>
+	<input type='text' readonly class='form-control' ms-click='show' ms-duplex='value'>
+	<div class='input-group-addon' ms-visible='showClearBtn' ms-click='clear'><i class='glyphicon glyphicon-remove'></i></div>
+	<div class='input-group-addon' ms-visible='showDateBtn' ms-click='show'><i class='glyphicon glyphicon-calendar'></i></div>
+</div>

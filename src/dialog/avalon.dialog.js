@@ -50,6 +50,7 @@ define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,template){
 	avalon.component("ab:dialog",{
 		$template: template,
 		$replace : true,
+		$container : document.body,
 		$ready: function(vmodel, element){
 			element._vmodel = vmodel;
 			if(!modalBackDropVM){

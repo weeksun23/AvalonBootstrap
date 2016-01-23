@@ -1,41 +1,34 @@
-define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
-	var widget = avalon.ui.tab = function(element, data, vmodels){
-		var options = data.tabOptions;
-		var children = avalon(element).children();
-		if(children.length > 0){
-			var headerData = options.headerData = [];
-			var contentData = options.contentData = [];
-			avalon.each(children,function(i,v){
-				var obj = {
-					title : v.title,
-					icons : []
-				};
-				obj.iconCls = v.getAttribute("data-iconCls");
-				obj.closeable = v.getAttribute("data-closeable") !== null;
-				headerData.push(obj);
-				contentData.push({
-					html : v.innerHTML,
-					$init : false
+define(["avalon.extend","text!./avalon.tab.html"],function(avalon,template){
+	avalon.component("ab:tab",{
+		$template: template,
+		$replace : true,
+		$construct : function(opts,vmOpts,elemOpts){
+			var children = avalon(this).children();
+			if(children.length > 0){
+				var headerData = vmOpts.headerData = [];
+				var contentData = vmOpts.contentData = [];
+				avalon.each(children,function(i,v){
+					var obj = {
+						title : v.title,
+						icons : []
+					};
+					obj.iconCls = v.getAttribute("data-iconCls");
+					obj.closeable = v.getAttribute("data-closeable") !== null;
+					headerData.push(obj);
+					contentData.push({
+						html : v.innerHTML,
+						$init : false
+					});
 				});
-			});
-		}
-		var vmodel = avalon.define(data.tabId,function(vm){
-			avalon.mix(vm,options);
-			vm.widgetElement = element;
-			vm.$skipArray = ['widgetElement'];
-			vm.$init = function(){
-				element.innerHTML = templete;
-				avalon.scan(element, vmodel);
-				vmodel.curIndex = 0;
-				vmodel.onInit && vmodel.onInit.call(element, vmodel, vmodels);
-			};
-			vm.$remove = function(){
-				element.innerHTML = element.textContent = "";
-			};
-			vm.$clickHeader = function(i){
+			}
+			return avalon.mix(opts,vmOpts,elemOpts);
+		},
+		$ready : function(vmodel,element){
+			vmodel.curIndex = 0;
+			vmodel.$clickHeader = function(i){
 				vmodel.curIndex = i;
 			};
-			vm.add = function(obj){
+			vmodel.add = function(obj){
 				vmodel.headerData.push(avalon.mix({
 					closeable : false,
 					iconCls : null,
@@ -50,7 +43,7 @@ define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
 					vmodel.curIndex = vmodel.headerData.length - 1;
 				}
 			};
-			vm.$closeTab = function(e,i){
+			vmodel.$closeTab = function(e,i){
 				e.stopPropagation();
 				vmodel.headerData.removeAt(i);
 				vmodel.contentData.removeAt(i);
@@ -71,7 +64,7 @@ define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
 				}
 				vmodel.onClose.call(element,vmodel);
 			};
-			vm.getTab = function(p){
+			vmodel.getTab = function(p){
 				var headerData = vmodel.headerData;
 				if(typeof p == 'string'){
 					//根据标题获取tab
@@ -94,22 +87,10 @@ define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
 					} : null;
 				}
 			};
-		});
-		vmodel.$watch("curIndex",function(newVal,oldVal){
-			var content = vmodel.contentData[newVal];
-			if(content){
-				vmodel.onSelect(vmodel.headerData[newVal],content,newVal);
-				content.$init = true;
-			}
-		});
-		return vmodel;
-	};
-	widget.version = 1.0;
-	widget.defaults = {
+		},
+		$skipArray : [],
+		//属性
 		curIndex : -1,
-		onInit : avalon.noop,
-		onSelect : avalon.noop,
-		onClose : avalon.noop,
 		/*
 		title : 标题,
 		iconCls : 标题左边的图标,
@@ -121,6 +102,14 @@ define(["avalon","text!./avalon.tab.html"],function(avalon,templete){
 		html : 内容html,$init : 若为false则是第一次打开
 		*/
 		contentData : [],
-		noContentTip : "暂无数据"
-	};
+		noContentTip : "暂无数据",
+		//方法
+		$clickHeader : avalon.noop,
+		add : avalon.noop,
+		$closeTab : avalon.noop,
+		getTab : avalon.noop,
+		//事件
+		onSelect : avalon.noop,
+		onClose : avalon.noop
+	});
 });

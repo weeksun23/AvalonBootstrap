@@ -152,6 +152,7 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 	};
 	//工具帮助对象
 	avalon.mUtil = {
+		//target以及其上级节点(不包含body)中任意一个是否含pCls
 		isSubNode : function(target,pCls){
 			if(avalon(target).hasClass(pCls)) return true;
 			if(target.tagName && target.tagName.toLowerCase() === "body") return false;
