@@ -16,11 +16,11 @@
 		<button class='btn btn-default' ms-dropdown='$dropdownOpts'>qwdqw</button>
 	</span>
 	<span style='display:inline-block'>
-		<button class='btn btn-default' ms-dropdown='$dropdown2Opts'>qwdqw</button>
+		<button class='btn btn-default' ms-dropdown='$dropdown2Opts'>qwdqw <span class="caret"></span></button>
 	</span>
 	<script src='../../src/avalon.js'></script>
 	<script>
-		require(["dropdown/avalon.dropdown"],function(){
+		require(['avalon.extend',"dropdown/avalon.dropdown"],function(){
 			var vmodel = avalon.define({
 				$id : "page",
 				$dropdownOpts : {

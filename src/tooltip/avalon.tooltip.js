@@ -1,4 +1,4 @@
-define(["avalon.extend"],function(avalon){
+define(["avalon"],function(avalon){
 	var Defaults = {
 		triggerOn : "hover",
 		position  : "right",

@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.tab.html"],function(avalon,template){
+define(["avalon","text!./avalon.tab.html"],function(avalon,template){
 	avalon.component("ab:tab",{
 		$template: template,
 		$replace : true,

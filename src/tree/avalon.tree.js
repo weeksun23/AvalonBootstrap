@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,template){
+define(["avalon","text!./avalon.tree.html","css!./avalon.tree"],function(avalon,template){
 	var nodeAttr = {
 		//id : null,
 		iconCls : "",

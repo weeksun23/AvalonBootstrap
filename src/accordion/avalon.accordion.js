@@ -1,5 +1,5 @@
 //mmAnimate util
-define(["avalon.extend","text!./avalon.accordion.html","css!./avalon.accordion.css"],function(avalon,template){
+define(["avalon","text!./avalon.accordion.html","css!./avalon.accordion.css"],function(avalon,template){
 	if(avalon.support.transitionend){
 		avalon.effect("accordion-collapse", {
 	        beforeEnter: function (el) {

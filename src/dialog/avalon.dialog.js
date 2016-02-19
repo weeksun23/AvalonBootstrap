@@ -1,4 +1,4 @@
-define(["avalon.extend","text!./avalon.dialog.html"],function(avalon,template){
+define(["avalon","text!./avalon.dialog.html"],function(avalon,template){
 	if(avalon.support.transitionend){
 		avalon.effect("dialog-effect",{
 			beforeEnter : function(el){
