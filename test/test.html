@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>first example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.css">
+</head>
+<body ms-controller="start" class='ms-controller'>
+  <p>Hello,{{@name}}!</p>
+  <xmp ms-widget='[{is:"ab-accordion"},@config]'></xmp>
+  <script src='../seajs/sea.js'></script>
+  <script src='../src2/avalon.js'></script>
+  <script>
+    seajs.config({
+      base : "../src2/"
+    });
+    seajs.use(['accordion/avalon.accordion'],function(){
+      avalon.define({
+        $id : "start",
+        name : "weeksun23",
+        config : {
+          data : [{
+            title : "werwer",
+            children : [{
+              title : "dgfwerwer"
+            },{
+              title : "dgfwerwer",
+              iconCls : "glyphicon-text-height"
+            }]
+          },{
+            title : "werwer",
+            children : [{
+              title : "dgfwerwer",iconCls : "glyphicon-text-height"
+            },{
+              title : "greer434"
+            },{
+              title : "e32e23"
+            },{
+              title : "gwergr3"
+            },{
+              title : "21e2e2e"
+            }]
+          }]
+        }
+      });
+      avalon.scan(document.body);
+    });
+  </script>
+</body>
+</html>
