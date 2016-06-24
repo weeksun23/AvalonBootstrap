@@ -1,65 +1,43 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>dialog</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
+  <title>dialog</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../../css/bootstrap/bootstrap.css">
 </head>
-<body ms-controller='page'>
-	<div class="container-fluid mgt10" ms-contextmenu='contextmenu'>
-		<div class='row'>
-			<div class='col-sm-12'>
-				<button class='btn btn-default' ms-click='show'>show</button>
-			</div>
-		</div>
-	</div>
-	<ab:dialog config='$dialog1Opts' identifier='$dialog1'>
-		<button class='btn btn-default' ms-click='show2'>show2</button>
-	</ab:dialog>
-	<ab:dialog config='$dialog2Opts' identifier='$dialog2'>
-		<h1>hello world</h1>
-	</ab:dialog>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(["dialog/avalon.dialog"],function(){
-			var vmodel = avalon.define({
-				$id : "page",
-				show : function(){
-					avalon.vmodels.$dialog1.open();
-				},
-				contextmenu : function(){
-					console.log(22233);
-				},
-				$dialog1Opts : {
-					title : "dialog1",
-					show2 : function(){
-						avalon.vmodels.$dialog2.open();
-					},
-					buttons : [{
-						text : "确定",
-						handler : function(){
-							alert('hello');
-						}
-					},{
-						text : "取消",
-						close : true
-					}],
-					onOpen : function(){
-						avalon.log(arguments);
-					}
-				},
-				$dialog2Opts : {
-					title : "dialog2",
-					buttons : [{
-						text : "取消",close : true
-					}]
-				}
-			});
-			avalon.scan();
-		});
-	</script>
+<body ms-controller="start" class='ms-controller'>
+  <xmp ms-widget='[{is:"ab-dialog",$id : "testDialog"},@$config]'>
+    <h1>asdgewgwerg</h1>
+    <div>efgwefbrgregregrg</div>
+    <div>efgwefbrgregregrg</div>
+    <div>efgwefbrgregregrg</div>
+    <div>efgwefbrgregregrg</div>
+  </xmp>
+  <button ms-click="@open">open</button>
+  <script src='../../seajs/sea.js'></script>
+  <script src='../../src2/avalon.js'></script>
+  <script>
+    seajs.config({
+      base : "../../src2/"
+    });
+    seajs.use(['dialog/avalon.dialog'],function(){
+      avalon.define({
+        $id : "start",
+        open : function(){
+          avalon.vmodels.testDialog.open();
+        },
+        $config : {
+          // define : function(v){
+          //   console.log(v);
+          // },
+          show : true,
+          title : "test"
+        }
+      });
+      avalon.scan(document.body);
+    });
+  </script>
 </body>
 </html>

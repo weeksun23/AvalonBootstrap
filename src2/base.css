@@ -1,0 +1,9 @@
+.loading{display: inline-block;width: 32px;height: 32px;background: url(image/loading.gif) no-repeat 0 0;}
+.loading-mask{
+	position: absolute;left: 0;top: 0;right: 0;bottom: 0;background-color: #eee;
+	opacity: 0.3;filter:alpha(opacity=30);z-index: 1000;
+}
+.loading-main{
+	position: absolute;left: 50%;top: 50%;width: 32px;height: 32px;margin-left: -16px;margin-top: -16px;
+	z-index: 1001;
+}

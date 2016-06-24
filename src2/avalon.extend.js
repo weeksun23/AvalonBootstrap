@@ -1,4 +1,37 @@
 define(function (require, exports, module) {
+	require("./base.css");
+	avalon.me = {
+		support : {
+			transitionend : (function(){
+				var el = document.createElement('div');
+				var transEndEventNames = {
+					WebkitTransition: 'webkitTransitionEnd',
+					MozTransition: 'transitionend',
+					OTransition: 'oTransitionEnd otransitionend',
+					transition: 'transitionend'
+				};
+				for (var name in transEndEventNames) {
+					if (el.style[name] !== undefined) {
+						return transEndEventNames[name];
+					}
+				}
+				return false;
+			})()
+		}
+	};
+	(function(){
+		avalon.me.defines = {};
+		var _define = avalon.directives.widget.define;
+		avalon.directives.widget.define = function(vm,defaults,htmlOpts,jsOpts){
+			var target = htmlOpts.is.replace("ab-","");
+			target = avalon.me.defines[target];
+			if(target){
+				target.apply(this,arguments);
+			}
+			return _define.apply(this,arguments);
+		};
+	})();
+	
 	//获取所有子元素，非文本节点
 	avalon.fn.children = function(){
 		var children = [];

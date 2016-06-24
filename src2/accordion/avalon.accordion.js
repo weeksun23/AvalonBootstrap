@@ -1,9 +1,10 @@
-define(function(require, exports, module) {
+define(function(require) {
 	require("../avalon.extend");
   require("./avalon.accordion.css");
   var tpl = require("./avalon.accordion.html");
   function findItem(vm,func){
 		for(var i=0,ii;ii=vm.data[i++];){
+			if(!ii.children) continue;
 			for(var j=0,jj;jj=ii.children[j++];){
 				if(func.call(vm,jj,i - 1)){
 					return jj;
@@ -12,41 +13,39 @@ define(function(require, exports, module) {
 		}
 		return null;
 	}
+	avalon.me.defines.accordion = function(vm,defaults,htmlOpts,jsOpts){
+		jsOpts.data = (function(){
+			var accordionData = [];
+			avalon.each(jsOpts.data,function(i,v){
+				var obj = avalon.mix({
+					title : null,
+					content : null,
+					iconCls : null,
+					children : null,
+					_show : false
+				},v);
+				if(obj.children && obj.children.length){
+					//只允许一个select
+					var hasSel = false;
+					avalon.each(obj.children,function(j,v){
+						if(hasSel){
+							v.selected = false;
+							return;
+						}
+						if(v.selected){
+							hasSel = true;
+						}else if(v.selected === undefined){
+							v.selected = false;
+						}
+					});
+				}
+				accordionData.push(obj);
+			});
+			return accordionData;
+		})();
+	};
   avalon.component('ab-accordion', {
     template: tpl,
-    getTemplate : function(vm,tpl){
-   //  	vm.data = (function(){
-			// 	var accordionData = [];
-			// 	avalon.each(vm.data,function(i,v){
-			// 		var obj = avalon.mix({
-			// 			title : null,
-			// 			content : null,
-			// 			iconCls : null,
-			// 			children : null,
-			// 			_show : false
-			// 		},v);
-			// 		if(obj.children && obj.children.length){
-			// 			//只允许一个select
-			// 			var hasSel = false;
-			// 			avalon.each(obj.children,function(j,v){
-			// 				if(hasSel){
-			// 					v.selected = false;
-			// 					return;
-			// 				}
-			// 				if(v.selected){
-			// 					hasSel = true;
-			// 				}else if(v.selected === undefined){
-			// 					v.selected = false;
-			// 				}
-			// 			});
-			// 		}
-			// 		accordionData.push(obj);
-			// 	});
-			// 	return accordionData;
-			// })();
-			// console.log(JSON.stringify(vm));
-    	return tpl;
-    },
     defaults: {
       data : [/*{
 				title : panel标题,
@@ -106,54 +105,3 @@ define(function(require, exports, module) {
     }
   });
 });
-/*
-var vm = this;
-				var children = avalon(this.$element).children();
-				if(children.length > 0){
-					vm.data = (function(){
-						var accordionData = [];
-						avalon.each(children,function(i,v){
-							var obj = {
-								title : v.title,
-								content : v.innerHTML,
-								_show : false
-							};
-							avalon.each(['iconCls'],function(i,key){
-								obj[key] = v.getAttribute("data-" + key);
-							});
-							accordionData.push(obj);
-						});
-						return accordionData;
-					})();
-				}else{
-					vm.data = (function(){
-						var accordionData = [];
-						avalon.each(vm.data,function(i,v){
-							var obj = avalon.mix({
-								title : null,
-								content : null,
-								iconCls : null,
-								children : null,
-								_show : false
-							},v);
-							if(obj.children && obj.children.length){
-								//只允许一个select
-								var hasSel = false;
-								avalon.each(obj.children,function(j,v){
-									if(hasSel){
-										v.selected = false;
-										return;
-									}
-									if(v.selected){
-										hasSel = true;
-									}else if(v.selected === undefined){
-										v.selected = false;
-									}
-								});
-							}
-							accordionData.push(obj);
-						});
-						return accordionData;
-					})();
-				}
-*/

@@ -1,62 +1,63 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>accordion</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
-<style>
-	body{padding: 50px;}
-</style>
-<script src='../../src/avalon.js'></script>
-<script>
-	avalon.library("ab");
-</script>
+  <title>first example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../../css/bootstrap/bootstrap.css">
 </head>
-<body ms-controller='page'>
-	<ab:accordion config='$accordionOpts'></ab:accordion>
-	<script>
-		require(["accordion/avalon.accordion"],function(){
-			avalon.directive("foo", {
-                init: function (binding) {
-                    avalon.log(binding);
-                },
-                update: function (value, oldValue) {
-                	avalon.log(value,oldValue);
-                }
-            });
-			var vmodel = avalon.define({
-				aaa : 1,
-				$id : "page",
-				$accordionOpts : {
-					data : [{
-						title : "werwer",
-						children : [{
-							title : "dgfwerwer"
-						},{
-							title : "dgfwerwer",
-							iconCls : ""
-						}]
-					},{
-						title : "werwer",
-						children : [{
-							title : "dgfwerwer",iconCls : "glyphicon-text-height"
-						},{
-							title : "greer434"
-						},{
-							title : "e32e23"
-						},{
-							title : "gwergr3"
-						},{
-							title : "21e2e2e"
-						}]
-					}]
-				}
-			});
-			avalon.scan();
-		});
-	</script>
+<body ms-controller="start" class='ms-controller'>
+  <p>Hello,{{@name}}!</p>
+  <xmp ms-widget='[{is:"ab-accordion"},@$config]'>
+    <div>
+      <div>dqwqwd</div>
+      <div>sdasd</div>
+    </div>
+  </xmp>
+  <script src='../../seajs/sea.js'></script>
+  <script src='../../src2/avalon.js'></script>
+  <script>
+    seajs.config({
+      base : "../../src2/"
+    });
+    seajs.use(['accordion/avalon.accordion'],function(){
+      avalon.define({
+        $id : "start",
+        name : "weeksun23",
+        $config : {
+          // define : function(v){
+          //   console.log(v);
+          // },
+          data : [{
+            title : "werwer",
+            children : [{
+              title : "dgfwerwer"
+            },{
+              title : "dgfwerwer",
+              iconCls : "glyphicon-text-height"
+            }]
+          },{
+            title : "werwer",
+            children : [{
+              title : "dgfwerwer",iconCls : "glyphicon-text-height"
+            },{
+              title : "greer434"
+            },{
+              title : "e32e23"
+            },{
+              title : "gwergr3"
+            },{
+              title : "21e2e2e"
+            }]
+          },{
+            title : "content",
+            content : "<h1>testtest</h1>"
+          }]
+        }
+      });
+      avalon.scan(document.body);
+    });
+  </script>
 </body>
 </html>
