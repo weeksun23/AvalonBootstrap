@@ -17,6 +17,40 @@ define(function (require, exports, module) {
 				}
 				return false;
 			})()
+		},
+		//avalon2不支持动态添加dom然后用vm扫描
+		addBodyEl : function(name,obj){
+			obj = avalon.mix({
+				$name : name,
+				cls : "",
+				html : "",
+				visible : false,
+				transitionend : avalon.noop,
+				click : avalon.noop
+			},obj);
+			avalon.vmodels.avalonbootstrap.els.push(obj);
+		},
+		getBodyElVm : function(name){
+			var els = avalon.vmodels.avalonbootstrap.els;
+			for(var i=0,ii;ii=els[i++];){
+				if(ii.$name === name){
+					return ii;
+				}
+			}
+			return null;
+		},
+		init : function(obj,func){
+			avalon(document.body).appendHTML("<div ms-for='(index,el) in @els' ms-class='@el.cls' ms-html='@el.html' "+
+				"ms-visible='@el.visible' ms-transitionend='@el.transitionend' ms-click='@el.click'></div>");
+			var vm = avalon.define(avalon.mix({
+				$id : "avalonbootstrap",
+				els : []
+			},obj));
+			vm.$watch("onReady",function(){
+        func && func.apply(this,arguments);
+      });
+			avalon.scan(document.body);
+			return vm;
 		}
 	};
 	(function(){
@@ -72,12 +106,12 @@ define(function (require, exports, module) {
 		var fragment = document.createDocumentFragment();
 		div.innerHTML = htmlStr;
 		var nodes = div.childNodes;
-	    for (var i=0, length=nodes.length; i<length; i++) {
-	       fragment.appendChild(nodes[i].cloneNode(true));
-	    }
-	    this[0].appendChild(fragment);
-	    //el.insertBefore(fragment, el.firstChild);
-	    nodes = null;
-	    fragment = null;
+    for (var i=0, length=nodes.length; i<length; i++) {
+      fragment.appendChild(nodes[i].cloneNode(true));
+    }
+    this[0].appendChild(fragment);
+    //el.insertBefore(fragment, el.firstChild);
+    nodes = null;
+    fragment = null;
 	};
 });

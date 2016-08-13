@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>first example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .test{
+      background-color: red;
+      transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      width: 300px;height: 300px;
+    }
+    .in{
+    }
+    .out{
+      width: 500px;height: 500px;
+    }
+  </style>
+</head>
+<body ms-controller="start" class='ms-controller'>
+  <xmp ms-widget="[{is : 'ab-test'},@$config]">
+  </xmp>
+  <script src='../src2/avalon.js'></script>
+  <script>
+    setTimeout(function(){
+      avalon.component("ab-test",{
+        template : "<div ms-click='@test'>asd231&copy;&times;<p ms-click='@test'>qffqwfdqw</p>{{@a}}</div>",
+        defaults : {
+          test : function(){
+            alert(1);
+          },
+          a : "",
+          b : ""
+        }
+      });
+      avalon.define({
+        $id : "start",
+        $config : {
+          a : 1,
+          b : 2
+        }
+      });
+      avalon.scan(document.body);
+    },100);
+  </script>
+</body>
+</html>

@@ -7,13 +7,11 @@
   <link rel="stylesheet" type="text/css" href="../../css/base.css">
   <link rel="stylesheet" type="text/css" href="../../css/bootstrap/bootstrap.css">
 </head>
-<body ms-controller="start" class='ms-controller'>
+<body ms-controller="avalonbootstrap" class='ms-controller'>
   <p>Hello,{{@name}}!</p>
-  <xmp ms-widget='[{is:"ab-accordion"},@$config]'>
-    <div>
-      <div>dqwqwd</div>
-      <div>sdasd</div>
-    </div>
+  <xmp ms-widget='[{is:"ab-accordion",$id : "accordion"},@$config]'>
+    <div>dqwqwd</div>
+    <div>sdasd</div>
   </xmp>
   <script src='../../seajs/sea.js'></script>
   <script src='../../src2/avalon.js'></script>
@@ -22,8 +20,7 @@
       base : "../../src2/"
     });
     seajs.use(['accordion/avalon.accordion'],function(){
-      avalon.define({
-        $id : "start",
+      avalon.me.init({
         name : "weeksun23",
         $config : {
           // define : function(v){
@@ -56,7 +53,6 @@
           }]
         }
       });
-      avalon.scan(document.body);
     });
   </script>
 </body>

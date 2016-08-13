@@ -17,32 +17,22 @@ define(function(require){
 			}
 		});
 	}
-	function dealCloseDialog(){
-		var dgs = modalBackDrop.$curDialogs;
-		dgs.pop();
-		var len = dgs.length;
-		if(len > 0){
-			dgs[len - 1].zIndex = '1000';
-		}else{
-			avalon(document.body).removeClass("modal-open");
-		}
-	}
 	avalon.me.defines.dialog = function(vm,defaults,htmlOpts,jsOpts){
 		initButtons(jsOpts.buttons);
 	};
-	var modalBackDrop;
+	// var modalBackDrop;
 	avalon.component("ab-dialog",{
 		template: tpl,
-		// getTemplate : function(){
-		// 	avalon.log(this,arguments);
-		// },
+		soleSlot: 'content',
 		defaults : {
 			$skipArray : ['show','hasInit'],
+			//窗口正在关闭中标志，以防重复关闭
+			$isClosing : false,
 			//属性
 			hasInit : false,
 			buttons : [],
 			title : null,
-			content : null,
+			content : '',
 			show : false,
 			isOpen : false,
 			isIn : false,
@@ -62,28 +52,45 @@ define(function(require){
 				}
 			},
 			close : function(e){
-				if(this.onBeforeClose() === false) return;
-				if(e && e.target !== this){
+				if(this.onBeforeClose() === false || this.$isClosing) return;
+				if(e && !avalon(e.target).hasClass("modal")){
 					return;
 				}
-				var len = modalBackDrop.$curDialogs.length;
 				this.isIn = false;
-				if(len === 1){
-					avalon(modalBackDrop).removeClass("in");
+				if(avalon.me.support.transitionend){
+					this.$isClosing = true;
+				}else{
+					this.isOpen = false;
 				}
-				dealCloseDialog();
+				var modalBackDrop = avalon.me.getBodyElVm("modalBackDrop");
+				var dgs = modalBackDrop.$curDialogs;
+				dgs.pop();
+				var len = dgs.length;
+				if(len > 0){
+					dgs[len - 1].zIndex = 1050;
+				}else{
+					avalon(document.body).removeClass("modal-open");
+					modalBackDrop.isIn = false;
+					// avalon(modalBackDrop).removeClass("in");
+					if(!avalon.me.support.transitionend){
+						modalBackDrop.visible = false;
+						// modalBackDrop.style.display = 'none';
+					}
+				}
 				this.onClose();
 			},
 			open : function(isInit){
 				if(this.onBeforeOpen() === false) return;
 				avalon(document.body).addClass("modal-open");
 				this.isOpen = true;
+				var modalBackDrop = avalon.me.getBodyElVm("modalBackDrop");
+				modalBackDrop.visible = true;
+				// modalBackDrop.style.display = 'block';
 				var vm = this;
 				setTimeout(function(){
 					vm.isIn = true;
-					modalBackDrop.style.display = 'block';
-					modalBackDrop.offsetWidth;
-					avalon(modalBackDrop).addClass("in");
+					modalBackDrop.isIn = true;
+					// avalon(modalBackDrop).addClass("in");
 					if(!avalon.me.support.transitionend){
 						vm.onOpen();
 					}
@@ -95,13 +102,13 @@ define(function(require){
 						last.zIndex = 1000;
 					}
 					dgs.push(vm);
-				});
+				},100);
 			},
-			onReady : function(obj){
+			onReady : function(e){
 				var name = avalon.me.support.transitionend;
 				var vm = this;
 				if(name){
-					obj.target.addEventListener(name,function(e){
+					e.target.addEventListener(name,function(e){
 						if(!avalon(e.target).hasClass("modal-dialog")){
 							return;
 						}
@@ -110,21 +117,45 @@ define(function(require){
 							vm.onOpen();
 						}else{
 							vm.isOpen = false;
+							vm.$isClosing = false;
 						}
 					});
 				}
+				var modalBackDrop = avalon.me.getBodyElVm("modalBackDrop");
+				// var elements = avalon.vmodels.avalonbootstrap.elements;
+				// var modalBackDrop = elements.modalBackDrop;
 				if(!modalBackDrop){
-					modalBackDrop = document.createElement("div");
-					modalBackDrop.$curDialogs = [];
-					modalBackDrop.className = "modal-backdrop fade";
-					document.body.appendChild(modalBackDrop);
-					if(name){
-						modalBackDrop.addEventListener(name,function(e){
-							if(!avalon(this).hasClass("in")){
-								this.style.display = 'none';
+					avalon.me.addBodyEl("modalBackDrop",{
+						cls : {
+							"modal-backdrop" : 1,
+							fade : 1,
+							"in" : "@isIn"
+						},
+						isIn : false,
+						transitionend : function(){
+							if(!this.isIn){
+								this.visible = false;
 							}
-						});
-					}
+						},
+						click : function(){
+							this.$curDialogs[this.$curDialogs.length - 1].close();
+						},
+						$curDialogs : []
+					});
+					// elements.modalBackDrop = {
+					// 	cls : "modal-backdrop fade",
+					// 	visible : false
+					// };
+					// modalBackDrop = document.createElement("div");
+					// modalBackDrop.$curDialogs = [];
+					// modalBackDrop.className = "modal-backdrop fade";
+					// modalBackDrop.style.display = 'none';
+					// document.body.appendChild(modalBackDrop);
+					// avalon(modalBackDrop).bind("transitionend",function(e){
+					// 	if(!avalon(this).hasClass("in")){
+					// 		this.style.display = 'none';
+					// 	}
+					// });
 				}
 				if(this.show){
 					this.open(true);
