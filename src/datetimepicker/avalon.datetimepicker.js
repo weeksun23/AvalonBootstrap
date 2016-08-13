@@ -1,4 +1,4 @@
-define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],function(avalon,tpl){
+define(["avalon","text!./avalon.datetimepicker.html","../dialog/avalon.dialog"],function(avalon,tpl){
 	function getScope(min,max){
 		var re = [];
 		for(var i=min;i<=max;i++){
@@ -19,12 +19,15 @@ define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],fun
 		}else if(typeof date == 'number'){
 			date = new Date(date);
 		}
-		pickerVM.year = date.getFullYear();
-		pickerVM.month = date.getMonth() + 1;
-		pickerVM.day = date.getDate();
-		pickerVM.hour = date.getHours();
-		pickerVM.minute = date.getMinutes();
-		pickerVM.second = date.getSeconds();
+		if(pickerVM){
+			pickerVM.year = date.getFullYear();
+			pickerVM.month = date.getMonth() + 1;
+			pickerVM.day = date.getDate();
+			pickerVM.hour = date.getHours();
+			pickerVM.minute = date.getMinutes();
+			pickerVM.second = date.getSeconds();
+		}
+		return date;
 	}
 	function paddingZero(str,len){
     	len = len || 2;
@@ -33,7 +36,7 @@ define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],fun
     	if(strLen >= len) return str;
     	return new Array(len - strLen + 1).join('0') + str;
     }
-	function getPickerTime(vmodel){
+	function getPickerTime(vmodel,dateObj){
 		var vmodels = avalon.vmodels;
 		var format = vmodel.format;
 		avalon.each({
@@ -44,7 +47,7 @@ define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],fun
 			minute : "mm",
 			second : "ss"
 		},function(k,v){
-			var val = pickerVM[k];
+			var val = dateObj[k];
 			format = format.replace(v,paddingZero(val,v.length));
 		});
 		return format;
@@ -115,7 +118,18 @@ define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],fun
 				vmodel.value = '';
 			};
 			vm.chooseTime = function(){
-				vmodel.value = getPickerTime(vmodel);
+				vmodel.value = getPickerTime(vmodel,pickerVM);
+			};
+			vm.setValue = function(value){
+				var date = setPickerTime(value);
+				vmodel.value = getPickerTime(vmodel,pickerVM || {
+					year : date.getFullYear(),
+					month : date.getMonth() + 1,
+					day : date.getDate(),
+					hour : date.getHours(),
+					minute : date.getMinutes(),
+					second : date.getSeconds()
+				});
 			};
 		});
 		return vmodel;
@@ -124,7 +138,7 @@ define(["avalon","text!./avalon.datetimepicker.html","dialog/avalon.dialog"],fun
 		showClearBtn : true,
 		showDateBtn : true,
 		showTodayBtn : true,
-		value : "",
+		value : null,
 		format : "yyyy-MM-dd hh:mm:ss",
 		$curYear : new Date().getFullYear()
 	};

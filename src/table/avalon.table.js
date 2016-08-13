@@ -13,8 +13,12 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 				width : null,
 				//排序
 				sort : null,
-				sortOrder : null
+				sortOrder : null,
+				checkbox : false
 			};
+			if(column.checkbox){
+				column.width = 50;
+			}
 			for(var i in obj){
 				if(column[i] === undefined){
 					column[i] = obj[i];
@@ -75,6 +79,20 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 				}
 				loadDataByPage(page);
 			};
+			vm.toggleCheckAll = function(){
+				var data = vmodel.data[vmodel.rowsKey];
+				for(var i=0,ii;ii=data[i++];){
+					ii._selected = this.checked;
+				}
+				if(this.checked){
+					vmodel.onSelectAll.call(vmodel,data);
+				}else{
+					vmodel.onUnselectAll.call(vmodel,data);
+				}
+			};
+			vm.toggleCheckItem = function(item){
+				vmodel.toggleSelect(item);
+			};
 			vm.toggleSelect = function(item){
 				if(vmodel.singleSelect){
 					if(item._selected){
@@ -91,6 +109,8 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 					item._selected = !item._selected;
 					if(item._selected){
 						vmodel.onSelect.call(vmodel,item);
+					}else{
+						vmodel.onUnselect.call(vmodel,item);
 					}
 				}
 			};
@@ -113,7 +133,9 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 			vm.loadFrontPageData = function(data,page){
 				initRowsData(data);
 				vmodel.frontPageData = data;
+				//重置数据
 				vmodel.data[vmodel.totalKey] = data.length;
+				vmodel.data[vmodel.rowsKey] = [];
 				dealFrontPageData(page || 1);
 			};
 			vm.getSelected = function(){
@@ -124,7 +146,7 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 				//获取所选的所有行对象
 				return getSelect(false);
 			};
-		});
+		});//6214 8378 2869 2982 301.77 
 		function getSelect(isFirst){
 			var data = vmodel.data[vmodel.rowsKey];
 			var re = [];
@@ -154,7 +176,7 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 			for(;start < end;start++){
 				var item = vmodel.frontPageData[start];
 				if(!item) break;
-				re.push(item);
+				re.push(avalon.mix({},item));
 			}
 			vmodel.data[vmodel.rowsKey] = re;
 			func && func();
@@ -168,8 +190,10 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 		}
 		function ajaxLoad(page,obj){
 			var param = {};
-			param[vmodel.pageNoKey] = page;
-			param[vmodel.pageSizeKey] = vmodel.pageSize;
+			if(vmodel.pagination){
+				param[vmodel.pageNoKey] = page;
+				param[vmodel.pageSizeKey] = vmodel.pageSize;
+			}
 			avalon.mix(vmodel.queryParams,param,obj);
 			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data,errorInfo){
 				if(!data){
@@ -180,14 +204,14 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 					vmodel.onLoadError(errorInfo);
 					return;
 				}
+				if(vmodel.loadFilter){
+					data = vmodel.loadFilter(data,vmodel.rowsKey,vmodel.totalKey);
+				}
 				if(avalon.type(data) === 'array'){
 					//前台分页
 					vmodel.loadFrontPageData(data);
 				}else{
 					//后台分页
-					if(vmodel.loadFilter){
-						data = vmodel.loadFilter(data,vmodel.rowsKey,vmodel.totalKey);
-					}
 					initRowsData(data[vmodel.rowsKey]);
 					vmodel.data[vmodel.rowsKey] = data[vmodel.rowsKey];
 					vmodel.data[vmodel.totalKey] = data[vmodel.totalKey];
@@ -285,6 +309,9 @@ define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(a
 		pageSizeKey : "pageSize",
 		onLoadSuccess : avalon.noop,
 		onLoadError : avalon.noop,
-		onSelect : avalon.noop
+		onSelect : avalon.noop,
+		onUnselect : avalon.noop,
+		onSelectAll : avalon.noop,
+		onUnselectAll : avalon.noop
 	};
 });

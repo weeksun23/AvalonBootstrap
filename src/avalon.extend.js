@@ -12,12 +12,15 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 	/*loading*/
 	avalon.fn.loading = function(isloading){
 		var el = this[0];
+		var fixed = "";
+		if(el === document.body || el.tagName.toLowerCase() === "body"){
+			fixed = " loading-fixed";
+		}
 		var loadingNum = +el.getAttribute("data-loading-num") || 0;
 		if(!isloading){
 			if(loadingNum === 1){
 				avalon.each(this.children(),function(i,node){
-					var cls = node.className;
-					if(cls === 'loading-mask' || cls === 'loading-main'){
+					if(avalon(node).hasClass("loading-mask") || avalon(node).hasClass("loading-main")){
 						el.removeChild(node);
 					}
 				});
@@ -26,9 +29,9 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 		}else{
 			if(loadingNum === 0){
 				var mask = document.createElement("div");
-				mask.className = 'loading-mask';
+				mask.className = 'loading-mask' + fixed;
 				var loading = document.createElement("div");
-				loading.className = 'loading-main';
+				loading.className = 'loading-main' + fixed;
 				loading.innerHTML = '<span class="loading"></span>';
 				el.appendChild(mask);
 				el.appendChild(loading);
@@ -41,13 +44,13 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 		var fragment = document.createDocumentFragment();
 		div.innerHTML = htmlStr;
 		var nodes = div.childNodes;
-	    for (var i=0, length=nodes.length; i<length; i++) {
-	       fragment.appendChild(nodes[i].cloneNode(true));
-	    }
-	    this[0].appendChild(fragment);
-	    //el.insertBefore(fragment, el.firstChild);
-	    nodes = null;
-	    fragment = null;
+    for (var i=0, length=nodes.length; i<length; i++) {
+       fragment.appendChild(nodes[i].cloneNode(true));
+    }
+    this[0].appendChild(fragment);
+    //el.insertBefore(fragment, el.firstChild);
+    nodes = null;
+    fragment = null;
 	};
 	avalon.support = {
 		transitionend : (function(){
@@ -97,14 +100,28 @@ define(["./mmRequest","css!./base.css"],function (avalon) {
 					$area && $area.loading(false);
 				},
 				data : param,
-				error : function(result){
-					callback && callback.call($area,null,result);
+				timeout : 5000,
+				error : function(){
 					avalon.log('接收错误',url,arguments);
+					callback && callback.call($area,{
+						total : 0,
+						data : [],
+						code : 0,
+						msg : "error"
+					});
 					$area && $area.loading(false);
 				},
 				success : function(result){
 					avalon.log("接收数据",url,result);
-					callback && callback.call($area,result);
+					if(result.code === -1){
+						window.location.href = result.data;
+						return;
+					}
+					try{
+						callback && callback.call($area,result);
+					}catch(ex){
+						avalon.log(ex);
+					}
 				}
 			},defaultSetting,setting);
 			avalon.ajax(setting);

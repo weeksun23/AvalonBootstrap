@@ -4,12 +4,18 @@
 	-moz-box-shadow: none;
 	-webkit-box-shadow:none;
 }
+.mtable-checklabel{display: block;padding: 0 8px;cursor: pointer;margin: 0;}
+.table .mtable-checklabel input{width: 16px;height: 16px;margin: 0}
 .mgrid.panel .panel-heading{border-width:1px 1px 0 1px;border-style: solid;}
 .mtable.panel-body{padding:0;}
 .mtable .table{margin-bottom:0}
 .mtable .thead{background-color: #fff;}
 .mtable .table-responsive{margin-bottom: 0;position: relative;}
 .mtable .table-responsive th{padding: 0;}
+.mtable .subtable th,.mtable .subtable td{
+  border : 1px dotted #888;
+  text-align: center;padding: 5px;
+}
 .mtable .table-responsive th>div{padding: 8px;position: relative;}
 .mtable .table-responsive.mtable-nowrap{white-space: nowrap;}
 .mtable h2{margin:0;padding:20px 0;border:1px solid #ddd;border-top:0}
