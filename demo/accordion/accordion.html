@@ -1,59 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>first example</title>
+  <title>accordion</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="../../css/base.css">
-  <link rel="stylesheet" type="text/css" href="../../css/bootstrap/bootstrap.css">
 </head>
-<body ms-controller="avalonbootstrap" class='ms-controller'>
-  <p>Hello,{{@name}}!</p>
-  <xmp ms-widget='[{is:"ab-accordion",$id : "accordion"},@$config]'>
-    <div>dqwqwd</div>
-    <div>sdasd</div>
+<body ms-controller="body" class='ms-controller'>
+  <h2>from data</h2>
+  <xmp :widget='@$config'>
   </xmp>
-  <script src='../../seajs/sea.js'></script>
-  <script src='../../src2/avalon.js'></script>
-  <script>
-    seajs.config({
-      base : "../../src2/"
-    });
-    seajs.use(['accordion/avalon.accordion'],function(){
-      avalon.me.init({
-        name : "weeksun23",
-        $config : {
-          // define : function(v){
-          //   console.log(v);
-          // },
-          data : [{
-            title : "werwer",
-            children : [{
-              title : "dgfwerwer"
-            },{
-              title : "dgfwerwer",
-              iconCls : "glyphicon-text-height"
-            }]
-          },{
-            title : "werwer",
-            children : [{
-              title : "dgfwerwer",iconCls : "glyphicon-text-height"
-            },{
-              title : "greer434"
-            },{
-              title : "e32e23"
-            },{
-              title : "gwergr3"
-            },{
-              title : "21e2e2e"
-            }]
-          },{
-            title : "content",
-            content : "<h1>testtest</h1>"
-          }]
-        }
-      });
-    });
-  </script>
+  <h2>from innerHTML</h2>
+  <xmp :widget='@$config1'>
+    <div title='ggg'><h2>testetst</h2></div>
+    <div title='ggg'>wwwwww</div>
+    <div title='ggg'>wwwwww</div>
+  </xmp>
 </body>
 </html>

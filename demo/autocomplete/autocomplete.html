@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>autocomplete</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 <style>
 	body{padding: 10px;}
 </style>
@@ -15,30 +12,16 @@
 	<form class="form-inline">
 		<div class="form-group">
 			<div class="input-group">
-			  	<span class="input-group-addon">关键字</span>
-			  	<ab:autocomplete config='$autocompleteopts' identifier='test'></ab:autocomplete>
+		  	<span class="input-group-addon">关键字</span>
+		  	<xmp :widget='@$config'></xmp>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+		  	<span class="input-group-addon">关键字</span>
+		  	<xmp :widget='@$config1'></xmp>
 			</div>
 		</div>
 	</form>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(['avalon.extend',"autocomplete/avalon.autocomplete"],function(){
-			var vmodel = avalon.define({
-				$id : "page",
-				$autocompleteopts : {
-					placeholder : "请输入搜索关键字",
-					inputValueKey : null,
-					source : [3434,2323,5444,3434,232323]
-					/*source : function(value,cb){
-						avalon.ajaxGet("data.json",{},function(data){
-							cb(data);
-						},null);
-					}*/
-				}
-			});
-			avalon.log(avalon.components['ab:autocomplete']);
-			avalon.scan();
-		});
-	</script>
 </body>
 </html>

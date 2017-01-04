@@ -4,56 +4,19 @@
   <title>dialog</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="../../css/base.css">
-  <link rel="stylesheet" type="text/css" href="../../css/bootstrap/bootstrap.css">
 </head>
-<body ms-controller="avalonbootstrap" class='ms-controller'>
-  <xmp ms-widget='[{is:"ab-dialog",$id : "testDialog"},@$config]'>
-    <div slot="content">
-      <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
-      <p>
-        <button ms-click="@openSub">open sub window</button>
-      </p>
-    </div>
+<body ms-controller="body" class='ms-controller'>
+  <xmp ms-widget='@$config'>
+    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
+    <p>
+      <button :click="@$config.openSub">open sub window</button>
+    </p>
   </xmp>
-  <xmp ms-widget='[{is:"ab-dialog",$id : "subDialog"},@$subDialogConfig]'>
-    <div slot="content">
-      <h1>sub dialog</h1>
-      <h1>sub dialog</h1>
-      <h1>sub dialog</h1>
-    </div>
+  <xmp ms-widget='@$subDialogConfig'>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
   </xmp>
   <button ms-click="@open">open</button>
-  <script src='../../seajs/sea.js'></script>
-  <script src='../../src2/avalon.js'></script>
-  <script>
-    seajs.config({
-      base : "../../src2/"
-    });
-    seajs.use(['dialog/avalon.dialog'],function(){
-      avalon.me.init({
-        open : function(){
-          avalon.vmodels.testDialog.open();
-        },
-        $config : {
-          // define : function(v){
-          //   console.log(v);
-          // },
-          show : false,
-          title : "test",
-          openSub : function(){
-            avalon.vmodels.subDialog.open();
-          }
-        },
-        $subDialogConfig : {
-          title : "subDialog",
-          buttons : [{
-            text : "close",
-            close : true
-          }]
-        }
-      });
-    });
-  </script>
 </body>
 </html>

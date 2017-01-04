@@ -1,0 +1,7 @@
+<ul class='dropdown-menu autocomplete-dropdown' :controller="autocompleteData" :visible="@isShow" 
+	:css="{left:@left,top:@top}">
+	<li :visible='!@data || @data.length === 0'><a href='javascript:void(0)' :click='@hideUl'>{{@mes}}</a></li>
+	<li :for='($index,el) in @data' :css="{backgrouncColor : $index === @curSelect ? '#f5f5f5' : ''}">
+		<a href='javascript:void(0)' :click='@chooseItem(el)' :html='@getText(el)'></a>
+	</li>
+</ul>

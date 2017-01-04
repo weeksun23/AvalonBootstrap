@@ -1,24 +1,24 @@
 <div class='panel-group maccordion'>
-	<div class="panel panel-default" ms-repeat='data' ms-class='selected:curIndex === $index' ms-class-1='last:$last'>
-		<div class="panel-heading" ms-click='clickHeader($index)'>
+	<div class="panel panel-default" ms-for='(i,el) in @data' ms-class='{selected:@el._selected,last:i === @data.length - 1}'>
+		<div class="panel-heading" ms-click='@clickHeader(el)'>
 			<h4 class="panel-title">
-				<i ms-if='el.iconCls' class="glyphicon" ms-class='{{el.iconCls}}'></i> 
+				<i ms-if='el.iconCls' class="glyphicon" ms-class='el.iconCls'></i> 
 				{{el.title}}
-				<span class='pull-right glyphicon' ms-class='{{curIndex === $index ? "glyphicon-menu-down" : "glyphicon-menu-right"}}'></span>
+				<span class='pull-right glyphicon' ms-class="[@el._selected ? 'glyphicon-menu-down' : 'glyphicon-menu-right']"></span>
 			</h4>
 		</div>
-		<div class="panel-collapse maccordion-collapse" ms-visible='el._show' ms-effect="accordion-collapse">
-			<div ms-if='el.children' class="list-group">
-				<a ms-repeat-ch='el.children' href="javascript:void(0)" class="list-group-item" ms-class='selected:ch.selected' ms-click='selectItem(ch)'>
+		<div class="panel-collapse maccordion-collapse" ms-visible='el._selected'>
+			<div ms-if='el.children && el.children.length > 0' class="list-group">
+				<a ms-for='(j,ch) in el.children' href="javascript:void(0)" class="list-group-item" ms-class='{selected:ch.selected}' ms-click='@selectItem(ch)'>
 					<i style='visibility:hidden'>空</i>
-					<i ms-if='ch.iconCls' class='glyphicon' ms-class='{{ch.iconCls}}'></i>
+					<i ms-if='ch.iconCls' class='glyphicon' ms-class='ch.iconCls'></i>
 					{{ch.title}}
 					<span class='marrow' ms-visible='ch.selected'></span>
 				</a>
 			</div>
-			<div ms-if='!el.children' class="panel-body">
-				{{el.content | html}}
+			<div ms-if='!el.children || el.children.length === 0' class="panel-body" ms-html="el.content">
 			</div>
 		</div>
 	</div>
+	<!--  ms-effect="accordion-collapse" -->
 </div>
