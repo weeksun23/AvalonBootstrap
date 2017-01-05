@@ -23,15 +23,12 @@ avalon.component("ms-dialog",{
 	template: tpl,
 	soleSlot: 'content',
 	defaults : {
-		$skipArray : ['show','hasInit'],
 		//窗口正在关闭中标志，以防重复关闭
 		$isClosing : false,
 		//属性
-		hasInit : false,
 		buttons : [],
 		title : null,
 		content : '',
-		show : false,
 		isOpen : false,
 		isIn : false,
 		zIndex : 1050,

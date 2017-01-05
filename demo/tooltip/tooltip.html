@@ -5,30 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tooltip</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 <style>
 	body{padding: 50px;}
 </style>
 </head>
 <body ms-controller='page'>
 	<div ms-controller='test'>
-		<span ms-tooltip data-options='content:"tooltip"'>tooltip</span>
-		<span ms-tooltip data-options="content:'wegfgreg',position:'bottom',type:'popover',title:'gergergerg'">popover</span>
+		<span ms-tooltip="@$tooltip1">tooltip</span>
+		<span ms-tooltip="@$tooltip2">popover</span>
 	</div>
-	<button ms-click='change'>change</button>
-	<button ms-click='remove'>remove</button>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(["tooltip/avalon.tooltip"],function(){
-			avalon.define({
-				$id : "test"
-			});
-			var vmodel = avalon.define({
-				$id : "page"
-			});
-			avalon.scan();
-		});
-	</script>
+	<button ms-click='@change'>change</button>
+	<button ms-click='@remove'>remove</button>
 </body>
 </html>

@@ -1,0 +1,10 @@
+<div class="btn-group" :class="{open : @isOpen}">
+  <button class="btn dropdown-toggle" :class="['btn-' + @theme,@size ? ('btn-' + @size) : '']" type="button" :click="@clickBtn">
+    {{@text}}<span class="caret" style='margin-left:5px'></span>
+  </button>
+  <ul class="dropdown-menu">
+  	<li :for="el in @data" :class="{divider : el.divider}" :click="@clickItem(el)">
+  		<a href="javascript:void(0)">{{el.text}}</a>
+  	</li>
+  </ul>
+</div>

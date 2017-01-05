@@ -4,3 +4,6 @@ require("./accordion/avalon.accordion");
 require("./dialog/avalon.dialog");
 require("./table/avalon.table");
 require("./autocomplete/avalon.autocomplete");
+require("./dropdown/avalon.dropdown");
+require("./tooltip/avalon.tooltip");
+require("./tab/avalon.tab");

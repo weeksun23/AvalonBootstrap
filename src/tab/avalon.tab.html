@@ -1,0 +1,19 @@
+<div>
+	<ul class='nav nav-tabs'>
+		<li :for='($index,el) in @headerData' :class="{active : $index === @curIndex}" :click="@curIndex = $index">
+			<a href='javascript:void(0)'>
+				<span :if='el.iconCls' class="glyphicon" :class='el.iconCls'></span>
+				{{el.title}}
+				<span :for='icon in el.icons' class='glyphicon' :class='glyphicon glyphicon-{{icon.cls}}' :click='icon.handler($outer.$index,icon)' style='cursor:pointer'></span>
+				<span :if='el.closeable' class='glyphicon glyphicon-remove' :click='@closeTab($event,$index)' style='cursor:pointer'></span>
+			</a>
+		</li>
+	</ul>
+	<div class='tab-content' style='border:1px solid #ccc;border-top:0;padding-top:1px;' :css="{'border-width':@border ? '1px' : '0px'}">
+		<div class='tab-pane' :for='($index,el) in @contentData' :class='{active : $index === curIndex}' :html="el.html">
+		</div>
+		<div :if="!@contentData || @contentData.length === 0" class='tab-pane active'>
+			<h1 class='text-center'>{{@noContentTip}}</h1>
+		</div>
+	</div>
+</div>

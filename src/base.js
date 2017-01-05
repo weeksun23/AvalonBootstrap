@@ -6,6 +6,16 @@ avalon.config({
 require("./base.css");
 //avalonbootstrap基础库
 var AB = window.AB = {
+	isSubNode : function(target,pCls){
+		if(avalon(target).hasClass(pCls)) return true;
+		if(target.tagName && target.tagName.toLowerCase() === "body") return false;
+		var p = target.parentNode;
+		while(p && p.tagName && p.tagName.toLowerCase() !== "body"){
+			if(avalon(p).hasClass(pCls)) return true;
+			p = p.parentNode;
+		}
+		return false;
+	},
 	support : {
 		transitionend : (function(){
 			var el = document.createElement('div');
@@ -28,6 +38,9 @@ var AB = window.AB = {
 		if(handler){
 			handler(vm,fragment);
 		}
+	},
+	getUUID : function(prefix){
+		return String(Math.random() + Math.random()).replace(/\d\.\d{4}/, prefix || "");
 	}
 };
 AB.preHandlers = {};
@@ -48,13 +61,18 @@ avalon.fn.appendHTML = function(htmlStr){
 	var fragment = document.createDocumentFragment();
 	div.innerHTML = htmlStr;
 	var nodes = div.childNodes;
+	var first;
   for (var i=0, length=nodes.length; i<length; i++) {
-    fragment.appendChild(nodes[i].cloneNode(true));
+  	var node = nodes[i].cloneNode(true);
+  	if(!first){
+  		first = node;
+  	}
+    fragment.appendChild(node);
   }
   this[0].appendChild(fragment);
+  return first;
   //el.insertBefore(fragment, el.firstChild);
-  nodes = null;
-  fragment = null;
+  
 };
 /*loading*/
 avalon.fn.loading = function(isloading){

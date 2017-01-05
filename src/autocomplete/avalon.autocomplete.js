@@ -1,15 +1,5 @@
 var tpl = require("./avalon.autocomplete.html");
 var dataTpl = require("./avalon.autocomplete_data.html");
-function isSubNode(target,pCls){
-	if(avalon(target).hasClass(pCls)) return true;
-	if(target.tagName && target.tagName.toLowerCase() === "body") return false;
-	var p = target.parentNode;
-	while(p && p.tagName && p.tagName.toLowerCase() !== "body"){
-		if(avalon(p).hasClass(pCls)) return true;
-		p = p.parentNode;
-	}
-	return false;
-}
 var hideEventHandle;
 avalon.component('ms-autocomplete', {
   template: tpl,
@@ -47,7 +37,7 @@ avalon.component('ms-autocomplete', {
 			var me = this;
 			hideEventHandle = avalon.bind(document.body,"click",function(e){
 				if(e.target === me.$element) return false;
-				if(isSubNode(e.target,"autocomplete-dropdown")) return;
+				if(AB.isSubNode(e.target,"autocomplete-dropdown")) return;
 				autocompleteData.isShow = false;
 				avalon.unbind(document.body,"click",hideEventHandle);
 				hideEventHandle = null;

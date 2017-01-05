@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tab</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 <style>
 	body{padding: 50px;}
 </style>
 </head>
 <body ms-controller='page'>
-	<ab:tab config='$tabOpts'>
+	<xmp :widget='@$tabOpts'>
 		<div title='dddd'>qwe</div>
 		<div title='wewe'></div>
 		<div title='htth'></div>
@@ -25,18 +23,6 @@
 			<h1>dsgse</h1>
 			<h1>dsgse</h1>
 		</div>
-	</ab:tab>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(["tab/avalon.tab"],function(){
-			var vmodel = avalon.define({
-				$id : "page",
-				$tabOpts : {
-					border : true
-				}
-			});
-			avalon.scan();
-		});
-	</script>
+	</xmp>
 </body>
 </html>

@@ -9,7 +9,7 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var commonCSS = new ExtractTextPlugin('[name].css');
 // var businessPublicCss = new ExtractTextPlugin("[name].css");
 
-var entries = ["accordion",'dialog','table','autocomplete'];
+var entries = ["accordion",'dialog','table','autocomplete','dropdown','tooltip','tab'];
 //是否发布
 var isRelease = process.env.NODE_ENV === 'production';
 var entryObj = {},

@@ -5,59 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>dropdown</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 <style>
 	body{padding: 50px;}
 </style>
 </head>
 <body ms-controller='page'>
-	<span style='display:inline-block'>
-		<button class='btn btn-default' ms-dropdown='$dropdownOpts'>qwdqw</button>
-	</span>
-	<span style='display:inline-block'>
-		<button class='btn btn-default' ms-dropdown='$dropdown2Opts'>qwdqw <span class="caret"></span></button>
-	</span>
-	<script src='../../src/avalon.js'></script>
-	<script>
-		require(['avalon.extend',"dropdown/avalon.dropdown"],function(){
-			var vmodel = avalon.define({
-				$id : "page",
-				$dropdownOpts : {
-					data : [{
-						text : "sadasw",iconCls : "glyphicon-refresh",handler : function(){
-							console.log(arguments);
-						}
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					}]
-				},
-				$dropdown2Opts : {
-					data : [{
-						text : "sadasw",iconCls : "glyphicon-refresh",handler : function(){
-							console.log(arguments);
-						}
-					},{
-						text : "-"
-					},{
-						text : "2343r",iconCls : "glyphicon-refresh"
-					},{
-						text : "-"
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					},{
-						text : "sadasw",iconCls : "glyphicon-refresh"
-					}]
-				}
-			});
-			avalon.scan();
-		});
-	</script>
+	<xmp :widget="@$config"></xmp>
 </body>
 </html>
