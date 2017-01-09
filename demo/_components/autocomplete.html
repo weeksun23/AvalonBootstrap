@@ -1,0 +1,22 @@
+<div :controller="demo_autocomplete" class='demo'>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget="@$config"></xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$config : {
+		  is : "ms-autocomplete",
+		  placeholder : "请输入搜索关键字",
+		  $inputValueKey : '',
+		  $source : [3434,2323,5444,3434,232323]
+		}
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$config'></xmp>
+	<h2>配置项说明</h2>
+	<xmp :widget="@$attr"></xmp>
+	<hr>
+	<xmp :widget="@$eve"></xmp>
+</div>

@@ -4,10 +4,9 @@ var hideEventHandle;
 avalon.component('ms-autocomplete', {
   template: tpl,
   defaults: {
-  	value : "",
   	placeholder : "",
   	$inter : null,
-  	//如果有值，则data或者source返回的数据必须为对象obj组成的数组，input将obj[inputValueKey]显示
+  	//如果有值，则data或者source返回的数据必须为对象obj组成的数组，input将由obj[inputValueKey]显示
 		//如果没值，则data或者source返回的数据必须为非对象组成的数组
 		$inputValueKey : "text",
 		//当前的搜索关键字
@@ -15,7 +14,6 @@ avalon.component('ms-autocomplete', {
 		//后台返回数据项的text键值，取其数据值到列表上显示
 		$textKey : "text",
 		$source : null,
-		$data : [],
 		//所选的项的具体数据
 		$selectItem : null,
 		loadingText : "加载中...",
@@ -143,7 +141,7 @@ avalon.define({
 		var vm = this.$curVmodel;
 		vm.selectItem = el;
 		vm.value = vm.$inputValueKey ?  el[vm.$inputValueKey] : el;
-		vm.onSelect(vm,el);
+		vm.onSelect(el);
 		this.isShow = false;
 	},
 	getText : function(el){

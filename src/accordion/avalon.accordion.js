@@ -61,7 +61,6 @@ AB.preHandlers["ms-accordion"] = function(vm,fragment){
 avalon.component('ms-accordion', {
   template: tpl,
   defaults: {
-  	$multipleSel : false,
   	$lastSel : null,
   	onReady : function(){
   		if(this.$multipleSel) return;
@@ -73,15 +72,6 @@ avalon.component('ms-accordion', {
   			}
   		});
   	},
-    data : [/*{
-			title : panel标题,
-			content : panel body html,
-			iconCls : panel标题左边的图标,
-			children : 若content为空，则取children为body内容
-				selected : 是否选中
-				title : 显示文字
-				iconCls : 文字左边图标
-		}*/],
 		clickHeader : function(el){
 			if(this.$multipleSel){
 				el._selected = !el._selected;
@@ -97,6 +87,18 @@ avalon.component('ms-accordion', {
 				this.$lastSel = el;
 			}
 		},
+		//属性
+		$multipleSel : false,
+    data : [/*{
+			title : panel标题,
+			content : panel body html,
+			iconCls : panel标题左边的图标,
+			children : 若content为空，则取children为body内容
+				selected : 是否选中
+				title : 显示文字
+				iconCls : 文字左边图标
+		}*/],
+		//方法
 		//选中item
 		selectItem : function(ch){
 			if(ch.selected) return;

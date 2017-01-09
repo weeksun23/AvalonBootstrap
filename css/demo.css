@@ -12,6 +12,7 @@
 .fz1{font-size:1.5em}
 .notallowed{cursor: not-allowed !important;}
 
+.demo{padding-bottom: 20px}
 .demo h2:first-child{margin-top: 0}
 .demo textarea{width: 100%;}
 .demo code{display: block;}
