@@ -1,65 +1,85 @@
-define(["avalon"],function(avalon){
-	var widget = avalon.ui.tooltip = function(element, data, vmodels){
-		var options = data.tooltipOptions;
-		var tip;
-		if(typeof options.container == 'string'){
-			options.container = document.getElementById(options.container);
+//工具提示组件 一次性
+var Defaults = {
+	triggerOn : "hover",
+	position  : "right",
+	content : "",
+	template : null,
+	container : document.body,
+	//tooltip popover
+	type : "tooltip",
+	//popover options
+	title : ""
+};
+var hideEventHandle;
+avalon.directive('tooltip', {
+	init : function () {
+		var oldValue = this.getValue();
+		var value = avalon.shadowCopy({},Defaults);
+		if(avalon.type(oldValue) === 'array'){
+			avalon.each(oldValue,function(i,v){
+				avalon.shadowCopy(value,v);
+			});
+		}else{
+			avalon.shadowCopy(value,oldValue);
 		}
-		var vmodel = avalon.define(data.tooltipId,function(vm){
-			avalon.mix(vm,options);
-			vm.$skipArray = ['template','container','type'];
-			vm.$init = function(){
-				if(vmodel.triggerOn === 'hover'){
-					avalon.bind(element,"mouseenter",show);
-					avalon.bind(element,"mouseleave",hide);
-				}else if(vmodel.triggerOn === 'click'){
-					avalon.bind(element,"click",function(){
-						if(!tip || tip.style.display === 'none'){
-							show.call(element);
-						}else{
-							hide.call(element);
-						}
+		var tip;
+		var element = this.node.dom;
+		if(value.triggerOn === 'hover'){
+			var mouseenter = avalon.bind(element,"mouseenter",show);
+			var mouseleave = avalon.bind(element,"mouseleave",hide);
+		}else if(value.triggerOn === 'click'){
+			var click = function(){
+				if(hideEventHandle){
+					avalon.unbind(document.body,"click",hideEventHandle);
+					hideEventHandle = null;
+				}
+				if(tip){
+					hide();
+				}else{
+					show();
+					hideEventHandle = avalon.bind(document.body,"click",function(e){
+						if(e.target === element) return false;
+						if(AB.isSubNode(e.target,"popover")) return;
+						click();
 					});
 				}
-				element._tooltipVM = vmodel;
 			};
-			vm.$remove = function(){
-				if(!tip) return;
-				vmodel.container.removeChild(tip);
-				element._tooltipVM = null;
-				tip = null;
-			};
-		});
+			avalon.bind(element,"click",click);
+		}
 		function outTip(){
-			if(vmodel.type === 'tooltip'){
-				vmodel.container.removeChild(tip);
-				tip = null;
-			}else{
-				tip.style.display = 'none';
-			}
+			value.container.removeChild(tip);
+			tip = null;
 		}
 		function show(){
 			if(!tip){
 				tip = document.createElement("div");
-				tip.className = vmodel.type + " fade";
-				tip.setAttribute("ms-class","{{position}}");
-				tip.innerHTML = vmodel.template;
-				vmodel.container.appendChild(tip);
-				avalon.scan(tip,vmodel);
-				avalon.support.transitionend && tip.addEventListener(avalon.support.transitionend,function(){
+				tip.className = value.type + " fade " + value.position;
+				if(value.type === 'tooltip'){
+					tip.innerHTML = "<div class='tooltip-arrow'></div><div class='tooltip-inner'>" + value.content + "</div>";
+				}else if(value.type === 'popover'){
+					var title = '';
+					if(value.title){
+						title = '<h3 class="popover-title">' + value.title + '</h3>';
+					}
+					tip.innerHTML = '<div class="arrow"></div>' + title + 
+						'<div class="popover-content">' + value.content + '</div>';
+				}
+				value.container.appendChild(tip);
+				avalon.scan(tip);
+				AB.support.transitionend && tip.addEventListener(AB.support.transitionend,function(){
 					if(!avalon(this).hasClass("in") && tip){
 						outTip();
 					}
 				});
 			}
-			if(vmodel.type === 'popover'){
+			if(value.type === 'popover'){
 				tip.style.display = 'block';
 			}
 			var $tip = avalon(tip);
 			$tip.addClass("in");
-			var $target = avalon(this);
-			var offset = vmodel.container === document.body ? $target.offset() : $target.position();
-			switch(vmodel.position){
+			var $target = avalon(element);
+			var offset = value.container === document.body ? $target.offset() : $target.position();
+			switch(value.position){
 				case "top":
 					var top = offset.top - $tip.outerHeight();
 					var left = offset.left + ($target.outerWidth() - $tip.outerWidth()) / 2;
@@ -82,18 +102,9 @@ define(["avalon"],function(avalon){
 		}
 		function hide(){
 			avalon(tip).removeClass("in");
-			if(!avalon.support.transitionend){
+			if(!AB.support.transitionend){
 				outTip();
 			}
 		}
-		return vmodel;
-	};
-	widget.defaults = {
-		type : 'tooltip',
-		triggerOn : "hover",
-		position  : "right",
-		content : "",
-		template : "<div class='tooltip-arrow'></div><div class='tooltip-inner'>{{content | html}}</div>",
-		container : document.body
-	};
+	}
 });

@@ -5,8 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tree</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 </head>
 <body ms-controller='page'>
 <div class="container-fluid">
@@ -15,7 +13,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">已有菜单</div>
 				<div class="panel-body">
-					<ul ms-widget="tree,$tree,$treeOpts"></ul>
+					<xmp :widget='@$treeOpts'></xmp>
 				</div>
 			</div>
 		</div>
@@ -26,7 +24,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">已选菜单</div>
 				<div class="panel-body">
-					<ul ms-widget="tree,$tree1,$tree1Opts"></ul>
+					<xmp :widget='@$rightTreeOpts'></xmp>
 				</div>
 			</div>
 		</div>
@@ -36,7 +34,5 @@
 		<li><a tabindex="-1" href="#" ms-click="doCheck(0)">全不选</a></li>
 	</ul>
 </div>
-<script src='../../src/avalon.js'></script>
-<script src='tree.js'></script>
 </body>
 </html>

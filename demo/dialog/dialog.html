@@ -1,59 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>dialog</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
+  <title>dialog</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body ms-controller='page'>
-<div class="container-fluid mgt10">
-	<div class='row'>
-		<div class='col-sm-12'>
-			<button class='btn btn-default' ms-click='show'>show</button>
-		</div>
-	</div>
-</div>
-<div ms-widget="dialog,$dialog1,$dialog1Opts">
-	<button class='btn btn-default' ms-click='show2'>show2</button>
-</div>
-<div ms-widget="dialog,$dialog2,$dialog2Opts">
-
-</div>
-<script src='../../src/avalon.js'></script>
-<script>
-	require(["avalon.extend","dialog/avalon.dialog"],function(){
-		var vmodel = avalon.define({
-			$id : "page",
-			show : function(){
-				avalon.vmodels.$dialog1.open();
-			},
-			$dialog1Opts : {
-				title : "dialog1",
-				show2 : function(){
-					avalon.vmodels.$dialog2.open();
-				},
-				buttons : [{
-					text : "确定",
-					handler : function(){
-						
-					}
-				},{
-					text : "取消",
-					close : true
-				}]
-			},
-			$dialog2Opts : {
-				title : "dialog2",
-				buttons : [{
-					text : "取消",close : true
-				}]
-			}
-		});
-		avalon.scan();
-	});
-</script>
+<body ms-controller="body" class='ms-controller'>
+  <xmp ms-widget='@$config'>
+    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
+    <p>
+      <button :click="@$config.openSub">open sub window</button>
+    </p>
+  </xmp>
+  <xmp ms-widget='@$subDialogConfig'>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
+  </xmp>
+  <button ms-click="@open">open</button>
 </body>
 </html>

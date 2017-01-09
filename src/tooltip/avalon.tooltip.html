@@ -1,0 +1,8 @@
+<div class='fade' :class="[@type,@position,{'in' : @hasIn}]" :visible="@isShow" 
+	:on-transitionend="@transitionend">
+	<div class='tooltip-arrow' :if="@type === 'tooltip'"></div>
+	<div class='tooltip-inner' :if="@type === 'tooltip'" :html="@content"></div>
+	<div class="arrow" :if="@type === 'popover'"></div>
+	<h3 class="popover-title" :if="@type === 'popover' && @title" :html='@title'></h3>
+	<div class="popover-content" :if="@type === 'popover'" :html="@content"></div>
+</div>

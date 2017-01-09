@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="panel-heading" ms-if='title'>
 	<h3 class="panel-title">{{title | html}}</h3>
 </div>
@@ -30,31 +31,61 @@
 				</tr>
 			</tbody>
 		</table>
+=======
+<div class='panel panel-default mgrid'>
+	<div class="panel-heading" :if='@title'>
+		<h3 class="panel-title" :html="@title"></h3>
+>>>>>>> 2.0
 	</div>
-	<h2 ms-visible='!data || data[totalKey] === 0 || data[rowsKey].length === 0' class="text-muted text-center">暂无数据</h2>
-</div>
-<div ms-if='pagination' class='mpagination clearfix'>
-	<div class='pull-left' onselectstart='return false'>
-		<button class='btn btn-default mpagination-first' type='button' ms-attr-disabled='curPage <= 1' ms-click='$toPage("first")'>
-			<i class='glyphicon glyphicon-triangle-left'></i>
-		</button>
-		<button class='btn btn-default' type='button' ms-attr-disabled='curPage <= 1' ms-click='$toPage(-1)'>
-			<i class='glyphicon glyphicon-chevron-left'></i>
-		</button>
-		<input class='form-control page' placeholder='页数' 
-			ms-duplex-number='changeCurPage' ms-keydown='$toThePage()'>
-		<span>共{{sumPage}}页</span>
-		<button class='btn btn-default' type='button' ms-attr-disabled='curPage >= sumPage' ms-click='$toPage(1)'>
-			<i class='glyphicon glyphicon-chevron-right'></i>
-		</button>
-		<button class='btn btn-default mpagination-last' type='button' ms-attr-disabled='curPage >= sumPage' ms-click='$toPage("last")'>
-			<i class='glyphicon glyphicon-triangle-right'></i>
-		</button>
+	<div class="panel-body mtable">
+		<div class='table-responsive' :class='{"mtable-nowrap":@nowrap}'>
+			<table class="table" :class='{"table-striped":@striped,"table-bordered":@border}'>
+				<thead>
+					<tr>
+						<th :for="el in @columns" :css="{width:el.width}" :click='@sort(el)' :hover="['mtable-th-hover']">
+							<div>
+								{{el.title}}
+								<span class='pull-right' :if='el.sort' :visible='el.sortOrder'>
+									<i class='glyphicon' :class="['glyphicon-triangle-' + el.sortOrder]"></i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr :for="(rowIndex,item) in @data[@$rowsKey]" :hover="['mtable-tr-hover']" :class="{'mtable-tr-selected':item._selected}" :click='@toggleSelect(item)'>
+						<td :for="el in @columns" :css='{width : el.width}' :attr="{title : @showColumnTitle ? el.title : ''}">
+							<div :html="@dealValue(item,el,rowIndex)"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<h2 :visible='!@data || @data[@$totalKey] === 0 || @data[@$rowsKey].length === 0' class="text-muted text-center">暂无数据</h2>
 	</div>
-	<div class='pull-right'>
-		<span>当前第{{curPage}}页,{{start}}~{{end}}条,共{{data[totalKey]}}条</span>
-		<select class='form-control' ms-duplex-number='pageSize' ms-change='$changePageSize'>
-			<option ms-repeat='pageSizeArr' ms-attr-value='{{el}}'>{{el}}</option>
-		</select>
-	<div>
+	<div :if='@pagination' class='mpagination clearfix'>
+		<div class='pull-left' onselectstart='return false'>
+			<button class='btn btn-default mpagination-first' type='button' :attr="{disabled : @curPage <= 1 ? 'disabled' : ''}" :click="@$toPage($event,'first')">
+				<i class='glyphicon glyphicon-backward'></i>
+			</button>
+			<button class='btn btn-default' type='button' :attr="{disabled : @curPage <= 1 ? 'disabled' : ''}" :click='@$toPage($event,-1)'>
+				<i class='glyphicon glyphicon-chevron-left'></i>
+			</button>
+			<input class='form-control page' placeholder='页数' 
+				:duplex-number='@changeCurPage' :on-keydown='@$toThePage()'>
+			<span>共{{@sumPage}}页</span>
+			<button class='btn btn-default' type='button' :attr="{disabled : @curPage >= @sumPage ? 'disabled' : ''}" :click='@$toPage($event,1)'>
+				<i class='glyphicon glyphicon-chevron-right'></i>
+			</button>
+			<button class='btn btn-default mpagination-last' type='button' :attr="{disabled : @curPage >= @sumPage ? 'disabled' : ''}" :click="@$toPage($event,'last')">
+				<i class='glyphicon glyphicon-forward'></i>
+			</button>
+		</div>
+		<div class='pull-right'>
+			<span>当前第{{@curPage}}页,{{@start}}~{{@end}}条,共{{@data[@$totalKey]}}条</span>
+			<select class='form-control' :duplex='@pageSize'>
+				<option :for='el in @pageSizeArr' :attr='{value : el}'>{{el}}</option>
+			</select>
+		<div>
+	</div>
 </div>

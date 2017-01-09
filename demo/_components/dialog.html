@@ -1,0 +1,25 @@
+<div :controller="demo_dialog" class='demo'>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp ms-widget='@$htmlconfig'>
+	    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
+	  </xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$htmlconfig : {
+			$id : "htmlDialog",
+	    is : "ms-dialog",
+	    title : "test"
+		},
+		showHtmlDialog : function(){
+			avalon.vmodels.htmlDialog.open();
+		}
+	</pre>
+	<code>结果:</code>
+	<button class='btn btn-default' :click="@showHtmlDialog">从html初始化的dialog</button>
+	<xmp ms-widget='@$htmlconfig'>
+    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
+  </xmp>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>first example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .test{
+      background-color: red;
+      transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      width: 300px;height: 300px;
+    }
+    .in{
+    }
+    .out{
+      width: 500px;height: 500px;
+    }
+  </style>
+</head>
+<body ms-controller="start" class='ms-controller'>
+  <div class='test' ms-effect="{is : 'test',action : @action}"></div>
+  <button ms-click="@click">test</button>
+  <script src='../src2/avalon.js'></script>
+  <script>
+    avalon.effect("test",{
+      enterClass : "in",
+      enterActiveClass: 'in',
+      leaveClass: 'out',
+      leaveActiveClass: 'out'
+    });
+    avalon.define({
+      $id : "start",
+      action : "enter",
+      click : function(){
+        this.action = this.action === 'enter' ? 'leave' : 'enter';
+      }
+    });
+  </script>
+</body>
+</html>

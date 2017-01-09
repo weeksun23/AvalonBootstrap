@@ -1,46 +1,56 @@
-define(["avalon"],function(avalon){
-	var lastDropdown;
-	var widget = avalon.ui.dropdown = function(element, data, vmodels){
-		var options = data.dropdownOptions;
-		var vmodel = avalon.define(data.dropdownId,function(vm){
-			avalon.mix(vm,options);
-			vm.$skipArray = [''];
-			vm.$init = function(){
-				var $p = avalon(element.parentNode);
-				$p.addClass("dropdown");
-				$p.attr("ms-class","open:show");
-				$p.appendHTML("<ul class='dropdown-menu'>" +
-					"<li ms-repeat='data' ms-class='divider:el.text === \"-\"'>" +
-						"<a ms-if='el.text !== \"-\"' href='javascript:void(0)' ms-click='clickMenu(el)'>"+
-							"<i ms-if='el.iconCls' class='glyphicon' ms-class='{{el.iconCls}}'></i> {{el.text}}"+
-						"</a>" +
-					"</li>" +
-				"</ul>");
-				avalon.bind(element,'click',function(e){
-					if(lastDropdown){
-						lastDropdown.show = false;
-						lastDropdown = null;
-					}
-					if(!vmodel.show){
-						lastDropdown = vmodel;
-						vmodel.show = true;
-						var fn = avalon.bind(document,"click",function(){
-							vmodel.show = false;
-							avalon.unbind(document,"click",fn);
-						});
-					}
-					e.stopPropagation();
-				});
-				avalon.scan(element.parentNode,vmodel);
-			};
-			vm.clickMenu = function(el){
-				el.handler && el.handler.call(this,el,vmodel);
-			};
-		});
-		return vmodel;
+var tpl = require("./avalon.dropdown.html");
+var hideEventHandle;
+AB.preHandlers["ms-dropdown"] = function(vm){
+	var obj = {
+		//数据项默认配置
+		divider : false,
+		handler : avalon.noop,
+		$clickedHide : true,
+		text : ''
 	};
-	widget.defaults = {
+	var data = vm.data;
+	avalon.each(data,function(i,v){
+		for(var j in obj){
+			if(v[j] === undefined){
+				v[j] = obj[j];
+			}
+		}
+	});
+};
+avalon.component("ms-dropdown",{
+	template: tpl,
+	defaults : {
+		isOpen : false,
+		theme : "default",
+		size : "",
 		data : [],
-		show : false
-	};
+		text : "testtest",
+		clickItem : function(el){
+			el.handler();
+			if(el.$clickedHide){
+				this.close();
+			}
+		},
+		close : function(){
+			this.isOpen = false;
+			if(hideEventHandle){
+				avalon.unbind(document.body,"click",hideEventHandle);
+				hideEventHandle = null;
+			}
+		},
+		clickBtn : function(){
+			if(hideEventHandle){
+				avalon.unbind(document.body,"click",hideEventHandle);
+			}
+			this.isOpen = !this.isOpen;
+			if(this.isOpen){
+				var me = this;
+				hideEventHandle = avalon.bind(document.body,"click",function(e){
+					if(e.target === me.$element) return false;
+					if(AB.isSubNode(e.target,"dropdown-menu")) return;
+					me.close();
+				});
+			}
+		}
+	}
 });
