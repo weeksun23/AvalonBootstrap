@@ -5,11 +5,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 var CleanPlugin = require('clean-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-
+var pageCss = new ExtractTextPlugin('[name].css');
 var commonCSS = new ExtractTextPlugin('[name].css');
 // var businessPublicCss = new ExtractTextPlugin("[name].css");
 
-var entries = ["accordion",'dialog','table','autocomplete','dropdown','tooltip','tab'];
+var entries = ["accordion",'dialog','table','autocomplete','dropdown','tooltip','tab','tree','index'];
 //是否发布
 var isRelease = process.env.NODE_ENV === 'production';
 var entryObj = {},
@@ -58,13 +58,14 @@ module.exports = {
   module: {
     loaders: [
       { test : /(bootstrap|demo)\.css$/,loader : commonCSS.extract('style', 'css')},
+      { test : /(index)\.css$/,loader : pageCss.extract('style', 'css')},
       { test: /src.*\.css$/, loader: "style!css"},
-      // { test: /asset\/lib\/.*\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader")},
       // { test: /asset\/avalon\/.*\.css$/,loader: "style!css"},
       // { test: /\.css$/, loader: 'style!css'},
       { test: /\.html$/,loader : 'html'},
       { test : /\.(woff|svg|eot|ttf)\??.*$/,loader:"url",query:{limit : 1,name : "fonts/[name].[ext]"}},
-      { test : /\.(jpg|png|gif)\??.*$/,loader:"url",query:{limit : 1,name : "image/[name].[ext]"}}
+      { test : /\.(jpg|png|gif)\??.*$/,loader:"url",query:{limit : 1,name : "image/[name].[ext]"}},
+      { test : /\.json$/,loader : "url",query:{limit : 1,name : "[name].json"}}
     ]
   },
   plugins : webpackPlugins,

@@ -1,0 +1,16 @@
+#body .navbar{margin-bottom: 10px}
+#body .navbar-toggle{margin-right: 0}
+.left{position: absolute;left: 10px;top: 0;width: 200px;}
+.center{margin-left: 220px;margin-right: 10px;padding-top: 1px;}
+.info{padding: 0 10px 10px 10px;font-size: 1.2rem;}
+.info i{margin-right: 5px}
+select.flow-sel{height: 250px;}
+.flow-oper button{margin-bottom: 5px;}
+.flow-info{padding:5px;border: 1px solid #f0f0f0;border-radius: 5px;}
+.flow-info p:last-child{margin-bottom: 0}
+@media (max-width: 767px) {
+	.left{position: static;width: auto;margin: 0 10px 10px 10px;}
+	.center{margin-left: 10px;}
+	.flow-oper button{margin-top: 5px;margin-left: 5px;margin-right: 5px;}
+	.flow-oper .vbh{display: none;}
+}

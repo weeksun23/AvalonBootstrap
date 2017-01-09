@@ -63,6 +63,16 @@ avalon.component('ms-accordion', {
   defaults: {
   	$multipleSel : false,
   	$lastSel : null,
+  	onReady : function(){
+  		if(this.$multipleSel) return;
+  		var me = this;
+  		avalon.each(this.data,function(i,v){
+  			if(v._selected){
+  				me.$lastSel = v;
+  				return false;
+  			}
+  		});
+  	},
     data : [/*{
 			title : panel标题,
 			content : panel body html,
@@ -94,6 +104,9 @@ avalon.component('ms-accordion', {
 			sel && (sel.selected = false);
 			ch.selected = true;
 			this.onSelectItem(ch);
+		},
+		findItem : function(func){
+			return findItem(this,func);
 		},
 		//获取所选的panel下的子item
 		getSelectedItem : function(){

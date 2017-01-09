@@ -1,0 +1,63 @@
+<div :controller="demo_accordion" class='demo'>
+	<h2>初始化</h2>
+	<h3>从data属性初始化</h3>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget="@$config"></xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$config : {
+	    $id : "accordion",
+	    is : "ms-accordion",
+	    $multipleSel : false,
+	    data : [{
+	      title : "a1",
+	      children : [{
+	        title : "a1-1"
+	      },{
+	        title : "a1-2",
+	        iconCls : "glyphicon-text-height"
+	      }]
+	    },{
+	      title : "a2",
+	      children : [{
+	        title : "a2-1",iconCls : "glyphicon-text-height"
+	      },{
+	        title : "a2-2"
+	      }]
+	    },{
+	      title : "content",
+	      content : "<h1>testtest</h1>"
+	    }]
+	  }
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$config'></xmp>
+	<h3>从html初始化</h3>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget='@$config'>
+	    <div title='a1'><h2>testetst</h2></div>
+	    <div title='a2'><h2>f3f323e32e</h2><p>wfewwef</p><h3>fewg34h3</h3></div>
+	    <div title='a3'><h2>dfherhe</h2></div>
+	  </xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$config : {
+	    $id : "accordion",
+	    is : "ms-accordion"
+	  }
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$config1'>
+		<div title='a1'><h2>testetst</h2></div>
+    <div title='a2'><h2>f3f323e32e</h2><p>wfewwef</p><h3>fewg34h3</h3></div>
+    <div title='a3'><h2>dfherhe</h2></div>
+	</xmp>
+	<h2>配置项说明</h2>
+	<h3>属性</h3>
+	<h3>方法</h3>
+	<h3>事件</h3>
+</div>

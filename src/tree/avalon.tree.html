@@ -1,0 +1,12 @@
+<li MS_OPTIONS_NODELIST class='tree-node'>
+	<i :click='@toggleOpenExpand(el)' class='glyphicon tree-toggle'
+	:class="{'glyphicon-menu-right':el.state === 'closed','glyphicon-menu-down':el.state === 'open' || !el.state,'tree-hidden':!el.state}"></i>
+	<i :click='@toggleCheck(el)' :if='@checkbox' class='glyphicon glyphicon-ok-circle tree-checkbox' :class="['tree-checkbox' + el.checked]"></i>
+	<span :click='@clickContent(el)' class='tree-node-content' :class="{'tree-node-select':el.selected}">
+		<i :if='icon && el.iconCls !== false' 
+		class='glyphicon'
+		:class="[(el.iconCls && (!el.state || el.state === 'closed' || (el.state === 'open' && !el.openIconCls))) ? el.iconCls : '',(el.openIconCls && el.state === 'open') ? el.openIconCls : '',{'glyphicon-folder-close':!el.loading && !el.iconCls && el.state==='closed','glyphicon-folder-open':!el.loading && !el.iconCls && el.state==='open','glyphicon-th-list':(!el.state && !el.iconCls) || el.iconCls === 'glyphicon-th-list','glyphicon-refresh':el.loading}]"></i>
+		<span class='tree-title'>{{el.text}}</span>
+	</span>
+	<ul :if='el.chLoaded && el.children && el.children.length' :visible="el.state==='open'" :html="@getChildrenTpl(el)"></ul>
+</li>

@@ -10,6 +10,7 @@ avalon.define({
   $config : {
     $id : "accordion",
     is : "ms-accordion",
+    $multipleSel : false,
     data : [{
       title : "werwer",
       children : [{
