@@ -1,41 +1,6 @@
-<<<<<<< HEAD
-<div class="panel-heading" ms-if='title'>
-	<h3 class="panel-title">{{title | html}}</h3>
-</div>
-<div class="panel-body mtable">
-	<div class='table-responsive' ms-class='mtable-nowrap:nowrap'>
-		<table class="table" ms-class='table-striped:striped' ms-class-1='table-bordered:border'>
-			<thead>
-				<tr>
-					<th ms-repeat='columns' ms-css-width='el.width' ms-click='sort(el)' ms-hover='mtable-th-hover' ms-class='text-center:el.checkbox'>
-						<div ms-if='!el.checkbox'>
-							{{el.title | html}}
-							<span class='pull-right' ms-if='el.sort' ms-visible='el.sortOrder'>
-								<i class='glyphicon' ms-class='glyphicon-triangle-{{el.sortOrder}}'></i>
-							</span>
-						</div>
-						<label class='mtable-checklabel' ms-if='el.checkbox'>
-							<input type='checkbox' ms-change='toggleCheckAll'>
-						</label>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ms-repeat-item="data[rowsKey]" ms-hover="mtable-tr-hover" ms-class='mtable-tr-selected:item._selected' ms-click='toggleSelect(item)'>
-					<td ms-repeat-el='columns' ms-attr-title='{{showColumnTitle ? el.title : ""}}'>
-						<div ms-if='!el.checkbox' ms-css-width='el.width'>{{el.formatter ? el.formatter(item[el.field],item) : item[el.field] | html}}</div>
-						<label class='mtable-checklabel' ms-if='el.checkbox'>
-							<input type='checkbox' ms-duplex-checked='item._selected' ms-change='toggleCheckItem(item)'>
-						</label>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-=======
 <div class='panel panel-default mgrid'>
 	<div class="panel-heading" :if='@title'>
 		<h3 class="panel-title" :html="@title"></h3>
->>>>>>> 2.0
 	</div>
 	<div class="panel-body mtable">
 		<div class='table-responsive' :class='{"mtable-nowrap":@nowrap}'>

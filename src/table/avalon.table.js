@@ -1,40 +1,3 @@
-<<<<<<< HEAD
-define(["avalon","text!./avalon.table.html","css!./avalon.table.css"],function(avalon,templete){
-	function initColumns(columns){
-		for(var j=0,column;column=columns[j++];){
-			var obj = {
-				//column基本属性
-				//字段名
-				field : "",
-				//格式化函数
-				formatter : null,
-				//标题
-				title : "",
-				//列宽度
-				width : null,
-				//排序
-				sort : null,
-				sortOrder : null,
-				checkbox : false
-			};
-			if(column.checkbox){
-				column.width = 50;
-			}
-			for(var i in obj){
-				if(column[i] === undefined){
-					column[i] = obj[i];
-				}else{
-					if(i === 'formatter'){
-						if(column.formatter === 'datetime'){
-							column.formatter = function(v){
-								return avalon.filters.date(v,"yyyy-MM-dd HH:mm:ss");
-							};
-						}else if(column.formatter === 'date'){
-							column.formatter = function(v){
-								return avalon.filters.date(v,"yyyy-MM-dd");
-							};
-						}
-=======
 var tpl = require("./avalon.table.html");
 require("./avalon.table.css");
 AB.preHandlers["ms-table"] = function(vm){
@@ -70,153 +33,11 @@ function initColumns(columns){
 						column.formatter = function(v){
 							return avalon.filters.date(v,"yyyy-MM-dd");
 						};
->>>>>>> 2.0
 					}
 				}
 			}
 		}
 	}
-<<<<<<< HEAD
-	var widget = avalon.ui.table = function(element, data, vmodels){
-		var options = data.tableOptions;
-		initFrontPageData(options);
-		initColumns(options.columns);
-		var lastSelect;
-		var vmodel = avalon.define(data.tableId,function(vm){
-			avalon.mix(vm,options);
-			vm.widgetElement = element;
-			vm.$skipArray = ['widgetElement','pageSizeArr','totalKey','rowsKey','loadData','frontPageData','queryParams',
-				'singleSelect','loadFilter',"pageNoKey","pageSizeKey"];
-			vm.$init = function(){
-				avalon(element).addClass("panel panel-default mgrid");
-				element.innerHTML = templete;
-				avalon.scan(element, vmodel);
-				if (typeof options.onInit === "function") {
-					options.onInit.call(element, vmodel, options, vmodels);
-				}
-				loadDataByPage(1);
-			};
-			vm.$toThePage = function(e){
-				if(e.keyCode === 13){
-					loadDataByPage(vmodel.changeCurPage || 1);
-				}
-			};
-			vm.$remove = function(){
-				element.innerHTML = element.textContent = ""
-			};
-			vm.$changePageSize = function(){
-				loadDataByPage(1);//vmodel.curPage
-			};
-			vm.$toPage = function(p){
-				if(this.disabled) return;
-				if(typeof p == 'number'){
-					var page = vmodel.curPage + p;
-				}else if(p == 'first'){
-					page = 1;
-				}else if(p == 'last'){
-					page = vmodel.sumPage;
-				}
-				loadDataByPage(page);
-			};
-			vm.toggleCheckAll = function(){
-				var data = vmodel.data[vmodel.rowsKey];
-				for(var i=0,ii;ii=data[i++];){
-					ii._selected = this.checked;
-				}
-				if(this.checked){
-					vmodel.onSelectAll.call(vmodel,data);
-				}else{
-					vmodel.onUnselectAll.call(vmodel,data);
-				}
-			};
-			vm.toggleCheckItem = function(item){
-				vmodel.toggleSelect(item);
-			};
-			vm.toggleSelect = function(item){
-				if(vmodel.singleSelect){
-					if(item._selected){
-						item._selected = false;
-						lastSelect = null;
-					}else{
-						if(lastSelect){
-							lastSelect._selected = false;
-						}
-						item._selected = true;
-						lastSelect = item;
-					}
-				}else{
-					item._selected = !item._selected;
-					if(item._selected){
-						vmodel.onSelect.call(vmodel,item);
-					}else{
-						vmodel.onUnselect.call(vmodel,item);
-					}
-				}
-			};
-			vm.sort = function(item){
-				if(item.sort){
-					if(item.sortOrder === 'bottom'){
-						item.sortOrder = 'top';
-					}else{
-						item.sortOrder = 'bottom';
-					}
-				}
-			};
-			/***/
-			vm.load = function(param){
-				ajaxLoad(1,param || {});
-			};
-			vm.reload = function(){
-				ajaxLoad(vmodel.curPage);
-			};
-			vm.loadFrontPageData = function(data,page){
-				initRowsData(data);
-				vmodel.frontPageData = data;
-				//重置数据
-				vmodel.data[vmodel.totalKey] = data.length;
-				vmodel.data[vmodel.rowsKey] = [];
-				dealFrontPageData(page || 1);
-			};
-			vm.getSelected = function(){
-				//获取所选的第一个行对象
-				return getSelect(true);
-			};
-			vm.getSelections = function(){
-				//获取所选的所有行对象
-				return getSelect(false);
-			};
-		});//6214 8378 2869 2982 301.77 
-		function getSelect(isFirst){
-			var data = vmodel.data[vmodel.rowsKey];
-			var re = [];
-			for(var i=0,ii;ii=data[i++];){
-				if(ii._selected){
-					if(isFirst){
-						return ii;
-					}
-					re.push(ii);
-				}
-			}
-			return isFirst ? null : re;
-		}
-		function dealFrontPageData(page,func){
-			if(!vmodel.frontPageData){
-				avalon.error("若不定义url，则请将数据源赋值给frontPageData属性");
-			}
-			vmodel.curPage = vmodel.changeCurPage = page;
-			updatePagination();
-			var start = (page - 1) * vmodel.pageSize;
-			var total = vmodel.data[vmodel.totalKey];
-			if(start >= total){
-				start = (vmodel.sumPage - 1) * vmodel.pageSize;
-			}
-			var end = start + vmodel.pageSize;
-			var re = [];
-			for(;start < end;start++){
-				var item = vmodel.frontPageData[start];
-				if(!item) break;
-				re.push(avalon.mix({},item));
-=======
 }
 //初始化每一行数据
 function initRowsData(data){
@@ -227,7 +48,6 @@ function initRowsData(data){
 		for(var j in obj){
 			if(ii[j] === undefined){
 				ii[j] = obj[j];
->>>>>>> 2.0
 			}
 		}
 	}
@@ -256,49 +76,6 @@ function getSelect(vmodel,isFirst){
 			}
 			re.push(ii);
 		}
-<<<<<<< HEAD
-		function ajaxLoad(page,obj){
-			var param = {};
-			if(vmodel.pagination){
-				param[vmodel.pageNoKey] = page;
-				param[vmodel.pageSizeKey] = vmodel.pageSize;
-			}
-			avalon.mix(vmodel.queryParams,param,obj);
-			avalon.ajaxGet(vmodel.url,vmodel.queryParams,function(data,errorInfo){
-				if(!data){
-					//错误 
-					setEmptyData(vmodel);
-					vmodel.changeCurPage = vmodel.curPage = 1;
-					updatePagination();
-					vmodel.onLoadError(errorInfo);
-					return;
-				}
-				if(vmodel.loadFilter){
-					data = vmodel.loadFilter(data,vmodel.rowsKey,vmodel.totalKey);
-				}
-				if(avalon.type(data) === 'array'){
-					//前台分页
-					vmodel.loadFrontPageData(data);
-				}else{
-					//后台分页
-					initRowsData(data[vmodel.rowsKey]);
-					vmodel.data[vmodel.rowsKey] = data[vmodel.rowsKey];
-					vmodel.data[vmodel.totalKey] = data[vmodel.totalKey];
-					vmodel.changeCurPage = vmodel.curPage = page;
-					updatePagination();
-					vmodel.onLoadSuccess(data);
-				}
-			},vmodel.widgetElement);
-		}
-		//初始化前台分页数据
-		function initFrontPageData(opts){
-			if(opts.url) return;
-			var frontPageData = opts.frontPageData;
-			if(!frontPageData) return;
-			initRowsData(frontPageData);
-			opts.data[opts.totalKey] = frontPageData.length;
-			opts.data[opts.rowsKey] = [];
-=======
 	}
 	return isFirst ? null : re;
 }
@@ -343,7 +120,6 @@ function ajaxLoad(vmodel,page,obj){
 			updatePagination(vmodel);
 			vmodel.onLoadError(errorInfo);
 			return;
->>>>>>> 2.0
 		}
 		if(avalon.type(data) === 'array'){
 			//前台分页
@@ -506,14 +282,6 @@ avalon.component("ms-table",{
 		//事件
 		onLoadSuccess : avalon.noop,
 		onLoadError : avalon.noop,
-<<<<<<< HEAD
-		onSelect : avalon.noop,
-		onUnselect : avalon.noop,
-		onSelectAll : avalon.noop,
-		onUnselectAll : avalon.noop
-	};
-=======
 		onSelect : avalon.noop
 	}
->>>>>>> 2.0
 });
