@@ -1,33 +1,33 @@
 webpackJsonp([5],{
 
-/***/ 49:
+/***/ 50:
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./accordion": 50,
-		"./accordion.html": 51,
-		"./accordion.js": 50,
-		"./autocomplete": 52,
-		"./autocomplete.html": 53,
-		"./autocomplete.js": 52,
-		"./dialog": 54,
-		"./dialog.html": 55,
-		"./dialog.js": 54,
-		"./dropdown": 56,
-		"./dropdown.html": 57,
-		"./dropdown.js": 56,
-		"./tab": 58,
-		"./tab.html": 59,
-		"./tab.js": 58,
-		"./table": 60,
-		"./table.html": 61,
-		"./table.js": 60,
-		"./tooltip": 62,
-		"./tooltip.html": 63,
-		"./tooltip.js": 62,
-		"./tree": 64,
-		"./tree.html": 65,
-		"./tree.js": 64
+		"./accordion": 51,
+		"./accordion.html": 52,
+		"./accordion.js": 51,
+		"./autocomplete": 53,
+		"./autocomplete.html": 54,
+		"./autocomplete.js": 53,
+		"./dialog": 55,
+		"./dialog.html": 56,
+		"./dialog.js": 55,
+		"./dropdown": 57,
+		"./dropdown.html": 58,
+		"./dropdown.js": 57,
+		"./tab": 59,
+		"./tab.html": 60,
+		"./tab.js": 59,
+		"./table": 61,
+		"./table.html": 62,
+		"./table.js": 61,
+		"./tooltip": 63,
+		"./tooltip.html": 64,
+		"./tooltip.js": 63,
+		"./tree": 65,
+		"./tree.html": 66,
+		"./tree.js": 65
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -40,15 +40,15 @@ webpackJsonp([5],{
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 49;
+	webpackContext.id = 50;
 
 
 /***/ },
 
-/***/ 50:
+/***/ 51:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(51);
+	var html = __webpack_require__(52);
 	var id = 'demo_accordion';
 	avalon.define({
 		$id : id,
@@ -162,17 +162,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 51:
+/***/ 52:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_accordion\" class='demo'>\r\n\t<h2>初始化</h2>\r\n\t<h3>从data属性初始化</h3>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<xmp :widget=\"@$config\"></xmp>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\t$config : {\r\n\t    $id : \"accordion\",\r\n\t    is : \"ms-accordion\",\r\n\t    $multipleSel : false,\r\n\t    data : [{\r\n\t      title : \"a1\",\r\n\t      children : [{\r\n\t        title : \"a1-1\"\r\n\t      },{\r\n\t        title : \"a1-2\",\r\n\t        iconCls : \"glyphicon-text-height\"\r\n\t      }]\r\n\t    },{\r\n\t      title : \"a2\",\r\n\t      children : [{\r\n\t        title : \"a2-1\",iconCls : \"glyphicon-text-height\"\r\n\t      },{\r\n\t        title : \"a2-2\"\r\n\t      }]\r\n\t    },{\r\n\t      title : \"content\",\r\n\t      content : \"<h1>testtest</h1>\"\r\n\t    }]\r\n\t  }\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<xmp :widget='@$config'></xmp>\r\n\t<h3>从html初始化</h3>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<xmp :widget='@$config'>\r\n\t    <div title='a1'><h2>testetst</h2></div>\r\n\t    <div title='a2'><h2>f3f323e32e</h2><p>wfewwef</p><h3>fewg34h3</h3></div>\r\n\t    <div title='a3'><h2>dfherhe</h2></div>\r\n\t  </xmp>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\t$config : {\r\n\t    $id : \"accordion\",\r\n\t    is : \"ms-accordion\"\r\n\t  }\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<xmp :widget='@$config1'>\r\n\t\t<div title='a1'><h2>testetst</h2></div>\r\n    <div title='a2'><h2>f3f323e32e</h2><p>wfewwef</p><h3>fewg34h3</h3></div>\r\n    <div title='a3'><h2>dfherhe</h2></div>\r\n\t</xmp>\r\n\t<h2>配置项说明</h2>\r\n\t<xmp :widget=\"@$attr\"></xmp>\r\n\t<xmp :widget=\"@$attr_data\"></xmp>\r\n\t<xmp :widget=\"@$attr_data_children\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$method\"></xmp>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 52:
+/***/ 53:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(53);
+	var html = __webpack_require__(54);
 	var id = 'demo_autocomplete';
 	avalon.define({
 		$id : id,
@@ -238,17 +238,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 53:
+/***/ 54:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_autocomplete\" class='demo'>\r\n\t<h2>初始化</h2>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<xmp :widget=\"@$config\"></xmp>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\t$config : {\r\n\t\t  is : \"ms-autocomplete\",\r\n\t\t  placeholder : \"请输入搜索关键字\",\r\n\t\t  $inputValueKey : '',\r\n\t\t  $source : [3434,2323,5444,3434,232323]\r\n\t\t}\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<xmp :widget='@$config'></xmp>\r\n\t<h2>配置项说明</h2>\r\n\t<xmp :widget=\"@$attr\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$eve\"></xmp>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 54:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(55);
+	var html = __webpack_require__(56);
 	avalon.define({
 		$id : "demo_dialog",
 		$htmlconfig : {
@@ -264,17 +264,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_dialog\" class='demo'>\r\n\t<h2>初始化</h2>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<xmp ms-widget='@$htmlconfig'>\r\n\t    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>\r\n\t  </xmp>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\t$htmlconfig : {\r\n\t\t\t$id : \"htmlDialog\",\r\n\t    is : \"ms-dialog\",\r\n\t    title : \"test\"\r\n\t\t},\r\n\t\tshowHtmlDialog : function(){\r\n\t\t\tavalon.vmodels.htmlDialog.open();\r\n\t\t}\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<button class='btn btn-default' :click=\"@showHtmlDialog\">从html初始化的dialog</button>\r\n\t<xmp ms-widget='@$htmlconfig'>\r\n    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>\r\n  </xmp>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 56:
+/***/ 57:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(57);
+	var html = __webpack_require__(58);
 	avalon.define({
 		$id : "demo_dropdown"
 	});
@@ -282,17 +282,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 57:
+/***/ 58:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_dropdown\" class='demo'>\r\n\t<h2>开发中，敬请期待</h2>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 58:
+/***/ 59:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(59);
+	var html = __webpack_require__(60);
 	avalon.define({
 		$id : "demo_tab"
 	});
@@ -300,17 +300,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_tab\" class='demo'>\r\n\t<h2>开发中，敬请期待</h2>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(61);
+	var html = __webpack_require__(62);
 	avalon.define({
 		$id : "demo_table"
 	});
@@ -318,17 +318,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 61:
+/***/ 62:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_table\" class='demo'>\r\n\t<h2>开发中，敬请期待</h2>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 62:
+/***/ 63:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(63);
+	var html = __webpack_require__(64);
 	avalon.define({
 		$id : "demo_tooltip"
 	});
@@ -336,17 +336,17 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 63:
+/***/ 64:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_tooltip\" class='demo'>\r\n\t<h2>开发中，敬请期待</h2>\r\n</div>\r\n";
 
 /***/ },
 
-/***/ 64:
+/***/ 65:
 /***/ function(module, exports, __webpack_require__) {
 
-	var html = __webpack_require__(65);
+	var html = __webpack_require__(66);
 	avalon.define({
 		$id : "demo_tree"
 	});
@@ -354,7 +354,7 @@ webpackJsonp([5],{
 
 /***/ },
 
-/***/ 65:
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = "<div :controller=\"demo_tree\" class='demo'>\r\n\t<h2>开发中，敬请期待</h2>\r\n</div>\r\n";
