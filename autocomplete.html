@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>autocomplete</title>
+<style>
+	body{padding: 10px;}
+</style>
+<link href="common.js.css" rel="stylesheet"></head>
+<body ms-controller='page'>
+	<form class="form-inline">
+		<div class="form-group">
+			<div class="input-group">
+		  	<span class="input-group-addon">关键字</span>
+		  	<xmp :widget='@$config'></xmp>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+		  	<span class="input-group-addon">关键字</span>
+		  	<xmp :widget='@$config1'></xmp>
+			</div>
+		</div>
+	</form>
+<script type="text/javascript" src="common.js"></script><script type="text/javascript" src="autocomplete.js"></script></body>
+</html>

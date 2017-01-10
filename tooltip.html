@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tooltip</title>
+<style>
+	body{padding: 50px;}
+</style>
+<link href="common.js.css" rel="stylesheet"></head>
+<body ms-controller='page'>
+	<div ms-controller='test'>
+		<span ms-tooltip="@$tooltip1">tooltip</span>
+		<span ms-tooltip="@$tooltip2">popover</span>
+	</div>
+	<button ms-click='@change'>change</button>
+	<button ms-click='@remove'>remove</button>
+<script type="text/javascript" src="common.js"></script><script type="text/javascript" src="tooltip.js"></script></body>
+</html>

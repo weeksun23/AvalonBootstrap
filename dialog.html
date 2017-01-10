@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dialog</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="common.js.css" rel="stylesheet"></head>
+<body ms-controller="body" class='ms-controller'>
+  <xmp ms-widget='@$config'>
+    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
+    <p>
+      <button :click="@$config.openSub">open sub window</button>
+    </p>
+  </xmp>
+  <xmp ms-widget='@$subDialogConfig'>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
+    <h1>sub dialog</h1>
+  </xmp>
+  <button ms-click="@open">open</button>
+<script type="text/javascript" src="common.js"></script><script type="text/javascript" src="dialog.js"></script></body>
+</html>

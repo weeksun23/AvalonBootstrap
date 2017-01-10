@@ -1,106 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AvalonBootstrap</title>
-<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="css/demo.css" rel="stylesheet">
-</head>
-<body ms-controller='demo'>
-<div class='project-header'>
-	<div class='container'>
-		<h1>AvalonBootstrap</h1>
-		<p class='project-des'>用avalon做一些基于bootstrap的组件</p>
-	</div>
-</div>
-<div class="container">
-	<div class='row'>
-		<div class='col-sm-3'>
-			<div class="list-group">
-				<a href="javascript:void(0)" class="list-group-item" ms-repeat='items' 
-					ms-class='active:curIndex === $index' ms-click='changeIndex($index)'>{{el.text}}</a>
+	<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+		<title>avalonbootstrap</title>
+	<link href="common.js.css" rel="stylesheet"></head>
+	<body :controller="body" class='ms-controller' id='body'>
+		<div class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="javascript:void(0)">
+		         avalonbootstrap by weeksun23
+		      </a>
+		    </div>
+      </ul>
+		  </div>
+		</div>
+		<div class='posr'>
+			<div class='left'>
+				<xmp :widget="@$navOpts"></xmp>
+			</div>
+			<div class='center' :for="($index,el) in @demoData" :html="el.html" :visible="@curIndex === $index">
 			</div>
 		</div>
-		<div class='col-sm-9' id='content'>
-			<div ms-repeat='items' class='mitem' ms-class='active:curIndex === $index' ms-data-index='$index'>
-				<h2 ms-if='el.loading' class='text-center'>加载{{el.text}}中...</h2>
-			</div>
-		</div>
-	</div>
-</div>
-<div class='project-footer text-center'>
-	power by weeksun23 <a href='https://github.com/weeksun23' target='_blank'>Github</a>
-</div>
-<script src='src/avalon.js'></script>
-<script>
-	(function(){
-		var items = [{
-			text : "accordion"
-		},{
-			text : "dialog"
-		},{
-			text : "dropdown"
-		},{
-			text : "popover"
-		},{
-			text : "tab"
-		},{
-			text : "table"
-		},{
-			text : "tooltip"
-		},{
-			text : "tree"
-		}];
-		avalon.each(items,function(i,j){
-			j.$init = false;
-			j.loading = false;
-		});
-		var bodyVm = avalon.define({
-			$id : "demo",
-			curIndex : -1,
-			items : items,
-			changeIndex : function(i){
-				var target = bodyVm.items[i];
-				if(!target.$init){
-					target.$init = true;
-					var content = document.getElementById("content");
-					var targetNode;
-					avalon.each(content.childNodes,function(j,node){
-						if(node.nodeType === 1 && +node.getAttribute("data-index") === i){
-							targetNode = node;
-							return false;
-						}
-					});
-					target.loading = true;
-					avalon.require(["../demo/" + target.text + "/" + target.text],function(init){
-						target.loading = false;
-						init(targetNode);
-					});
-				}
-				bodyVm.curIndex = i;
-			}
-		});
-		avalon.bindingHandlers.code = function(data){
-			var el = data.element;
-			var html = el.innerHTML;
-			el.innerHTML = '';
-			var arr = html.split("\n");
-			var re = arr[0].match(/^\s*/);
-			var reg = new RegExp("^" + re[0]);
-			for(var i=0,ii=arr.length;i<ii;i++){
-				arr[i] = arr[i].replace(reg,"");
-			}
-			if(/^\s*$/.test(arr[ii - 1])){
-				arr.pop();
-			}
-			el.appendChild(document.createTextNode(arr.join("\n")));
-			el.removeAttribute("ms-code");
-		};
-		avalon.scan();
-		bodyVm.changeIndex(0);
-	})();
-</script>
-</body>
+	<script type="text/javascript" src="common.js"></script><script type="text/javascript" src="index.js"></script></body>
 </html>
