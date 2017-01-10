@@ -14,3 +14,7 @@ select.flow-sel{height: 250px;}
 	.flow-oper button{margin-top: 5px;margin-left: 5px;margin-right: 5px;}
 	.flow-oper .vbh{display: none;}
 }
+.github{
+	position: absolute;top: 0;right: 0;width: 149px;height: 149px;z-index: 100;
+	cursor: pointer;background: url(github.png) no-repeat 0 0;display: block;
+}

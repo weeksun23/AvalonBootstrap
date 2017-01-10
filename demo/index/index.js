@@ -95,18 +95,10 @@ var vmodel = avalon.define({
 		var demo = this.demoData[target];
 		if(!demo.$init){
 			require(["../_components/"+page],function(html){
-
 				demo.html = dealDemoHtml(html);
 				demo.$init = true;
 			});
 		}
-		// var iframe = document.querySelector("#page");
-		// if(iframe){
-		// 	iframe.src = page + ".html";
-		// }else{
-		// 	document.querySelector("#center").innerHTML = "<iframe src='" + page + 
-		// 		".html'  id='page' name='page' frameborder='0' scrolling='no'></iframe>";
-		// }
 		avalon.vmodels.nav.findItem(function(item,i){
 			if(item.title === page){
 				this.data[i]._selected = true;
