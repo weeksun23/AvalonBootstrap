@@ -1,6 +1,9 @@
-<div class="btn-group" :class="{open : @isOpen}">
-  <button class="btn dropdown-toggle" :class="['btn-' + @theme,@size ? ('btn-' + @size) : '']" type="button" :click="@clickBtn">
-    {{@text}}<span class="caret" style='margin-left:5px'></span>
+<div class="btn-group" :class="{open : @isOpen,dropup : @dropup}">
+  <button class="btn" :class="['btn-' + @theme,@size ? ('btn-' + @size) : '',{'dropdown-toggle' : !@split}]" type="button" :click="@clickBtn(true)">
+    {{@text}}<span class="caret" style='margin-left:5px' :if="!@split"></span>
+  </button>
+  <button class='btn dropdown-toggle'  :class="['btn-' + @theme,@size ? ('btn-' + @size) : '']" type='button' :if="@split" :click="@clickBtn(false)">
+  	<span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
   	<li :for="el in @data" :class="{divider : el.divider}" :click="@clickItem(el)">

@@ -5,10 +5,10 @@
         <button type="button" class="close" :click='@close(null)'><span>&times;</span></button>
         <h4 class="modal-title" :html="@title"></h4>
       </div>
-      <div class="modal-body" :if="!@content" :css-padding-bottom='@paddingBottom'>
+      <div class="modal-body" :if="!@content" :css="@bodyStyle">
         <slot />
       </div>
-      <div class="modal-body" :if="@content" :css-padding-bottom='@paddingBottom' :html="@content">
+      <div class="modal-body" :if="@content" :css="@bodyStyle" :html="@content">
       </div>
       <div class="modal-footer" :if='@buttons && @buttons.length > 0' :css-text-align='@btnAlign'>
         <button :for='(i,btn) in @buttons' type="button" class="btn" :class="'btn-' + btn.theme" :click='@clickBtn(btn)'>

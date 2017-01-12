@@ -1,3 +1,52 @@
 <div :controller="demo_dropdown" class='demo'>
-	<h2>开发中，敬请期待</h2>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget='@$config'></xmp>
+		<xmp :widget='@$config1'></xmp>
+		<xmp :widget='@$config2'></xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		function getData(){
+			return [{
+	      text : 'rewr32r3r',
+	      handler : function(){
+	        alert(1);
+	      }
+	    },{
+	      text : '13f32f',$clickedHide : false
+	    },{
+	      text : 'd12fgew'
+	    },{
+	      text : '23r32r32r'
+	    }];
+		}
+		...
+		$config : {
+	    is : "ms-dropdown",
+	    data : getData()
+		},
+		$config1 : {
+	    is : "ms-dropdown",
+	    data : getData(),
+	    split : true,
+	    dropup : true
+		},
+		$config2 : {
+	    is : "ms-dropdown",
+	    data : getData(),
+	    split : true,
+	    dropup : true,
+	    size : 'lg',
+	    theme : "success",
+	    handler : function(){
+	    	alert("clickbtn");
+			}
+		}
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$config'></xmp>
+	<xmp :widget='@$config1'></xmp>
+	<xmp :widget='@$config2'></xmp>
 </div>

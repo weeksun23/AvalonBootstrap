@@ -27,23 +27,29 @@ avalon.component("ms-dialog",{
 		$isClosing : false,
 		//属性
 		buttons : [],
-		title : null,
+		title : '',
 		content : '',
 		isOpen : false,
 		isIn : false,
 		zIndex : 1050,
-		paddingBottom : "",
+		bodyStyle : {},
 		btnAlign : "",
 		//事件
 		onBeforeOpen : avalon.noop,
 		onOpen : avalon.noop,
 		onBeforeClose : avalon.noop,
 		onClose : avalon.noop,
+		//内部方法
 		clickBtn : function(el){
-			if(el.close){
+			var isAutoClose = el.close;
+			if(el.handler !== avalon.noop){
+				var re = el.handler.call(this,el);
+				if(isAutoClose && re === false){
+					isAutoClose = false;
+				}
+			}
+			if(isAutoClose){
 				this.close();
-			}else{
-				el.handler && el.handler.call(this,this);
 			}
 		},
 		close : function(e){
@@ -74,7 +80,7 @@ avalon.component("ms-dialog",{
 			}
 			this.onClose();
 		},
-		open : function(isInit){
+		open : function(){
 			if(this.onBeforeOpen() === false) return;
 			avalon(document.body).addClass("modal-open");
 			this.isOpen = true;
@@ -82,22 +88,20 @@ avalon.component("ms-dialog",{
 			modalBackDrop.visible = true;
 			// modalBackDrop.style.display = 'block';
 			var vm = this;
-			setTimeout(function(){
-				vm.isIn = true;
-				modalBackDrop.isIn = true;
-				// avalon(modalBackDrop).addClass("in");
-				if(!AB.support.transitionend){
-					vm.onOpen();
-				}
-				//处理重叠窗口
-				var dgs = modalBackDrop.$curDialogs;
-				var len = dgs.length;
-				if(len > 0){
-					var last = dgs[len - 1];
-					last.zIndex = 1000;
-				}
-				dgs.push(vm);
-			},100);
+			vm.isIn = true;
+			modalBackDrop.isIn = true;
+			// avalon(modalBackDrop).addClass("in");
+			if(!AB.support.transitionend){
+				vm.onOpen();
+			}
+			//处理重叠窗口
+			var dgs = modalBackDrop.$curDialogs;
+			var len = dgs.length;
+			if(len > 0){
+				var last = dgs[len - 1];
+				last.zIndex = 1000;
+			}
+			dgs.push(vm);
 		},
 		transitionend : function(e){
 			//窗口打开或结束后事件

@@ -3,8 +3,14 @@ require("../../css/demo.css");
 require("../../src/avalonbootstrap");
 require("./index.css");
 var navData = [{
-	title : "UI组件",
+	title : "起始",
 	_selected : true,
+	children : [{
+		title : '概述',
+		$hash : "overview"
+	}]
+},{
+	title : "UI组件",
 	children : [{
 		title : "accordion"
 	},{
@@ -31,11 +37,12 @@ var pageObj = (function(navData){
 	var re = {};
 	avalon.each(navData,function(i,v){
 		avalon.each(v.children,function(i,v){
-			re[v.title] = demoData.length;
+			re[v.$hash || v.title] = demoData.length;
 			demoData.push({
 				name : v.title,
 				html : "加载中...",
-				$init : false
+				$init : false,
+				$hash : v.$hash
 			});
 		})
 	});
@@ -88,7 +95,7 @@ var vmodel = avalon.define({
 		var page = location.hash.substring(1);
 		var target = pageObj[page];
 		if(target === undefined){
-			page = 'accordion';
+			page = 'overview';
 			target = 0;
 		}
 		this.curIndex = target;
@@ -100,7 +107,7 @@ var vmodel = avalon.define({
 			});
 		}
 		avalon.vmodels.nav.findItem(function(item,i){
-			if(item.title === page){
+			if((item.$hash || item.title) === page){
 				this.data[i]._selected = true;
 				this.selectItem(item);
 				return true;
@@ -112,7 +119,7 @@ var vmodel = avalon.define({
 		$id : 'nav',
 		$multipleSel : true,
 		onSelectItem : function(item){
-			location.hash = item.title;
+			location.hash = item.$hash || item.title;
 		},
 		data : navData
 	}

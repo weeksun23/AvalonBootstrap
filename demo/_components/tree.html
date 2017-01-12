@@ -1,3 +1,63 @@
 <div :controller="demo_tree" class='demo'>
-	<h2>开发中，敬请期待</h2>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget='@$config'></xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$config : {
+			is : "ms-tree",
+			$url : 'treedata.json',
+			checkbox : true,
+			loadFilter : function(data){
+				return {
+					code : 1,
+					data : data
+				};
+			},
+			treeList : [{
+				text : "asd"
+			},{
+				iconCls : "glyphicon-home",
+				text : "asd"
+			},{
+				iconCls : "glyphicon-home",
+				text : "asd"
+			},{
+				text : "asd",
+				state : "open",
+				children : [{
+					text : "asd",
+					state : "open",
+					children : [{
+						text : "asd"
+					}]
+				},{
+					text : "asd1"
+				},{
+					text : "asd2"
+				},{
+					text : "asd3"
+				}]
+			},{
+				text : "sdfwefwefwe"
+			},{
+				text : "asd",
+				state : "open",
+				children : [{
+					text : "asd",
+					state : "open",
+					children : [{
+						text : "asd"
+					}]
+				}]
+			},{
+				text : "asd",
+				state : 'closed'
+			}]
+		}
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$config'></xmp>
 </div>

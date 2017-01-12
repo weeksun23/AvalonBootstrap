@@ -1,3 +1,40 @@
 <div :controller="demo_tab" class='demo'>
-	<h2>开发中，敬请期待</h2>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<xmp :widget='@$htmlTab'>
+			<div title='dddd'>qwe</div>
+			<div title='wewe'>vewvewfw</div>
+			<div title='htth'>3f223</div>
+			<div title='qwe2'>qweasadasd</div>
+			<div title='cfda'>
+				<h1>dsgse</h1>
+				<h1>dsgse</h1>
+			</div>
+		</xmp>
+		<xmp :widget='@$jsTab'></xmp>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$htmlTab : {
+	    is : "ms-tab"
+		},
+		$jsTab : {
+	    is : "ms-tab",
+	    headerData : [{title : "a1",iconCls : "ok"},{title : "a2",closeable : true}],
+	    contentData : [{html : "<h1>gwgewerer</h1>"},{html : "<h1>gwweewgewerer</h1>"}]
+		}
+	</pre>
+	<code>结果:</code>
+	<xmp :widget='@$htmlTab'>
+		<div title='dddd'>qwe</div>
+		<div title='wewe'>vewvewfw</div>
+		<div title='htth'>3f223</div>
+		<div title='qwe2'>qweasadasd</div>
+		<div title='cfda'>
+			<h1>dsgse</h1>
+			<h1>dsgse</h1>
+		</div>
+	</xmp>
+	<xmp :widget='@$jsTab'></xmp>
 </div>

@@ -1,3 +1,22 @@
 <div :controller="demo_tooltip" class='demo'>
-	<h2>开发中，敬请期待</h2>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<span ms-tooltip="@$tooltip1">tooltip(hover me)</span><br>
+		<span ms-tooltip="@$tooltip2">popover(click me)</span>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		$tooltip1 : {
+			position : "bottom",content : "wefwefewf"
+		},
+		$tooltip2 : {
+			content:"<span ms-tooltip='{content : \"hdggrrr\"}'>tooltip</span>",position:'bottom',
+			type:'popover',title:'gergergerg',
+			triggerOn : 'click'
+		}
+	</pre>
+	<code>结果:</code>
+	<span ms-tooltip="@$tooltip1">tooltip(hover me)</span><br>
+	<span ms-tooltip="@$tooltip2">popover(click me)</span>
 </div>

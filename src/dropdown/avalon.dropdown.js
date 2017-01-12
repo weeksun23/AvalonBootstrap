@@ -1,5 +1,4 @@
 var tpl = require("./avalon.dropdown.html");
-var hideEventHandle;
 AB.preHandlers["ms-dropdown"] = function(vm){
 	var obj = {
 		//数据项默认配置
@@ -20,11 +19,15 @@ AB.preHandlers["ms-dropdown"] = function(vm){
 avalon.component("ms-dropdown",{
 	template: tpl,
 	defaults : {
+		$hideEventHandle : null,
+		dropup : false,
+		split : false,
 		isOpen : false,
 		theme : "default",
 		size : "",
 		data : [],
 		text : "testtest",
+		handler : avalon.noop,
 		clickItem : function(el){
 			el.handler();
 			if(el.$clickedHide){
@@ -33,19 +36,23 @@ avalon.component("ms-dropdown",{
 		},
 		close : function(){
 			this.isOpen = false;
-			if(hideEventHandle){
-				avalon.unbind(document.body,"click",hideEventHandle);
-				hideEventHandle = null;
+			if(this.$hideEventHandle){
+				avalon.unbind(document.body,"click",this.$hideEventHandle);
+				this.$hideEventHandle = null;
 			}
 		},
-		clickBtn : function(){
-			if(hideEventHandle){
-				avalon.unbind(document.body,"click",hideEventHandle);
+		clickBtn : function(isBtn){
+			if(isBtn && this.split) {
+				this.handler();
+				return;
+			}
+			if(this.$hideEventHandle){
+				avalon.unbind(document.body,"click",this.$hideEventHandle);
 			}
 			this.isOpen = !this.isOpen;
 			if(this.isOpen){
 				var me = this;
-				hideEventHandle = avalon.bind(document.body,"click",function(e){
+				this.$hideEventHandle = avalon.bind(document.body,"click",function(e){
 					if(e.target === me.$element) return false;
 					if(AB.isSubNode(e.target,"dropdown-menu")) return;
 					me.close();

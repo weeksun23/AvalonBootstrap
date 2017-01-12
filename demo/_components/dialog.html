@@ -2,24 +2,44 @@
 	<h2>初始化</h2>
 	<code>html:</code>
 	<pre class='demo-code'>
-		<xmp ms-widget='@$htmlconfig'>
+		<xmp :widget='@$htmlconfig'>
 	    <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
 	  </xmp>
+	  <xmp :widget='@$jsconfig'></xmp>
 	</pre>
 	<code>js:</code>
 	<pre class='demo-code'>
 		$htmlconfig : {
 			$id : "htmlDialog",
 	    is : "ms-dialog",
-	    title : "test"
+	    title : "htmlDialog"
 		},
 		showHtmlDialog : function(){
 			avalon.vmodels.htmlDialog.open();
+		},
+		$jsconfig : {
+			$id : 'jsDialog',
+			is : "ms-dialog",
+			title : 'jsDialog',
+			content : "<h1>rr444rrr</h1><h2>regergrg</h2>",
+			buttons : [{text : 'ok',close : true}]
+		},
+		showJsDialog : function(){
+			avalon.vmodels.jsDialog.open();
 		}
 	</pre>
 	<code>结果:</code>
 	<button class='btn btn-default' :click="@showHtmlDialog">从html初始化的dialog</button>
+	<button class='btn btn-default' :click="@showJsDialog">从js初始化的dialog</button>
 	<xmp ms-widget='@$htmlconfig'>
     <h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1><h1>wefwefwef</h1>
   </xmp>
+  <xmp ms-widget='@$jsconfig'></xmp>
+  <h2>配置项说明</h2>
+  <xmp :widget="@$attr"></xmp>
+  <xmp :widget="@$attr_buttons"></xmp>
+  <hr>
+  <xmp :widget="@$method"></xmp>
+  <hr>
+  <xmp :widget="@$eve"></xmp>
 </div>
