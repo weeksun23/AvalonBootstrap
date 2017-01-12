@@ -16,8 +16,14 @@ webpackJsonp([4],{
 	__webpack_require__(13);
 	__webpack_require__(47);
 	var navData = [{
-		title : "UI组件",
+		title : "起始",
 		_selected : true,
+		children : [{
+			title : '概述',
+			$hash : "overview"
+		}]
+	},{
+		title : "UI组件",
 		children : [{
 			title : "accordion"
 		},{
@@ -44,11 +50,12 @@ webpackJsonp([4],{
 		var re = {};
 		avalon.each(navData,function(i,v){
 			avalon.each(v.children,function(i,v){
-				re[v.title] = demoData.length;
+				re[v.$hash || v.title] = demoData.length;
 				demoData.push({
 					name : v.title,
 					html : "加载中...",
-					$init : false
+					$init : false,
+					$hash : v.$hash
 				});
 			})
 		});
@@ -101,7 +108,7 @@ webpackJsonp([4],{
 			var page = location.hash.substring(1);
 			var target = pageObj[page];
 			if(target === undefined){
-				page = 'accordion';
+				page = 'overview';
 				target = 0;
 			}
 			this.curIndex = target;
@@ -113,7 +120,7 @@ webpackJsonp([4],{
 				}.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));});
 			}
 			avalon.vmodels.nav.findItem(function(item,i){
-				if(item.title === page){
+				if((item.$hash || item.title) === page){
 					this.data[i]._selected = true;
 					this.selectItem(item);
 					return true;
@@ -125,7 +132,7 @@ webpackJsonp([4],{
 			$id : 'nav',
 			$multipleSel : true,
 			onSelectItem : function(item){
-				location.hash = item.title;
+				location.hash = item.$hash || item.title;
 			},
 			data : navData
 		}

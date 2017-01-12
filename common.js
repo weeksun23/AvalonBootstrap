@@ -88,7 +88,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e767cb287e2e6a23b208"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "303993965f2784752726"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -9194,23 +9194,29 @@
 			$isClosing : false,
 			//属性
 			buttons : [],
-			title : null,
+			title : '',
 			content : '',
 			isOpen : false,
 			isIn : false,
 			zIndex : 1050,
-			paddingBottom : "",
+			bodyStyle : {},
 			btnAlign : "",
 			//事件
 			onBeforeOpen : avalon.noop,
 			onOpen : avalon.noop,
 			onBeforeClose : avalon.noop,
 			onClose : avalon.noop,
+			//内部方法
 			clickBtn : function(el){
-				if(el.close){
+				var isAutoClose = el.close;
+				if(el.handler !== avalon.noop){
+					var re = el.handler.call(this,el);
+					if(isAutoClose && re === false){
+						isAutoClose = false;
+					}
+				}
+				if(isAutoClose){
 					this.close();
-				}else{
-					el.handler && el.handler.call(this,this);
 				}
 			},
 			close : function(e){
@@ -9241,7 +9247,7 @@
 				}
 				this.onClose();
 			},
-			open : function(isInit){
+			open : function(){
 				if(this.onBeforeOpen() === false) return;
 				avalon(document.body).addClass("modal-open");
 				this.isOpen = true;
@@ -9249,22 +9255,20 @@
 				modalBackDrop.visible = true;
 				// modalBackDrop.style.display = 'block';
 				var vm = this;
-				setTimeout(function(){
-					vm.isIn = true;
-					modalBackDrop.isIn = true;
-					// avalon(modalBackDrop).addClass("in");
-					if(!AB.support.transitionend){
-						vm.onOpen();
-					}
-					//处理重叠窗口
-					var dgs = modalBackDrop.$curDialogs;
-					var len = dgs.length;
-					if(len > 0){
-						var last = dgs[len - 1];
-						last.zIndex = 1000;
-					}
-					dgs.push(vm);
-				},100);
+				vm.isIn = true;
+				modalBackDrop.isIn = true;
+				// avalon(modalBackDrop).addClass("in");
+				if(!AB.support.transitionend){
+					vm.onOpen();
+				}
+				//处理重叠窗口
+				var dgs = modalBackDrop.$curDialogs;
+				var len = dgs.length;
+				if(len > 0){
+					var last = dgs[len - 1];
+					last.zIndex = 1000;
+				}
+				dgs.push(vm);
 			},
 			transitionend : function(e){
 				//窗口打开或结束后事件
@@ -9298,7 +9302,7 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class='modal fade' :visible='@isOpen' :class=\"{'in' : @isIn}\" :css=\"{zIndex : @zIndex}\" :click='@close'>\r\n  <div class=\"modal-dialog\" :on-transitionend=\"@transitionend\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\" :if='@title'>\r\n        <button type=\"button\" class=\"close\" :click='@close(null)'><span>&times;</span></button>\r\n        <h4 class=\"modal-title\" :html=\"@title\"></h4>\r\n      </div>\r\n      <div class=\"modal-body\" :if=\"!@content\" :css-padding-bottom='@paddingBottom'>\r\n        <slot />\r\n      </div>\r\n      <div class=\"modal-body\" :if=\"@content\" :css-padding-bottom='@paddingBottom' :html=\"@content\">\r\n      </div>\r\n      <div class=\"modal-footer\" :if='@buttons && @buttons.length > 0' :css-text-align='@btnAlign'>\r\n        <button :for='(i,btn) in @buttons' type=\"button\" class=\"btn\" :class=\"'btn-' + btn.theme\" :click='@clickBtn(btn)'>\r\n          <i :if='btn.iconCls' class='glyphicon ' :class='btn.iconCls'></i> {{btn.text}}\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>";
+	module.exports = "<div class='modal fade' :visible='@isOpen' :class=\"{'in' : @isIn}\" :css=\"{zIndex : @zIndex}\" :click='@close'>\r\n  <div class=\"modal-dialog\" :on-transitionend=\"@transitionend\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\" :if='@title'>\r\n        <button type=\"button\" class=\"close\" :click='@close(null)'><span>&times;</span></button>\r\n        <h4 class=\"modal-title\" :html=\"@title\"></h4>\r\n      </div>\r\n      <div class=\"modal-body\" :if=\"!@content\" :css=\"@bodyStyle\">\r\n        <slot />\r\n      </div>\r\n      <div class=\"modal-body\" :if=\"@content\" :css=\"@bodyStyle\" :html=\"@content\">\r\n      </div>\r\n      <div class=\"modal-footer\" :if='@buttons && @buttons.length > 0' :css-text-align='@btnAlign'>\r\n        <button :for='(i,btn) in @buttons' type=\"button\" class=\"btn\" :class=\"'btn-' + btn.theme\" :click='@clickBtn(btn)'>\r\n          <i :if='btn.iconCls' class='glyphicon ' :class='btn.iconCls'></i> {{btn.text}}\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>";
 
 /***/ },
 /* 25 */
@@ -9830,7 +9834,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var tpl = __webpack_require__(33);
-	var hideEventHandle;
 	AB.preHandlers["ms-dropdown"] = function(vm){
 		var obj = {
 			//数据项默认配置
@@ -9851,11 +9854,15 @@
 	avalon.component("ms-dropdown",{
 		template: tpl,
 		defaults : {
+			$hideEventHandle : null,
+			dropup : false,
+			split : false,
 			isOpen : false,
 			theme : "default",
 			size : "",
 			data : [],
 			text : "testtest",
+			handler : avalon.noop,
 			clickItem : function(el){
 				el.handler();
 				if(el.$clickedHide){
@@ -9864,19 +9871,23 @@
 			},
 			close : function(){
 				this.isOpen = false;
-				if(hideEventHandle){
-					avalon.unbind(document.body,"click",hideEventHandle);
-					hideEventHandle = null;
+				if(this.$hideEventHandle){
+					avalon.unbind(document.body,"click",this.$hideEventHandle);
+					this.$hideEventHandle = null;
 				}
 			},
-			clickBtn : function(){
-				if(hideEventHandle){
-					avalon.unbind(document.body,"click",hideEventHandle);
+			clickBtn : function(isBtn){
+				if(isBtn && this.split) {
+					this.handler();
+					return;
+				}
+				if(this.$hideEventHandle){
+					avalon.unbind(document.body,"click",this.$hideEventHandle);
 				}
 				this.isOpen = !this.isOpen;
 				if(this.isOpen){
 					var me = this;
-					hideEventHandle = avalon.bind(document.body,"click",function(e){
+					this.$hideEventHandle = avalon.bind(document.body,"click",function(e){
 						if(e.target === me.$element) return false;
 						if(AB.isSubNode(e.target,"dropdown-menu")) return;
 						me.close();
@@ -9890,7 +9901,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"btn-group\" :class=\"{open : @isOpen}\">\r\n  <button class=\"btn dropdown-toggle\" :class=\"['btn-' + @theme,@size ? ('btn-' + @size) : '']\" type=\"button\" :click=\"@clickBtn\">\r\n    {{@text}}<span class=\"caret\" style='margin-left:5px'></span>\r\n  </button>\r\n  <ul class=\"dropdown-menu\">\r\n  \t<li :for=\"el in @data\" :class=\"{divider : el.divider}\" :click=\"@clickItem(el)\">\r\n  \t\t<a href=\"javascript:void(0)\">{{el.text}}</a>\r\n  \t</li>\r\n  </ul>\r\n</div>";
+	module.exports = "<div class=\"btn-group\" :class=\"{open : @isOpen,dropup : @dropup}\">\r\n  <button class=\"btn\" :class=\"['btn-' + @theme,@size ? ('btn-' + @size) : '',{'dropdown-toggle' : !@split}]\" type=\"button\" :click=\"@clickBtn(true)\">\r\n    {{@text}}<span class=\"caret\" style='margin-left:5px' :if=\"!@split\"></span>\r\n  </button>\r\n  <button class='btn dropdown-toggle'  :class=\"['btn-' + @theme,@size ? ('btn-' + @size) : '']\" type='button' :if=\"@split\" :click=\"@clickBtn(false)\">\r\n  \t<span class=\"caret\"></span>\r\n  </button>\r\n  <ul class=\"dropdown-menu\">\r\n  \t<li :for=\"el in @data\" :class=\"{divider : el.divider}\" :click=\"@clickItem(el)\">\r\n  \t\t<a href=\"javascript:void(0)\">{{el.text}}</a>\r\n  \t</li>\r\n  </ul>\r\n</div>";
 
 /***/ },
 /* 34 */
@@ -10068,7 +10079,6 @@
 			});
 		}
 	};
-	// var modalBackDrop;
 	avalon.component("ms-tab",{
 		template: tpl,
 		defaults : {
@@ -10113,7 +10123,7 @@
 				}else if(i < this.curIndex){
 					this.curIndex--;
 				}
-				this.onClose.call(element,this);
+				this.onClose();
 			},
 			getTab : function(p){
 				var headerData = this.headerData;
@@ -10143,121 +10153,6 @@
 			onClose : avalon.noop
 		}
 	});
-	// define(["avalon","text!./avalon.tab.html"],function(avalon,template){
-	// 	avalon.component("ab:tab",{
-	// 		$template: template,
-	// 		$replace : true,
-	// 		$construct : function(opts,vmOpts,elemOpts){
-	// 			var children = avalon(this).children();
-	// 			if(children.length > 0){
-	// 				var headerData = vmOpts.headerData = [];
-	// 				var contentData = vmOpts.contentData = [];
-	// 				avalon.each(children,function(i,v){
-	// 					var obj = {
-	// 						title : v.title,
-	// 						icons : []
-	// 					};
-	// 					obj.iconCls = v.getAttribute("data-iconCls");
-	// 					obj.closeable = v.getAttribute("data-closeable") !== null;
-	// 					headerData.push(obj);
-	// 					contentData.push({
-	// 						html : v.innerHTML,
-	// 						$init : false
-	// 					});
-	// 				});
-	// 			}
-	// 			return avalon.mix(opts,vmOpts,elemOpts);
-	// 		},
-	// 		$ready : function(vmodel,element){
-	// 			vmodel.curIndex = 0;
-	// 			vmodel.$clickHeader = function(i){
-	// 				vmodel.curIndex = i;
-	// 			};
-	// 			vmodel.add = function(obj){
-	// 				vmodel.headerData.push(avalon.mix({
-	// 					closeable : false,
-	// 					iconCls : null,
-	// 					title : '',
-	// 					icons : []
-	// 				},obj.header));
-	// 				vmodel.contentData.push(avalon.mix({
-	// 					html : null,
-	// 					$init : false
-	// 				},obj.content));
-	// 				if(obj.selected){
-	// 					vmodel.curIndex = vmodel.headerData.length - 1;
-	// 				}
-	// 			};
-	// 			vmodel.$closeTab = function(e,i){
-	// 				e.stopPropagation();
-	// 				vmodel.headerData.removeAt(i);
-	// 				vmodel.contentData.removeAt(i);
-	// 				var len = vmodel.headerData.length;
-	// 				if(i === vmodel.curIndex){
-	// 					if(i === len){
-	// 						var sel = len - 1;
-	// 					}else{
-	// 						sel = i;
-	// 					}
-	// 					if(vmodel.curIndex === sel){
-	// 						vmodel.$fire("curIndex",sel);
-	// 					}else{
-	// 						vmodel.curIndex = sel;
-	// 					}
-	// 				}else if(i < vmodel.curIndex){
-	// 					vmodel.curIndex--;
-	// 				}
-	// 				vmodel.onClose.call(element,vmodel);
-	// 			};
-	// 			vmodel.getTab = function(p){
-	// 				var headerData = vmodel.headerData;
-	// 				if(typeof p == 'string'){
-	// 					//根据标题获取tab
-	// 					for(var i=0,ii=headerData.length;i<ii;i++){
-	// 						if(headerData[i].title === p){
-	// 							return {
-	// 								index : i,
-	// 								header : headerData[i],
-	// 								content : vmodel.contentData[i]
-	// 							};
-	// 						}
-	// 					}
-	// 					return null;
-	// 				}else{
-	// 					//根据索引获取tab
-	// 					var header = headerData[p];
-	// 					return header ? {
-	// 						header : header,
-	// 						content : vmodel.contentData[p]
-	// 					} : null;
-	// 				}
-	// 			};
-	// 		},
-	// 		$skipArray : [],
-	// 		//属性
-	// 		curIndex : -1,
-	// 		/*
-	// 		title : 标题,
-	// 		iconCls : 标题左边的图标,
-	// 		icons : [],
-	// 		closeable : 是否可关闭
-	// 		*/
-	// 		headerData : [],
-	// 		/*
-	// 		html : 内容html,$init : 若为false则是第一次打开
-	// 		*/
-	// 		contentData : [],
-	// 		noContentTip : "暂无数据",
-	// 		//方法
-	// 		$clickHeader : avalon.noop,
-	// 		add : avalon.noop,
-	// 		$closeTab : avalon.noop,
-	// 		getTab : avalon.noop,
-	// 		//事件
-	// 		onSelect : avalon.noop,
-	// 		onClose : avalon.noop
-	// 	});
-	// });
 
 /***/ },
 /* 36 */
