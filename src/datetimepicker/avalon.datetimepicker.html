@@ -1,0 +1,69 @@
+<div class='datetimepicker datetimepicker-dropdown dropdown-menu' :css="{display : @isShow ? 'block' : 'none'}"
+	:class="['datetimepicker-dropdown-' + @position]">
+	<div class='datetimepicker-days' :css="{display : @isShow ? 'block' : 'none'}">
+		<table class='table-condensed'>
+			<thead>
+				<tr>
+					<th :click='@dealYear(-1)'>
+						<i class='glyphicon glyphicon-backward'></i>
+					</th>
+					<th :click='@dealMonth(-1)'>
+						<i class="glyphicon glyphicon-chevron-left"></i>
+					</th>
+					<th class="switch" colspan='3'>
+						<div class='switch-txt' :click="@toggleMonthyear">{{@year}}{{@yearText}}{{@monthName[@month - 1]}}</div>
+						<div class='datetimepicker-monthyear datetimepicker datetimepicker-dropdown dropdown-menu datetimepicker-dropdown-bottom-center'  :css="{display : @isMonthyearShow ? 'block' : 'none'}">
+							<table class='table-condensed'>
+								<tbody>
+									<tr :for="($index,el) in @yearScope">
+										<td :if="$index !== @yearScope.length - 1" colspan='2' :click="@setYear(el.value)"
+											:css="{background:@year === el.value ? '#eee' : ''}">{{el.value}}{{@yearText}}</td>
+										<td :if="$index === @yearScope.length - 1" :click='@setYearScope(-5)'>
+											<i class='glyphicon glyphicon-chevron-left'></i>
+										</td>
+										<td :if="$index === @yearScope.length - 1" :click='@setYearScope(5)'>
+											<i class='glyphicon glyphicon-chevron-right'></i>
+										</td>
+										<td :click="@setMonth(2 * $index + 1)" 
+											:css="{background:@month === 2 * $index + 1 ? '#eee' : ''}">{{@monthName[2 * $index]}}</td>
+										<td :click="@setMonth(2 * $index + 2)"
+											:css="{background:@month === 2 * $index + 2 ? '#eee' : ''}">{{@monthName[2 * $index + 1]}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</th>
+					<th :click='@dealMonth(1)'>
+						<i class='glyphicon glyphicon-chevron-right'></i>
+					</th>
+					<th :click='@dealYear(1)'>
+						<i class="glyphicon glyphicon-forward"></i>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th class='dow' :for="el in @weekdaysName">{{el}}</th>
+				</tr>
+				<tr :for="el in @data">
+					<td class='day' :for="day in el" :class="{old : day.month < @month,'new' : day.month > @month}">
+						{{day.value}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class='datetimepicker-time'>
+			<i class='glyphicon glyphicon-time'></i>
+			<input class="input-hour" type="text" :duplex="@hour" :on-focus="@focusInput" :on-keyup="@keyup($event,'hour')">
+			<span>:</span>
+			<input class="input-minute" type="text" :duplex="@minute" :on-focus="@focusInput" :on-keyup="@keyup($event,'minute')">
+			<span>:</span>
+			<input class="input-second" type="text" :duplex="@second" :on-focus="@focusInput" :on-keyup="@keyup($event,'second')">
+		</div>
+		<div class='datetimepicker-btn text-right'>
+			<button class='btn btn-default btn-sm'>清空</button>
+			<button class='btn btn-default btn-sm datetimepicker-btn-today'>今天</button>
+			<button class='btn btn-default btn-sm'>确定</button>
+		</div>
+	</div>
+</div>

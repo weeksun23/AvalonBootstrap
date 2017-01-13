@@ -5,39 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>datetimepicker</title>
-<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet">
-<link href="../../css/base.css" rel="stylesheet">
 </head>
 <body ms-controller='page'>
 <div class="container-fluid mgt10">
 	<div class='row'>
 		<div class='col-sm-12'>
-			<ab:datetimepicker config='$datetimepickerOpts'></ab:datetimepicker>
-		</div>
-	</div>
-	<div class='row'>
-		<div class='col-sm-12'>
-			<ab:datetimepicker config='$datetimepickerOpts1'></ab:datetimepicker>
+			<xmp :widget="@$config"></xmp>
 		</div>
 	</div>
 </div>
-<script src='../../src/avalon.js'></script>
-<script>
-	require(["avalon.extend","datetimepicker/avalon.datetimepicker"],function(){
-		var vmodel = avalon.define({
-			$id : "page",
-			$datetimepickerOpts : {
-				showTodayBtn : false
-			},
-			$datetimepickerOpts1 : {
-				format : "yyyyMMdd"
-			},
-			getTime : function(){
-				avalon.log(avalon.filters.date(new Date(),"yyyy-MM-dd HH:mm:ss"));
-			}
-		});
-		avalon.scan();
-	});
-</script>
 </body>
 </html>

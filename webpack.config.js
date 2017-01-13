@@ -9,7 +9,7 @@ var pageCss = new ExtractTextPlugin('[name].css');
 var commonCSS = new ExtractTextPlugin('[name].css');
 // var businessPublicCss = new ExtractTextPlugin("[name].css");
 
-var entries = ["accordion",'dialog','table','autocomplete','dropdown','tooltip','tab','tree','index'];
+var entries = ["accordion",'dialog','table','autocomplete','dropdown','tooltip','tab','tree','index','datetimepicker'];
 //是否发布
 var isRelease = process.env.NODE_ENV === 'production';
 var entryObj = {},

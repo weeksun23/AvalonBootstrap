@@ -11,5 +11,6 @@ require("./dropdown/avalon.dropdown");
 require("./tooltip/avalon.tooltip");
 require("./tab/avalon.tab");
 require("./tree/avalon.tree");
+require("./datetimepicker/avalon.datetimepicker");
 //ajax
 require("./ajax");
