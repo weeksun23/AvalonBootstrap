@@ -7,17 +7,14 @@ function padd0(val){
 avalon.component("ms-datetimepicker",{
 	template: tpl,
 	defaults : {
-		isShow : true,
-		showDays : true,
+		isShow : false,
     position : "bottom-right",
     year : now.getFullYear(),
     month : now.getMonth() + 1,
+    day : now.getDate(),
     hour : padd0(now.getHours()),
     minute : padd0(now.getMinutes()),
     second : padd0(now.getSeconds()),
-    weekdaysName : ['日','一','二','三','四','五','六'],
-    monthName : ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
-    yearText : "年",
     yearScope : [],
     data : [],
     isMonthyearShow : false,
@@ -47,7 +44,7 @@ avalon.component("ms-datetimepicker",{
         avalon.unbind(document.body,"click",this.$hideEventHandle);
         this.$hideEventHandle = null;
       }
-    	this.isMonthyearShow = !this.isMonthyearShow;
+      this.isMonthyearShow = !this.isMonthyearShow;
       var me = this;
       if(this.isMonthyearShow){
         var years = [];
@@ -62,67 +59,66 @@ avalon.component("ms-datetimepicker",{
       }
     },
     dealYear : function(d){
-    	this.year += d;
-    	this.dealData();
+      this.year += d;
+      this.dealData();
     },
     dealMonth : function(d){
-    	if(d === 1 && this.month === 12){
-    		this.month = 1;
-    		this.year++
-    	}else if(d === -1 && this.month === 1){
-    		this.month = 12;
-    		this.year--;
-    	}else{
-    		this.month += d;
-    	}
-    	this.dealData();
+      if(d === 1 && this.month === 12){
+        this.month = 1;
+        this.year++
+      }else if(d === -1 && this.month === 1){
+        this.month = 12;
+        this.year--;
+      }else{
+        this.month += d;
+      }
+      this.dealData();
     },
     dealData : function(){
-    	var date = new Date();
-    	date.setFullYear(this.year);
-    	//不减1 直接设置到下一个月
-    	date.setMonth(this.month);
-    	//当月的最后一天
-    	date.setDate(0);
-    	var days = date.getDate();
-    	//最后一天星期几
-    	var lastDay = date.getDay();
-    	date.setDate(1);
-    	// console.log(avalon.filters.date(date));
-    	var data = [];
-    	//第一天星期几
-    	var firstDay = date.getDay();
-    	if(firstDay === 0){
+      var date = new Date();
+      date.setFullYear(this.year);
+      //不减1 直接设置到下一个月
+      date.setMonth(this.month);
+      //当月的最后一天
+      date.setDate(0);
+      var days = date.getDate();
+      //最后一天星期几
+      var lastDay = date.getDay();
+      date.setDate(1);
+      // console.log(avalon.filters.date(date));
+      var data = [];
+      //第一天星期几
+      var firstDay = date.getDay();
+      if(firstDay === 0){
         //第一天是星期日 则上月最后7日组成一行
-    		date.setDate(date.getDate() - 7);
-    	}else{
-    		date.setDate(date.getDate() - firstDay);
-    	}
-    	var j=0;
-    	for(var i=1;i<=42;i++){
-    		var target = data[j];
-    		if(!target){
-    			target = data[j] = [];
-    		}
-    		if(target.length < 7){
-    			target.push({
-    				value : date.getDate(),
-    				month : date.getMonth() + 1
-    			});
-    			date.setDate(date.getDate() + 1);
-    		}else{
-    			j++;
-    			i--;
-    		}
-    	}
-    	this.data = data;
+        date.setDate(date.getDate() - 7);
+      }else{
+        date.setDate(date.getDate() - firstDay);
+      }
+      var j=0;
+      for(var i=1;i<=42;i++){
+        var target = data[j];
+        if(!target){
+          target = data[j] = [];
+        }
+        if(target.length < 7){
+          var value = date.getDate();
+          var month = date.getMonth() + 1;
+          target.push({
+            value : value,
+            month : month,
+            selected : value === this.day && month === this.month
+          });
+          date.setDate(date.getDate() + 1);
+        }else{
+          j++;
+          i--;
+        }
+      }
+      this.data = data;
     },
     onReady : function(){
-    	this.dealData();
-    },
-    setDateTime : function(date){
-      this.year = date.getFullYear();
-      this.month = date.getMonth() + 1;
+      this.dealData();
     },
     keyup : function(e,type){
       var value = this[type] + '';
@@ -146,12 +142,67 @@ avalon.component("ms-datetimepicker",{
           this[type] = value + '';
         }
       }
-    }
+    },
+    chooseDay : function(day){
+      if(day.month !== this.month) return;
+      for(var i=0,ii;ii=this.data[i++];){
+        var isBreak = false;
+        for(var j=0,jj;jj=ii[j++];){
+          if(jj.selected){
+            jj.selected = false;
+            isBreak = true;
+            break;
+          }
+        }
+        if(isBreak){
+          break;
+        }
+      }
+      day.selected = true;
+      this.day = day.value;
+      this.onChoose(this.getValue());
+      this.isShow = false;
+    },
+    $hideEventHandle : null,
+    //属性
+    weekdaysName : ['日','一','二','三','四','五','六'],
+    monthName : ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+    yearText : "年",
+    left : 0,
+    top : '100%',
+    format : "yyyy-MM-dd hh:mm:ss",
+    //方法
+    open : function(){
+      if(this.$hideEventHandle){
+        avalon.unbind(document.body,"click",this.$hideEventHandle);
+        this.$hideEventHandle = null;
+      }
+      if(this.isShow){
+        this.isShow = false;
+        return;
+      }
+      var me = this;
+      this.$hideEventHandle = avalon.bind(document.body,"click",function(e){
+        if(AB.isSubNode(e.target,"datetimepicker")) return;
+        me.isShow = false;
+      });
+      me.isShow = true;
+    },
+    setValue : function(date){
+      this.year = date.getFullYear();
+      this.month = date.getMonth() + 1;
+      this.day = date.getDate();
+      this.hour = date.getHours();
+      this.minute = date.getMinutes();
+      this.second = date.getSeconds();
+      this.dealData();
+    },
+    getValue : function(){
+      var date = new Date(this.year + "/" + this.month + "/" + this.day + " " + this.hour + ":" + 
+        this.minute + ":" + this.second);
+      return avalon.filters.date(date,this.format);
+    },
+    //事件
+    onChoose : avalon.noop
 	}
 });
-function dealTimeValue(vm,value,type){
-  console.log(value);
-  if(!/^\d+$/.test(value)){
-    vm[type] = '00';
-  }
-}

@@ -1,16 +1,14 @@
-require("../../css/bootstrap/bootstrap.css");
-require("../../css/demo.css");
-require("../../src/avalonbootstrap");
+var html = require("./datetimepicker.html");
 avalon.define({
-  $id : "page",
-  d1 : "",
+	$id : "demo_datetimepicker",
+	d1 : "",
   d2 : "",
   $config1 : {
     $id : "datetimepicker1",
     is : "ms-datetimepicker",
     left : 15,
     onChoose : function(val){
-    	avalon.vmodels.page.d1 = val; 
+    	avalon.vmodels.demo_datetimepicker.d1 = val; 
     }
   },
   showD1 : function(){
@@ -22,10 +20,11 @@ avalon.define({
     left : 15,
     format : "yyyy-MM-dd",
     onChoose : function(val){
-    	avalon.vmodels.page.d2 = val; 
+    	avalon.vmodels.demo_datetimepicker.d2 = val; 
     }
   },
   showD2 : function(){
   	avalon.vmodels.datetimepicker2.open();
   }
 });
+module.exports = html;

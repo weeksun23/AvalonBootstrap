@@ -417,6 +417,7 @@
 	height: 14px;
 }
 /*add by weeksun23*/
+.datetimepicker>div{display: block;}
 .datetimepicker th.switch{
 	position: relative;padding: 0
 }

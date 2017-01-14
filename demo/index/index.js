@@ -20,6 +20,8 @@ var navData = [{
 	},{
 		title : "dropdown"
 	},{
+		title : "datetimepicker"
+	},{
 		title : "tab"
 	},{
 		title : "table"

@@ -1,0 +1,67 @@
+<div :controller="demo_datetimepicker" class='demo'>
+	<h2>初始化</h2>
+	<code>html:</code>
+	<pre class='demo-code'>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">日期1</label>
+		    <div class="col-sm-4 posr">
+		      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD1" :duplex="@d1">
+		      <xmp :widget="@$config1"></xmp>
+		    </div>
+		    <label class="col-sm-2 control-label">日期2</label>
+		    <div class="col-sm-4 posr">
+		      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD2" :duplex="@d2">
+		      <xmp :widget="@$config2"></xmp>
+		    </div>
+		  </div>
+		</form>
+	</pre>
+	<code>js:</code>
+	<pre class='demo-code'>
+		d1 : "",
+	  d2 : "",
+	  $config1 : {
+	    $id : "datetimepicker1",
+	    is : "ms-datetimepicker",
+	    left : 15,
+	    onChoose : function(val){
+	    	avalon.vmodels.page.d1 = val; 
+	    }
+	  },
+	  showD1 : function(){
+	  	avalon.vmodels.datetimepicker1.open();
+	  },
+	  $config2 : {
+	  	$id : "datetimepicker2",
+	    is : "ms-datetimepicker",
+	    left : 15,
+	    format : "yyyy-MM-dd",
+	    onChoose : function(val){
+	    	avalon.vmodels.page.d2 = val; 
+	    }
+	  },
+	  showD2 : function(){
+	  	avalon.vmodels.datetimepicker2.open();
+	  }
+	</pre>
+	<code>结果:</code>
+	<div calss='row'>
+		<div class='col-sm-12'>
+			<form class="form-horizontal">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">日期1</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD1" :duplex="@d1">
+			      <xmp :widget="@$config1"></xmp>
+			    </div>
+			    <label class="col-sm-2 control-label">日期2</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD2" :duplex="@d2">
+			      <xmp :widget="@$config2"></xmp>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>

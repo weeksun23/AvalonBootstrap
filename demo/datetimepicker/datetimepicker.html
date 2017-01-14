@@ -10,7 +10,20 @@
 <div class="container-fluid mgt10">
 	<div class='row'>
 		<div class='col-sm-12'>
-			<xmp :widget="@$config"></xmp>
+			<form class="form-horizontal" role="form">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">日期1</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD1" :duplex="@d1">
+			      <xmp :widget="@$config1"></xmp>
+			    </div>
+			    <label class="col-sm-2 control-label">日期2</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD2" :duplex="@d2">
+			      <xmp :widget="@$config2"></xmp>
+			    </div>
+			  </div>
+			</form>
 		</div>
 	</div>
 </div>
