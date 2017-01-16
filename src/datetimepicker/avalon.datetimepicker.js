@@ -8,7 +8,6 @@ avalon.component("ms-datetimepicker",{
 	template: tpl,
 	defaults : {
 		isShow : false,
-    position : "bottom-right",
     year : now.getFullYear(),
     month : now.getMonth() + 1,
     day : now.getDate(),
@@ -19,6 +18,7 @@ avalon.component("ms-datetimepicker",{
     data : [],
     isMonthyearShow : false,
     $hideEventHandle : null,
+    $date : now,
     focusInput : function(e){
       var el = e.srcElement;
       el.select();
@@ -75,7 +75,7 @@ avalon.component("ms-datetimepicker",{
       this.dealData();
     },
     dealData : function(){
-      var date = new Date();
+      var date =  new Date();
       date.setFullYear(this.year);
       //不减1 直接设置到下一个月
       date.setMonth(this.month);
@@ -107,7 +107,8 @@ avalon.component("ms-datetimepicker",{
           target.push({
             value : value,
             month : month,
-            selected : value === this.day && month === this.month
+            selected : !!(this.$date && value === this.$date.getDate() && month === this.$date.getMonth() + 1 
+             && date.getFullYear() === this.$date.getFullYear())
           });
           date.setDate(date.getDate() + 1);
         }else{
@@ -160,19 +161,48 @@ avalon.component("ms-datetimepicker",{
       }
       day.selected = true;
       this.day = day.value;
-      this.onChoose(this.getValue());
+      var date = this.$date;
+      if(date){
+        date.setFullYear(this.year);
+        date.setMonth(this.month - 1);
+        date.setDate(day.value);
+      }else{
+        this.$date = this.getDate();
+      }
+      var value = this.getValue();
+      if(this.$targetKey && this.$target){
+        this.$target[this.$targetKey] = value;
+      }
+      this.onChoose(value);
       this.isShow = false;
     },
+    $target : null,
+    $targetKey : null,
     $hideEventHandle : null,
     //属性
     weekdaysName : ['日','一','二','三','四','五','六'],
     monthName : ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
     yearText : "年",
+    bottom : "auto",
     left : 0,
     top : '100%',
+    position : "bottom-right",
     format : "yyyy-MM-dd hh:mm:ss",
     //方法
-    open : function(){
+    clear : function(){
+      this.$date = null;
+      if(this.$target && this.$targetKey){
+        this.$target[this.$targetKey] = '';
+      }
+      this.dealData();
+      this.isShow = false;
+    },
+    setToday : function(){
+      this.setValue(this.$date = new Date());
+    },
+    open : function(target,targetKey){
+      this.$target = target;
+      this.$targetKey = targetKey;
       if(this.$hideEventHandle){
         avalon.unbind(document.body,"click",this.$hideEventHandle);
         this.$hideEventHandle = null;
@@ -192,14 +222,17 @@ avalon.component("ms-datetimepicker",{
       this.year = date.getFullYear();
       this.month = date.getMonth() + 1;
       this.day = date.getDate();
-      this.hour = date.getHours();
-      this.minute = date.getMinutes();
-      this.second = date.getSeconds();
+      this.hour = padd0(date.getHours());
+      this.minute = padd0(date.getMinutes());
+      this.second = padd0(date.getSeconds());
       this.dealData();
     },
-    getValue : function(){
-      var date = new Date(this.year + "/" + this.month + "/" + this.day + " " + this.hour + ":" + 
+    getDate : function(){
+      return new Date(this.year + "/" + this.month + "/" + this.day + " " + this.hour + ":" + 
         this.minute + ":" + this.second);
+    },
+    getValue : function(){
+      var date = this.getDate();
       return avalon.filters.date(date,this.format);
     },
     //事件

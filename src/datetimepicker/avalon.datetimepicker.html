@@ -1,4 +1,4 @@
-<div class='datetimepicker datetimepicker-dropdown dropdown-menu' :css="{display : @isShow ? 'block' : 'none',left : @left,top : @top}"
+<div class='datetimepicker datetimepicker-dropdown dropdown-menu' :css="{display : @isShow ? 'block' : 'none',left : @left,top : @top,bottom : @bottom}"
 	:class="['datetimepicker-dropdown-' + @position]">
 	<table class='table-condensed'>
 		<thead>
@@ -60,8 +60,8 @@
 		<input class="input-second" type="text" :duplex="@second" :on-focus="@focusInput" :on-keyup="@keyup($event,'second')" :visible="@format.indexOf('ss') !== -1">
 	</div>
 	<div class='datetimepicker-btn text-right'>
-		<button type='button' class='btn btn-default btn-sm'>清空</button>
-		<button type='button' class='btn btn-default btn-sm datetimepicker-btn-today'>今天</button>
-		<button type='button' class='btn btn-default btn-sm'>确定</button>
+		<button type='button' class='btn btn-default btn-sm' :click="@clear">清空</button>
+		<button type='button' class='btn btn-default btn-sm datetimepicker-btn-today' click='@setToday'>今天</button>
+		<button type='button' class='btn btn-default btn-sm' :click='@isShow = false'>取消</button>
 	</div>
 </div>
