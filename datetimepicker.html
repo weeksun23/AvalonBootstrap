@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>datetimepicker</title>
+<link href="common.js.css" rel="stylesheet"></head>
+<body ms-controller='page'>
+<div class="container-fluid mgt10">
+	<div class='row'>
+		<div class='col-sm-12'>
+			<form class="form-horizontal" role="form">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">日期1</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD1" :duplex="@d1">
+			      <xmp :widget="@$config1"></xmp>
+			    </div>
+			    <label class="col-sm-2 control-label">日期2</label>
+			    <div class="col-sm-4 posr">
+			      <input type="text" class="form-control" placeholder="选择日期" readonly :click="@showD2" :duplex="@d2">
+			      <xmp :widget="@$config2"></xmp>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="common.js"></script><script type="text/javascript" src="datetimepicker.js"></script></body>
+</html>

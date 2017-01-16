@@ -1,20 +1,20 @@
-webpackJsonp([4],{
+webpackJsonp([5],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(46);
+	module.exports = __webpack_require__(51);
 
 
 /***/ },
 
-/***/ 46:
+/***/ 51:
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(2);
 	__webpack_require__(11);
 	__webpack_require__(13);
-	__webpack_require__(47);
+	__webpack_require__(52);
 	var navData = [{
 		title : "起始",
 		_selected : true,
@@ -32,6 +32,8 @@ webpackJsonp([4],{
 			title : "dialog"
 		},{
 			title : "dropdown"
+		},{
+			title : "datetimepicker"
 		},{
 			title : "tab"
 		},{
@@ -114,7 +116,7 @@ webpackJsonp([4],{
 			this.curIndex = target;
 			var demo = this.demoData[target];
 			if(!demo.$init){
-				__webpack_require__.e/* require */(5, function(__webpack_require__) { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(50)("./"+page)]; (function(html){
+				__webpack_require__.e/* require */(6, function(__webpack_require__) { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(55)("./"+page)]; (function(html){
 					demo.html = dealDemoHtml(html);
 					demo.$init = true;
 				}.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));});
@@ -156,13 +158,13 @@ webpackJsonp([4],{
 
 /***/ },
 
-/***/ 47:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(48);
+	var content = __webpack_require__(53);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(10)(content, {});
@@ -171,8 +173,8 @@ webpackJsonp([4],{
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(48, function() {
-				var newContent = __webpack_require__(48);
+			module.hot.accept(53, function() {
+				var newContent = __webpack_require__(53);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -183,7 +185,7 @@ webpackJsonp([4],{
 
 /***/ },
 
-/***/ 48:
+/***/ 53:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(4)();
@@ -191,14 +193,14 @@ webpackJsonp([4],{
 
 
 	// module
-	exports.push([module.id, "#body .navbar{margin-bottom: 10px}\r\n#body .navbar-toggle{margin-right: 0}\r\n.left{position: absolute;left: 10px;top: 0;width: 200px;}\r\n.center{margin-left: 220px;margin-right: 10px;padding-top: 1px;}\r\n.info{padding: 0 10px 10px 10px;font-size: 1.2rem;}\r\n.info i{margin-right: 5px}\r\nselect.flow-sel{height: 250px;}\r\n.flow-oper button{margin-bottom: 5px;}\r\n.flow-info{padding:5px;border: 1px solid #f0f0f0;border-radius: 5px;}\r\n.flow-info p:last-child{margin-bottom: 0}\r\n@media (max-width: 767px) {\r\n\t.left{position: static;width: auto;margin: 0 10px 10px 10px;}\r\n\t.center{margin-left: 10px;}\r\n\t.flow-oper button{margin-top: 5px;margin-left: 5px;margin-right: 5px;}\r\n\t.flow-oper .vbh{display: none;}\r\n}\r\n.github{\r\n\tposition: absolute;top: 0;right: 0;width: 149px;height: 149px;z-index: 100;\r\n\tcursor: pointer;background: url(" + __webpack_require__(49) + ") no-repeat 0 0;display: block;\r\n}", ""]);
+	exports.push([module.id, "#body .navbar{margin-bottom: 10px}\r\n#body .navbar-toggle{margin-right: 0}\r\n.left{position: absolute;left: 10px;top: 0;width: 200px;}\r\n.center{margin-left: 220px;margin-right: 10px;padding-top: 1px;}\r\n.info{padding: 0 10px 10px 10px;font-size: 1.2rem;}\r\n.info i{margin-right: 5px}\r\nselect.flow-sel{height: 250px;}\r\n.flow-oper button{margin-bottom: 5px;}\r\n.flow-info{padding:5px;border: 1px solid #f0f0f0;border-radius: 5px;}\r\n.flow-info p:last-child{margin-bottom: 0}\r\n@media (max-width: 767px) {\r\n\t.left{position: static;width: auto;margin: 0 10px 10px 10px;}\r\n\t.center{margin-left: 10px;}\r\n\t.flow-oper button{margin-top: 5px;margin-left: 5px;margin-right: 5px;}\r\n\t.flow-oper .vbh{display: none;}\r\n}\r\n.github{\r\n\tposition: absolute;top: 0;right: 0;width: 149px;height: 149px;z-index: 100;\r\n\tcursor: pointer;background: url(" + __webpack_require__(54) + ") no-repeat 0 0;display: block;\r\n}", ""]);
 
 	// exports
 
 
 /***/ },
 
-/***/ 49:
+/***/ 54:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "image/github.png";
