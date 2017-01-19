@@ -9,7 +9,7 @@
  */
 .datetimepicker {
 	padding: 4px;
-	margin-top: 1px;
+	margin-top: 0px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -439,6 +439,7 @@
 	left: 50%;
 	margin-left: -5px;
 }
+.datetimepicker-time{padding-left: 5px;}
 .datetimepicker-time input{
 	width: 25px;padding:2px;text-align: center;height: auto;
 	display: inline-block;border:1px solid #ccc;

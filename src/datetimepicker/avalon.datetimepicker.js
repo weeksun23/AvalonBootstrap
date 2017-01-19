@@ -77,15 +77,9 @@ avalon.component("ms-datetimepicker",{
     dealData : function(){
       var date =  new Date();
       date.setFullYear(this.year);
-      //不减1 直接设置到下一个月
-      date.setMonth(this.month);
-      //当月的最后一天
-      date.setDate(0);
-      var days = date.getDate();
-      //最后一天星期几
-      var lastDay = date.getDay();
+      date.setMonth(this.month - 1);
       date.setDate(1);
-      // console.log(avalon.filters.date(date));
+      //二维数组
       var data = [];
       //第一天星期几
       var firstDay = date.getDay();
@@ -166,14 +160,17 @@ avalon.component("ms-datetimepicker",{
         date.setFullYear(this.year);
         date.setMonth(this.month - 1);
         date.setDate(day.value);
+        date.setHours(this.hour);
+        date.setMinutes(this.minute);
+        date.setSeconds(this.second);
       }else{
-        this.$date = this.getDate();
+        date = this.$date = this.getDate();
       }
       var value = this.getValue();
       if(this.$targetKey && this.$target){
         this.$target[this.$targetKey] = value;
       }
-      this.onChoose(value);
+      this.onChoose(value,date);
       this.isShow = false;
     },
     $target : null,
