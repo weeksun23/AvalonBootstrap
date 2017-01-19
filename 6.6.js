@@ -297,7 +297,32 @@ webpackJsonp([6],{
 	      {field : "des",title : "说明"},
 	      {field : "value",title : "默认值"}
 	    ],
-	    $frontPageData : []
+	    $frontPageData : [{
+	      name : 'weekdaysName',type : "array",des : "一周每天的名字",
+	      value : "['日','一','二','三','四','五','六']"
+	    },{
+	      name : "monthName",type : "array",des : "每月的名字",
+	      value : '["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]'
+	    },{
+	      name : "yearText",type : 'string',des : '年的描述名字',
+	      value : '年'
+	    },{
+	      name : "bottom",type : 'number,string',des : '日历div的bottom值',
+	      value : 'auto'
+	    },{
+	      name : "left",type : 'number,string',des : '日历div的left值',
+	      value : '0'
+	    },{
+	      name : "top",type : 'number,string',des : '日历div的top值',
+	      value : '100%'
+	    },{
+	      name : "position",type : 'string',des : '日历边缘端箭头的位置(相对于输入框)',
+	      value : 'bottom-right'
+	    },{
+	      name : "format",type : 'string',des : '日期值格式',
+	      value : 'yyyy-MM-dd hh:mm:ss'
+	    }]
+
 	  },
 	  $method : {
 	    title : "方法",
@@ -309,7 +334,18 @@ webpackJsonp([6],{
 	      {field : "value",title : "返回值"},
 	      {field : "des",title : "说明"}
 	    ],
-	    $frontPageData : []
+	    $frontPageData : [{
+	      name : "clear",param : "--",value : "undefined",des : "清空日历的值，若open的时候传入了输入框所需的引用值则同时清空输入框"
+	    },{
+	      name : "setToday",param : "--",value : "undefined",des : "将日历的时间置为当前时间"
+	    },{
+	      name : "setValue",param : "date:要设置的时间值，必须为date类型",value : "undefined",
+	      des : "将日历的时间设置为指定时间"
+	    },{
+	      name : "getDate",param : "--",value : "当前日历的时间",des : "获取当前日历的时间"
+	    },{
+	      name : "getValue",param : "--",value : "当前日历的时间经过格式化后的值",des : "获取当前日历的时间格式化值"
+	    }]
 	  },
 	  $eve : {
 	    title : "事件",
@@ -320,7 +356,10 @@ webpackJsonp([6],{
 	      {field : "param",title : "参数"},
 	      {field : "des",title : "说明"}
 	    ],
-	    $frontPageData : []
+	    $frontPageData : [{
+	      name : "onChoose",param : "value:格式化日期字符串,date:日历当前时间",
+	      des : "选择日期时触发的事件"
+	    }]
 	  }
 	});
 	module.exports = html;
@@ -330,7 +369,7 @@ webpackJsonp([6],{
 /***/ 61:
 /***/ function(module, exports) {
 
-	module.exports = "<div :controller=\"demo_datetimepicker\" class='demo'>\r\n\t<h2>初始化</h2>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<form class=\"form-horizontal\">\r\n\t\t  <div class=\"form-group\">\r\n\t\t    <label class=\"col-sm-2 control-label\">日期1</label>\r\n\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD1\" :duplex=\"@d1\">\r\n\t\t      <xmp :widget=\"@$config1\"></xmp>\r\n\t\t    </div>\r\n\t\t    <label class=\"col-sm-2 control-label\">日期2</label>\r\n\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD2\" :duplex=\"@d2\">\r\n\t\t      <xmp :widget=\"@$config2\"></xmp>\r\n\t\t    </div>\r\n\t\t  </div>\r\n\t\t</form>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\td1 : \"\",\r\n\t  d2 : \"\",\r\n\t  $config1 : {\r\n\t    $id : \"datetimepicker1\",\r\n\t    is : \"ms-datetimepicker\",\r\n\t    left : 15,\r\n\t    onChoose : function(val){\r\n\t    \tavalon.vmodels.page.d1 = val; \r\n\t    }\r\n\t  },\r\n\t  showD1 : function(){\r\n\t  \tavalon.vmodels.datetimepicker1.open();\r\n\t  },\r\n\t  $config2 : {\r\n\t  \t$id : \"datetimepicker2\",\r\n\t    is : \"ms-datetimepicker\",\r\n\t    left : 15,\r\n\t    format : \"yyyy-MM-dd\",\r\n\t    onChoose : function(val){\r\n\t    \tavalon.vmodels.page.d2 = val; \r\n\t    }\r\n\t  },\r\n\t  showD2 : function(){\r\n\t  \tavalon.vmodels.datetimepicker2.open();\r\n\t  }\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<div calss='row'>\r\n\t\t<div class='col-sm-12'>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t  <div class=\"form-group\">\r\n\t\t\t    <label class=\"col-sm-2 control-label\">日期1</label>\r\n\t\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD1\" :duplex=\"@d1\">\r\n\t\t\t      <xmp :widget=\"@$config1\"></xmp>\r\n\t\t\t    </div>\r\n\t\t\t    <label class=\"col-sm-2 control-label\">日期2</label>\r\n\t\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD2\" :duplex=\"@d2\">\r\n\t\t\t      <xmp :widget=\"@$config2\"></xmp>\r\n\t\t\t    </div>\r\n\t\t\t  </div>\r\n\t\t\t</form>\r\n\t\t</div>\r\n\t</div>\r\n\t<h2>配置项说明</h2>\r\n\t<xmp :widget=\"@$attr\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$method\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$eve\"></xmp>\r\n</div>\r\n";
+	module.exports = "<div :controller=\"demo_datetimepicker\" class='demo'>\r\n\t<h2>初始化</h2>\r\n\t<code>html:</code>\r\n\t<pre class='demo-code'>\r\n\t\t<form class=\"form-horizontal\">\r\n\t\t  <div class=\"form-group\">\r\n\t\t    <label class=\"col-sm-2 control-label\">日期1</label>\r\n\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD1\" :duplex=\"@d1\">\r\n\t\t      <xmp :widget=\"@$config1\"></xmp>\r\n\t\t    </div>\r\n\t\t    <label class=\"col-sm-2 control-label\">日期2</label>\r\n\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD2\" :duplex=\"@d2\">\r\n\t\t      <xmp :widget=\"@$config2\"></xmp>\r\n\t\t    </div>\r\n\t\t  </div>\r\n\t\t</form>\r\n\t</pre>\r\n\t<code>js:</code>\r\n\t<pre class='demo-code'>\r\n\t\td1 : \"\",\r\n\t  d2 : \"\",\r\n\t  $config1 : {\r\n\t    $id : \"datetimepicker1\",\r\n\t    is : \"ms-datetimepicker\",\r\n\t    position : 'top-right',\r\n\t    bottom : '100%',\r\n\t    top : 'auto',\r\n\t    left : 15,\r\n\t    onChoose : function(val){\r\n\t    \tavalon.vmodels.demo_datetimepicker.d1 = val; \r\n\t    }\r\n\t  },\r\n\t  showD1 : function(){\r\n\t  \tavalon.vmodels.datetimepicker1.open();\r\n\t  },\r\n\t  $config2 : {\r\n\t  \t$id : \"datetimepicker2\",\r\n\t    is : \"ms-datetimepicker\",\r\n\t    left : 15,\r\n\t    format : \"yyyy-MM-dd\",\r\n\t    onChoose : function(val){\r\n\t    \tavalon.vmodels.demo_datetimepicker.d2 = val; \r\n\t    }\r\n\t  },\r\n\t  showD2 : function(){\r\n\t  \tavalon.vmodels.datetimepicker2.open();\r\n\t  },\r\n\t</pre>\r\n\t<code>结果:</code>\r\n\t<div calss='row'>\r\n\t\t<div class='col-sm-12'>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t  <div class=\"form-group\">\r\n\t\t\t    <label class=\"col-sm-2 control-label\">日期1</label>\r\n\t\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD1\" :duplex=\"@d1\">\r\n\t\t\t      <xmp :widget=\"@$config1\"></xmp>\r\n\t\t\t    </div>\r\n\t\t\t    <label class=\"col-sm-2 control-label\">日期2</label>\r\n\t\t\t    <div class=\"col-sm-4 posr\">\r\n\t\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"选择日期\" readonly :click=\"@showD2\" :duplex=\"@d2\">\r\n\t\t\t      <xmp :widget=\"@$config2\"></xmp>\r\n\t\t\t    </div>\r\n\t\t\t  </div>\r\n\t\t\t</form>\r\n\t\t</div>\r\n\t</div>\r\n\t<h2>配置项说明</h2>\r\n\t<xmp :widget=\"@$attr\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$method\"></xmp>\r\n\t<hr>\r\n\t<xmp :widget=\"@$eve\"></xmp>\r\n</div>\r\n";
 
 /***/ },
 
