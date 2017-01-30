@@ -88,7 +88,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "be4e06dbc4a3ca8378c5"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c911750ec5fdc3edba78"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10710,8 +10710,8 @@
 	    dealData : function(){
 	      var date =  new Date();
 	      date.setFullYear(this.year);
-	      date.setMonth(this.month - 1);
 	      date.setDate(1);
+	      date.setMonth(this.month - 1);
 	      //二维数组
 	      var data = [];
 	      //第一天星期几
