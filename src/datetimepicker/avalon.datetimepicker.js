@@ -77,8 +77,8 @@ avalon.component("ms-datetimepicker",{
     dealData : function(){
       var date =  new Date();
       date.setFullYear(this.year);
-      date.setMonth(this.month - 1);
       date.setDate(1);
+      date.setMonth(this.month - 1);
       //二维数组
       var data = [];
       //第一天星期几
@@ -89,6 +89,7 @@ avalon.component("ms-datetimepicker",{
       }else{
         date.setDate(date.getDate() - firstDay);
       }
+
       var j=0;
       for(var i=1;i<=42;i++){
         var target = data[j];
