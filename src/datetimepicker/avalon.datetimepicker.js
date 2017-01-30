@@ -89,7 +89,6 @@ avalon.component("ms-datetimepicker",{
       }else{
         date.setDate(date.getDate() - firstDay);
       }
-
       var j=0;
       for(var i=1;i<=42;i++){
         var target = data[j];
