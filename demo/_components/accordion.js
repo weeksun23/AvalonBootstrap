@@ -4,7 +4,6 @@ avalon.define({
 	$id : id,
 	$config : {
     is : "ms-accordion",
-    $multipleSel : false,
     data : [{
       title : "a1",
       children : [{
@@ -93,6 +92,8 @@ avalon.define({
       {field : "des",title : "说明"}
     ],
     $frontPageData : [{
+      name : 'selectPanel',param : "i:面板的索引值",des : "选中指定面板",value : "undefined"
+    },{
       name : "selectItem",param:"ch:列表项vm",des : "选中panel下的指定的列表项",value : "undefined"
     },{
       name : "findItem",param : "func(ch,itemIndex,panelIndex):遍历列表项时的处理函数",

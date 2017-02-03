@@ -56,6 +56,17 @@ avalon.fn.children = function(index){
 		return children[index];
 	}
 };
+//获取下一个兄弟节点
+avalon.fn.next = function(){
+	var el = this[0];
+	var n = el.nextSibling;
+	for (;n;n = n.nextSibling) { 
+    if (n.nodeType === 1){
+    	return n;
+    } 
+	}
+	return null;
+};
 avalon.fn.appendHTML = function(htmlStr){
 	var div = document.createElement("div");
 	var fragment = document.createDocumentFragment();

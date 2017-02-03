@@ -62,6 +62,7 @@ avalon.component('ms-accordion', {
   template: tpl,
   defaults: {
   	$lastSel : null,
+  	$lastSelHeader : null,
   	onReady : function(){
   		if(this.$multipleSel) return;
   		var me = this;
@@ -72,20 +73,55 @@ avalon.component('ms-accordion', {
   			}
   		});
   	},
-		clickHeader : function(el){
+		clickHeader : function(el,e){
+			var headerEl = e.currentTarget;
 			if(this.$multipleSel){
-				el._selected = !el._selected;
+				this.toggleEl(el,headerEl);
 			}else{
 				if(this.$lastSel){
-					this.$lastSel._selected = false;
+					this.toggleEl(this.$lastSel,this.$lastSelHeader);
 				}
 				if(this.$lastSel === el) {
 					this.$lastSel = null;
 					return;
 				}
-				el._selected = true;
+				this.toggleEl(el,headerEl);
 				this.$lastSel = el;
+				this.$lastSelHeader = headerEl;
 			}
+		},
+		toggleEl : function(el,headerEl){
+			var panel = avalon(headerEl).next();
+			var $panel = avalon(panel);
+			var panelContent = $panel.children(0);
+			if(el._selected){
+				el._selected = false;
+				if(AB.support.transitionend){
+					panel.style.height = avalon(panelContent).outerHeight() + 'px';
+					$panel.addClass("collapsing");
+					panel.offsetHeight;
+					panel.style.height = '0px';
+				}else{
+					$panel.removeClass("in");
+				}
+			}else{
+				el._selected = true;
+				if(AB.support.transitionend){
+					$panel.addClass("collapsing in");
+					panel.style.height = avalon(panelContent).outerHeight() + 'px';
+				}else{
+					$panel.addClass("in");
+				}
+			}
+		},
+		transitionend : function(el,e){
+			var panel = e.currentTarget;
+			var $panel = avalon(panel);
+			$panel.removeClass("collapsing");
+			if(panel.style.height === '0px'){
+				$panel.removeClass("in");
+			}
+			panel.style.height = '';
 		},
 		//属性
 		$multipleSel : false,
@@ -99,6 +135,13 @@ avalon.component('ms-accordion', {
 				iconCls : 文字左边图标
 		}*/],
 		//方法
+		selectPanel : function(i){
+			var el = this.data[i];
+			if(el._selected) return;
+			var target = avalon(this.$element).children(i);
+			var headerEl = avalon(target).children(0);
+			this.toggleEl(el,headerEl);
+		},
 		//选中item
 		selectItem : function(ch){
 			if(ch.selected) return;

@@ -4,7 +4,6 @@ require("../../src/avalonbootstrap");
 require("./index.css");
 var navData = [{
 	title : "起始",
-	_selected : true,
 	children : [{
 		title : '概述',
 		$hash : "overview"
@@ -110,7 +109,7 @@ var vmodel = avalon.define({
 		}
 		avalon.vmodels.nav.findItem(function(item,i){
 			if((item.$hash || item.title) === page){
-				this.data[i]._selected = true;
+				this.selectPanel(i);
 				this.selectItem(item);
 				return true;
 			}
