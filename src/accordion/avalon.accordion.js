@@ -68,7 +68,19 @@ avalon.component('ms-accordion', {
   		var me = this;
   		avalon.each(this.data,function(i,v){
   			if(v._selected){
-  				me.$lastSel = v;
+  				var target = avalon(me.$element).children(i);
+					var headerEl = avalon(target).children(0);
+					var panel = avalon(headerEl).next();
+					var $panel = avalon(panel);
+					var panelContent = $panel.children(0);
+					if(AB.support.transitionend){
+						$panel.addClass("collapsing in");
+						panel.style.height = avalon(panelContent).outerHeight() + 'px';
+					}else{
+						$panel.addClass("in");
+					}
+					me.$lastSel = v;
+					me.$lastSelHeader = headerEl;
   				return false;
   			}
   		});
