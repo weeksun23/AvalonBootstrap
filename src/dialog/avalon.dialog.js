@@ -86,11 +86,11 @@ avalon.component("ms-dialog",{
 			this.isOpen = true;
 			var modalBackDrop = avalon.vmodels.modalBackDrop;
 			modalBackDrop.visible = true;
-			// modalBackDrop.style.display = 'block';
 			var vm = this;
+			//do reflow
+			vm.$element.offsetWidth;
 			vm.isIn = true;
 			modalBackDrop.isIn = true;
-			// avalon(modalBackDrop).addClass("in");
 			if(!AB.support.transitionend){
 				vm.onOpen();
 			}

@@ -64,7 +64,7 @@ function getSingleSpaces(space){
 function dealDemoHtml(html){
 	var div = document.createElement("div");
 	div.innerHTML = html;
-	var divs = div.getElementsByTagName('pre');
+	var divs = div.getElementsByTagName('*');
 	for(var i=0,ii;ii=divs[i++];){
 		if(avalon(ii).hasClass("demo-code")){
 			var str = ii.innerHTML;
@@ -73,6 +73,12 @@ function dealDemoHtml(html){
 				if(s === '>') return "&gt;";
 			});*/
 			var arr = str.split("\n");
+			for(var j=arr.length-1;j>=0;j--){
+				var spaces = arr[j].match(/^\s+/);
+				if(!spaces){
+					arr.splice(j,1);
+				}
+			}
 			var spaces = arr[0].match(/^\s+/);
 			var singleSpaces = getSingleSpaces(spaces[0]);
 			for(var j=0;j<arr.length;j++){
@@ -85,7 +91,7 @@ function dealDemoHtml(html){
 			ii.appendChild(textNode);
 			// ii.innerHTML = arr.join("<br>");
 		}
-	}
+	},
 	return div.innerHTML;
 }
 var vmodel = avalon.define({
