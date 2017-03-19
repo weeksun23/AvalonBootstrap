@@ -184,7 +184,7 @@ avalon.component("ms-datetimepicker",{
     left : 0,
     top : '100%',
     position : "bottom-right",
-    format : "yyyy-MM-dd hh:mm:ss",
+    format : "yyyy-MM-dd HH:mm:ss",
     //方法
     clear : function(){
       this.$date = null;
