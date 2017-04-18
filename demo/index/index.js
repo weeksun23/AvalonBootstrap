@@ -91,7 +91,7 @@ function dealDemoHtml(html){
 			ii.appendChild(textNode);
 			// ii.innerHTML = arr.join("<br>");
 		}
-	},
+	}
 	return div.innerHTML;
 }
 var vmodel = avalon.define({
